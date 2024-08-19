@@ -1,0 +1,21 @@
+{
+  "name": "@chainlink",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist"
+    },
+    "package.json": "./package.json"
+  },
+  "devDependencies": {
+    "@types/node": "22.x.x"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
