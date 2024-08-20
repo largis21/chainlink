@@ -14,9 +14,6 @@ importers:
 
   dev/hono-http:
     dependencies:
-      '@chainlink':
-        specifier: workspace:*
-        version: link:../../packages/@chainlink
       '@hono/node-server':
         specifier: ^1.12.0
         version: 1.12.0
@@ -27,8 +24,14 @@ importers:
         specifier: ^5.0.0
         version: 5.5.4
 
-  packages/@chainlink:
+  packages/chainlink:
     dependencies:
+      '@hono/node-server':
+        specifier: ^1.12.0
+        version: 1.12.0
+      chainlink-backend:
+        specifier: workspace:*
+        version: link:../chainlink-backend
       typescript:
         specifier: ^5.0.0
         version: 5.5.4
@@ -37,7 +40,20 @@ importers:
         specifier: 22.x.x
         version: 22.3.0
 
-  packages/chainlinkUi:
+  packages/chainlink-backend:
+    dependencies:
+      hono:
+        specifier: ^4.5.5
+        version: 4.5.5
+    devDependencies:
+      '@types/node':
+        specifier: 22.x.x
+        version: 22.3.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.5.4
+
+  packages/chainlink-ui:
     dependencies:
       '@radix-ui/react-dialog':
         specifier: ^1.1.1

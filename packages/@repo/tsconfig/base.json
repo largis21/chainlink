@@ -11,8 +11,6 @@
     // Bundler mode
     "moduleResolution": "bundler",
     "verbatimModuleSyntax": true,
-    "rootDir": "./src/",
-    "outDir": "./dist",
     "declaration": true,
 
     // Best practices

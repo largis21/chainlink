@@ -1,5 +1,5 @@
 {
-  "name": "@chainlink",
+  "name": "chainlink",
   "module": "index.ts",
   "type": "module",
   "scripts": {
@@ -11,6 +11,10 @@
       "default": "./dist"
     },
     "package.json": "./package.json"
+  },
+  "dependencies": {
+    "chainlink-backend": "workspace:*",
+    "@hono/node-server": "^1.12.0"
   },
   "devDependencies": {
     "@types/node": "22.x.x"

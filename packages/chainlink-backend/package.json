@@ -1,0 +1,22 @@
+{
+  "name": "chainlink-backend",
+  "module": "src/server.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "exports": {
+    ".": {
+      "default": "./dist/server.js",
+      "types": "./dist/server.d.ts"
+    }
+  },
+  "devDependencies": {
+    "@types/node": "22.x.x",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "hono": "^4.5.5"
+  }
+}
