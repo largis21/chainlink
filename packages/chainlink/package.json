@@ -5,6 +5,9 @@
   "scripts": {
     "build": "tsc"
   },
+  "bin": {
+    "chainlink": "./dist/cli.js"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",

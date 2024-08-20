@@ -1,39 +1,28 @@
-import { spawn } from "child_process";
-import path from "path";
+import { app } from "chainlink-app";
+import { serve } from "@hono/node-server";
 import { getPort } from "./get-port.js";
+import { serveStatic } from "@hono/node-server/serve-static";
+import path from "path";
 
-// Function to start a Node.js instance
-function startNodeInstance(scriptName: string, env: Record<string, string>) {
-  const newProcess = spawn("node", [scriptName], {
-    stdio: "inherit",
-    env: { ...process.env, ...env },
-  });
+const port = await getPort(4042);
 
-  newProcess.on("close", (code) => {
-    console.log(`${scriptName} exited with code ${code}`);
-  });
+const relativePathToStatic = path.relative(process.cwd(), path.join(import.meta.dirname, '../..', 'static'))
 
-  newProcess.on("error", (err) => {
-    console.error(`Failed to start ${scriptName}: ${err}`);
-  });
-
-  return newProcess;
-}
-
-const backendPort = (await getPort(3000)).toString();
-const frontendPort = (await getPort(4203)).toString();
-
-const backendInstance = startNodeInstance(
-  path.resolve(import.meta.dirname, "start-backend.js"),
-  { PORT: backendPort, FRONTEND_ORIGIN: `http://localhost:${frontendPort}` },
+app.get(
+  "/*",
+  serveStatic({
+    root: relativePathToStatic,
+  }),
 );
 
-// const instance2 = startNodeInstance('script2.js');
-
-// Optionally, handle the termination of the main script
-/* process.on("SIGINT", () => {
-  console.log("Terminating child processes...");
-  instance1.kill();
-  // instance2.kill();
-  process.exit();
-}); */
+export function startServer() {
+  serve(
+    {
+      fetch: app.fetch,
+      port: port,
+    },
+    (info) => {
+      console.log(`Listening on http://localhost:${info.port}`);
+    },
+  );
+}
