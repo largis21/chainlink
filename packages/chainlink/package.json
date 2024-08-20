@@ -13,7 +13,7 @@
     "package.json": "./package.json"
   },
   "dependencies": {
-    "chainlink-backend": "workspace:*",
+    "chainlink-app": "workspace:*",
     "@hono/node-server": "^1.12.0"
   },
   "devDependencies": {

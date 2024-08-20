@@ -1,5 +1,5 @@
 {
-  "name": "chainlink-backend",
+  "name": "chainlink-app",
   "module": "src/server.ts",
   "type": "module",
   "scripts": {

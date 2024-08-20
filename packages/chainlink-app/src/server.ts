@@ -7,9 +7,11 @@ const app = new Hono();
 app.use(
   "*",
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.FRONTEND_ORIGIN || "",
   }),
 );
+
+console.log(`Allowing cors requests from : '${process.env.FRONTEND_ORIGIN}'`)
 
 app.get("/heartbeat", (c) => c.text("ok"));
 

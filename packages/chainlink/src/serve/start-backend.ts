@@ -1,4 +1,4 @@
-import { app } from "chainlink-backend";
+/* import { app } from "chainlink-backend";
 import { serve } from "@hono/node-server";
 
 serve({
@@ -6,4 +6,4 @@ serve({
   port: parseInt(process.env.PORT || "3001")
 }, (info) => {
   console.log(`Listening on http://localhost:${info.port}`)
-});
+}); */
