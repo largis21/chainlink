@@ -1,6 +1,9 @@
 import { cn } from "@/src/lib/utils";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Folder } from "lucide-react";
 import { useState } from "react";
+import { Spinner } from "@/src/components/spinner";
+import { useQuery } from "@tanstack/react-query";
+import { useFetchFileTree } from "@/src/api/useApi";
 
 type FileNode = {
   type: "file" | "dir";
@@ -54,37 +57,43 @@ function buildTree(items: Files, parentPath: string = "/"): FileHierarchy {
         `${parentPath}/${item.name}`.replace("//", "/"),
       ),
     }))
-    .sort((a) => a.type === "dir" ? -1 : 1)
+    .sort((a) => (a.type === "dir" ? -1 : 1));
 }
 
 function FileNode(props: { node: FileHierarchy[number]; index: number }) {
   const [open, setOpen] = useState(false);
 
-  const padding = 22
+  const padding = 22;
 
   return (
-    <div>
+    <div className="relative">
       {props.node.type === "dir" ? (
         <div>
           <button
             onClick={() => setOpen((prev) => !prev)}
-            className="flex items-center gap-1 w-full hover:bg-accent py-1"
+            className="flex items-center gap-1 w-full hover:bg-accent py-1 relative"
             style={{
               paddingLeft: padding * props.index + 4,
             }}
           >
-            <ChevronRight size={16} className={cn(open && "rotate-90")} />
+            <ChevronRight
+              size={16}
+              className={cn("pointer-events-none", open && "rotate-90")}
+            />
+            <Folder size={16} className="mr-1" />
             {props.node.name}
           </button>
-          <div className={cn(open ? "h-auto" : "h-0 overflow-hidden")}>
-            {props.node.children.map((node) => (
-              <FileNode node={node} index={props.index + 1} />
+          <div
+            className={cn(open ? "h-auto" : "h-0 overflow-hidden", "relative")}
+          >
+            {props.node.children.map((node, i) => (
+              <FileNode key={i} node={node} index={props.index + 1} />
             ))}
           </div>
         </div>
       ) : (
         <div
-          className={"py-1 hover:bg-accent"}
+          className={"py-1 hover:bg-accent relative"}
           style={{
             paddingLeft: padding * props.index + 4,
           }}
@@ -92,18 +101,40 @@ function FileNode(props: { node: FileHierarchy[number]; index: number }) {
           {props.node.name}
         </div>
       )}
+
+      {props.index > 0 && (
+        <div
+          className="absolute top-0 left-0 h-full pointer-events-none"
+          style={{
+            width: padding * props.index,
+            transform: `translateX(${padding * props.index}px)`,
+          }}
+        >
+          <div className="absolute w-[1px] bg-slate-500/40 h-full left-[-10px]" />
+        </div>
+      )}
     </div>
   );
 }
 
 export function FileTree() {
-  const tree = buildTree(files);
+  const { status, data, error } = useFetchFileTree();
+
+  if (status === "pending") {
+    return (
+      <div className="w-full h-full">
+        <Spinner />
+      </div>
+    );
+  }
+
+  if (status === "error") {
+    return <div>Error {error.message}</div>;
+  }
 
   return (
-    <div className="">
-      {tree.map((node) => (
-        <FileNode node={node} index={0} />
-      ))}
+    <div className="w-full h-full">
+      {data?.map((node) => <FileNode node={node} index={0} />)}
     </div>
   );
 }

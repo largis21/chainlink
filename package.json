@@ -2,11 +2,13 @@
   "name": "Chainlink",
   "scripts": {
     "build": "turbo run build",
-    "dev:chainlink": "turbo run dev",
-    "lint": "turbo run lint"
+    "watch": "lerna run --parallel --stream --scope '{chainlink-app,chainlink}' watch"
   },
   "devDependencies": {
     "turbo": "latest"
   },
-  "packageManager": "pnpm@9.7.1"
+  "packageManager": "pnpm@9.7.1",
+  "dependencies": {
+    "lerna": "^8.1.8"
+  }
 }

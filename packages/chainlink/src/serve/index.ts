@@ -4,18 +4,24 @@ import { getPort } from "./get-port.js";
 import { serveStatic } from "@hono/node-server/serve-static";
 import path from "path";
 
-const port = await getPort(4042);
+/**
+ * @internal
+ */
+export async function _startServer() {
+  const port = await getPort(4202);
+  console.log("FOUND PORT", port)
 
-const relativePathToStatic = path.relative(process.cwd(), path.join(import.meta.dirname, '../..', 'static'))
+  const relativePathToStatic = path.relative(
+    process.cwd(),
+    path.join(__dirname, "../..", "static"),
+  );
 
-app.get(
-  "/*",
-  serveStatic({
-    root: relativePathToStatic,
-  }),
-);
-
-export function startServer() {
+  app.get(
+    "/*",
+    serveStatic({
+      root: relativePathToStatic,
+    }),
+  );
   serve(
     {
       fetch: app.fetch,

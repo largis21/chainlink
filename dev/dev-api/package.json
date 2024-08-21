@@ -1,5 +1,5 @@
 {
-  "name": ".",
+  "name": "dev-api",
   "module": "index.ts",
   "type": "module",
   "scripts": {

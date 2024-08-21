@@ -36,7 +36,7 @@ export function HeartBeat() {
   }
 
   return (
-    <Dialog open={!ok}>
+    <Dialog open>
       <DialogContent>
         Couldn't connect to server
       </DialogContent>
