@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { ChevronRight, Folder } from "lucide-react";
 import { useState } from "react";
 import { Spinner } from "@/components/spinner";
+import { api } from "@/trpc/react";
 // import { useQuery } from "@tanstack/react-query";
 // import { useFetchFileTree } from "@/src/api/useApi";
 
@@ -133,6 +134,8 @@ export function FileTree() {
   // if (status === "error") {
   //   return <div>Error {error.message}</div>;
   // }
+
+  const test = api.fsRouter.getDir.useQuery({text: "hello"})
 
   const data = buildTree(files)
 

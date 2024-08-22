@@ -1,13 +1,16 @@
 {
-  "name": "chainlink-app",
-  "version": "0.1.0",
+  "name": "@chainlink/app",
+  "version": "0.0.1",
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "next build",
+    "_build:build": "next build",
+    "_build:cpStaticFiles": "cp ./.next/static ./.next/standalone/packages/@chainlink/app/.next/ -r",
+    "_build:cpToChainlinkDir": "cp ./.next/standalone/* ../../chainlink/static -r",
+    "build": "npm run _build:build && npm run _build:cpStaticFiles && npm run _build:cpToChainlinkDir",
+
     "dev": "next dev",
-    "lint": "next lint",
-    "start": "next start"
+    "lint": "next lint"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.1",
