@@ -135,7 +135,8 @@ export function FileTree() {
   //   return <div>Error {error.message}</div>;
   // }
 
-  const test = api.fsRouter.getDir.useQuery({text: "hello"})
+  const test = api.coreInterface.getRequestsInFs.useQuery()
+  console.log(test)
 
   const data = buildTree(files)
 

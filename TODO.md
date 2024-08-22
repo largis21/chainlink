@@ -12,12 +12,12 @@ Should I use react or finally learn Svelte?
 - I believe more oos contributors knows react than svelte
 - React
 
-Folder structure
+Default folder structure (Can be customized through `chainlink.config.ts`)
 
 ```
 project-root
+├── chainlink.config.ts
 └── chainlink
-    ├── chainlink.config.ts
     ├── requests
     │   └── request1.ts
     └── chains
@@ -30,26 +30,24 @@ Chainlink will expose a `defineRequest` function that gives developers the abili
 
 There are 3 main parts
 
-## 1. Node functions
+## 1. Node functions in @chainlink/core
 
 Functions for using Chainlink:
 
-- Building json templates from typescript files
 - Running requests
+- Getting config file
+...
 
 These are defined outside of the node server and the cli so they can be used in both
 
-## 2. Chainlink node server
+## 2. Chainlink node server @chainlink/app
 
-This will run:
-
-1. A node web server for serving the vite ChainlinkUI
-2. A node web server, used as an interface between the ui and the node scripts
+This will run a next application with node.
+The backend functions from @chainlink/core will be used in the nextjs api
 
 ## 3. Command line interface
 
-CLI for running requests and chains
+Does 2 things:
 
-# Implement POC
-
-1. Setup
+1. Starting the next application
+2. _BACKLOG_ CLI for running requests and chains
