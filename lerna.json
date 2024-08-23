@@ -3,7 +3,8 @@
   "npmClient": "pnpm",
   "packages": [
     "dev/*",
-    "packages/*"
+    "packages/*",
+    "packages/@chainlink/*"
   ],
   "version": "3.44.0"
 }

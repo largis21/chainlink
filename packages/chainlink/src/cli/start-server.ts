@@ -1,20 +1,20 @@
 import { spawn } from "child_process";
 import path from "path";
 
-function startNodeInstance(scriptName: string) {
-    const process = spawn('node', [scriptName], { stdio: 'inherit' });
+function startNodeInstance(scriptName: string) { }
 
-    process.on('close', (code) => {
-        console.log(`${scriptName} exited with code ${code}`);
-    });
-
-    process.on('error', (err) => {
-        console.error(`Failed to start ${scriptName}: ${err}`);
-    });
-
-    return process;
-}
-
-export function startServer() {
-  startNodeInstance(path.resolve(import.meta.dirname, "../app/server.js"))
+export function startServer(config: { port?: string; configPath?: string }) {
+  spawn(
+    "node",
+    [path.resolve(import.meta.dirname, "./app/server.js")],
+    {
+      stdio: "inherit",
+      env: {
+        ...process.env,
+        NODE_ENV: "production",
+        VITE_PORT: config.port || "4202",
+        VITE_CONFIG_PATH: config.configPath,
+      },
+    },
+  );
 }

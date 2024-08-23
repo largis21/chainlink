@@ -2,27 +2,41 @@
   "name": "@chainlink/core",
   "version": "0.0.5",
   "license": "MIT",
-  "main": "./dist/index.js",
+  "type": "module",
   "types": "./dist/index.d.ts",
-  "module": "./dist/index.mjs",
   "scripts": {
-    "build": "pkg-utils build",
-    "watch": "pkg-utils watch"
+    "build": "rollup -c rollup.config.mjs",
+    "watch": "rollup -c rollup.config.mjs --watch"
   },
   "exports": {
     ".": {
       "source": "./src/index.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
-      "default": "./dist/index.js"
+      "import": "./dist/index.js",
+      "default": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     },
     "./package.json": "./package.json"
   },
   "devDependencies": {
-    "@sanity/pkg-utils": "^6.10.10",
-    "@types/node": "22.x.x"
+    "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@types/babel__core": "^7.20.5",
+    "@types/babel__register": "^7.17.3",
+    "@types/node": "22.x.x",
+    "rollup": "^4.21.0"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/node": "^7.25.0",
+    "@babel/preset-env": "^7.25.4",
+    "@babel/preset-typescript": "^7.24.7",
+    "@babel/register": "^7.24.6",
+    "@rollup/plugin-json": "^6.1.0",
+    "@swc/core": "^1.7.14",
+    "zod": "^3.23.8"
   }
 }

@@ -5,11 +5,16 @@
   "type": "module",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "rollup -c rollup.config.mjs"
+    "build": "rollup -c rollup.config.mjs",
+    "watch": "rollup -c rollup.config.mjs --watch"
   },
   "bin": {
-    "chainlink": "./dist/cli/index.js"
+    "chainlink": "dist/cli.js"
   },
+  "files": [
+    "dist",
+    "src"
+  ],
   "exports": {
     ".": {
       "source": "./src/index.ts",
@@ -20,9 +25,11 @@
   },
   "dependencies": {
     "@inquirer/prompts": "^5.3.8",
-    "argparse": "^2.0.1"
+    "argparse": "^2.0.1",
+    "cac": "^6.7.14"
   },
   "devDependencies": {
+    "@chainlink/core": "workspace:*",
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",

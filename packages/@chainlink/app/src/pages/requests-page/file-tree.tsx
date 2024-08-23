@@ -1,6 +1,6 @@
 import { cn } from "@/src/lib/utils";
 import { ChevronRight, Folder } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Spinner } from "@/src/components/spinner";
 import { useFetchFileTree } from "@/src/api/useApi";
 
@@ -117,23 +117,6 @@ function FileNode(props: { node: FileHierarchy[number]; index: number }) {
 }
 
 export function FileTree() {
-  const { status, error } = useFetchFileTree();
 
-  if (status === "pending") {
-    return (
-      <div className="w-full h-full">
-        <Spinner />
-      </div>
-    );
-  }
-
-  if (status === "error") {
-    return <div>Error {error.message}</div>;
-  }
-
-  return (
-    <div className="w-full h-full">
-      {/* {data?.map((node) => <FileNode node={node} index={0} />)} */}
-    </div>
-  );
+  return null
 }

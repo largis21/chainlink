@@ -1,7 +1,6 @@
-/**
- * @public
- */
-export function test(string: string) {
-  console.log(string)
-}
-
+export {
+  defineConfig,
+  configSchema,
+  type ChainlinkConfig,
+} from "./config/define-config";
+export { getConfig } from "./config/get-config";

@@ -4,9 +4,9 @@ import commonjs from "@rollup/plugin-commonjs";
 
 export default [
   {
-    input: "src/index.ts",
+    input: "./src/index.ts",
     output: {
-      file: "dist/index.js",
+      file: "./dist/index.js",
       format: "esm",
       sourcemap: true,
     },
@@ -19,9 +19,9 @@ export default [
     ],
   },
   {
-    input: "src/cli/index.ts",
+    input: "./src/cli.ts",
     output: {
-      file: "dist/cli/index.js",
+      file: "./dist/cli.js",
       format: "esm", // Adjust as necessary
       sourcemap: true,
       banner: "#!/usr/bin/env node", // Ensure CLI script runs as executable
