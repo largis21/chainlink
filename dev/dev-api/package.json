@@ -13,6 +13,6 @@
     "hono": "^4.5.5"
   },
   "devDependencies": {
-    "chainlink": "workspace:*"
+    "@chainlink-io/chainlink": "workspace:*"
   }
 }
