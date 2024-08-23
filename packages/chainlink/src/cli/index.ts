@@ -2,6 +2,7 @@
 
 import { spawn } from "child_process";
 import path from "path"
+import { installDepsIfNotInstalled } from "./install-deps";
 
 function startNodeInstance(scriptName: string, env: Record<string, string>) {
   const newProcess = spawn("node", [scriptName], {
@@ -22,6 +23,8 @@ function startNodeInstance(scriptName: string, env: Record<string, string>) {
 
 async function run() {
   console.log("Running Chainlink...")
+
+  await installDepsIfNotInstalled()
 
   startNodeInstance(path.resolve(__dirname, "../app/packages/@chainlink/app/server.js"), {})
 }
