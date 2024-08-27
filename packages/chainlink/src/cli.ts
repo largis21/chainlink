@@ -1,5 +1,5 @@
 import { startServer } from "./cli/start-server";
-import { getConfig } from "@chainlink/core";
+import { getConfig, readTsFile } from "@chainlink/core";
 import cac from "cac";
 import path from "path";
 import { cwd } from "process";
@@ -16,10 +16,14 @@ cli
     );
 
     startServer({
-      port: args?.port,
+      port: args?.port || config.server?.port,
       configPath: args?.config,
     })
   });
+
+cli.command("test",).action(async () => {
+  const config = await readTsFile("/home/largis21/privat/chainlink/dev/dev-api/chainlink.config.ts")
+})
 
 // Show help when no command is given
 // Defined after all other commands because the help menu still shows

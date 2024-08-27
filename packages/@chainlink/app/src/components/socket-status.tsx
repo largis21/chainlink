@@ -1,12 +1,13 @@
 import { Dialog, DialogContent } from "./ui/dialog";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
-import { Socket } from "../api/useWs";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useWs } from "../api/useWs";
+import { useCallback, useState } from "react";
+import { useWsListener } from "../services/ws-service-hooks";
 
 export function SocketStatus() {
   const [status, setStatus] = useState<"open" | "closed">("open");
 
-  const socket = useContext(Socket);
+  const ws = useWs()
 
   const setToOpen = useCallback(() => {
     setStatus("open");
@@ -16,20 +17,8 @@ export function SocketStatus() {
     setStatus("closed");
   }, []);
 
-  useEffect(() => {
-    if (!socket) {
-      setToClosed();
-      return;
-    }
-
-    socket.addEventListener("open", setToOpen);
-    socket.addEventListener("close", setToClosed);
-
-    return () => {
-      socket?.removeEventListener("open", setToOpen);
-      socket?.removeEventListener("close", setToClosed);
-    };
-  }, [socket, setToOpen, setToClosed]);
+  useWsListener(ws, "open", setToOpen)
+  useWsListener(ws, "close", setToClosed)
 
   if (status === "open") {
     return null;

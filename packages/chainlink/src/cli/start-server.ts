@@ -1,8 +1,6 @@
 import { spawn } from "child_process";
 import path from "path";
 
-function startNodeInstance(scriptName: string) { }
-
 export function startServer(config: { port?: string; configPath?: string }) {
   spawn(
     "node",

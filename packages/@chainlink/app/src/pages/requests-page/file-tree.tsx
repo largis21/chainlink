@@ -1,8 +1,9 @@
 import { cn } from "@/src/lib/utils";
+import { useFsState } from "@/src/state/fs-state";
 import { ChevronRight, Folder } from "lucide-react";
-import { useEffect, useState } from "react";
-import { Spinner } from "@/src/components/spinner";
-import { useFetchFileTree } from "@/src/api/useApi";
+import { useState } from "react";
+// import { Spinner } from "@/src/components/spinner";
+// import { useFetchFileTree } from "@/src/api/useApi";
 
 type FileNode = {
   type: "file" | "dir";
@@ -117,6 +118,8 @@ function FileNode(props: { node: FileHierarchy[number]; index: number }) {
 }
 
 export function FileTree() {
+  const fs = useFsState()
+  console.log(fs.requestsDir)
 
   return null
 }

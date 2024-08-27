@@ -4,16 +4,22 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build && rollup -c rollup.config.mjs && cp ./dist ../../chainlink/dist/app -r",
+    "build:frontend": "tsc -b && vite build ",
+    "build:server": "rollup -c rollup.config.mjs",
+    "build:rmDist": "rm -rf ../../chainlink/dist/app",
+    "build:cpToDist": "cp ./dist ../../chainlink/dist/app -r",
+    "build": "npm run build:frontend && npm run build:server && npm run build:rmDist && npm run build:cpToDist",
     "start": "node dist/server.js"
   },
   "dependencies": {
     "@chainlink/core": "workspace:*",
     "@hono/node-server": "^1.12.0",
+    "@hono/node-ws": "^1.0.4",
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-dropdown-menu": "^2.1.1",
     "@radix-ui/react-slot": "^1.1.0",
     "@rollup/plugin-terser": "^0.4.4",
+    "@swc/core": "^1.7.14",
     "@tanstack/react-query": "^5.52.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -24,6 +30,7 @@
     "react-dom": "^18.3.1",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
+    "tsconfig-paths": "^4.2.0",
     "ws": "^8.18.0",
     "zod": "^3.23.8",
     "zustand": "^4.5.5"

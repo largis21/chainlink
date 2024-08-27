@@ -1,8 +1,13 @@
 import typescript from "@rollup/plugin-typescript";
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
+import { defineConfig } from "rollup";
 
-export default [
+const includeChainlinkCoreInBundle = (id) => {
+  return id !== 'module-to-include' && !id.startsWith('.');
+}
+
+export default defineConfig([
   {
     input: "./src/index.ts",
     output: {
@@ -10,6 +15,7 @@ export default [
       format: "esm",
       sourcemap: true,
     },
+    external: includeChainlinkCoreInBundle,
     plugins: [
       resolve(),
       commonjs(),
@@ -22,10 +28,11 @@ export default [
     input: "./src/cli.ts",
     output: {
       file: "./dist/cli.js",
-      format: "esm", // Adjust as necessary
+      format: "esm",
       sourcemap: true,
-      banner: "#!/usr/bin/env node", // Ensure CLI script runs as executable
+      banner: "#!/usr/bin/env node",
     },
+    external: includeChainlinkCoreInBundle,
     plugins: [resolve(), commonjs(), typescript({ declaration: true })],
   },
-];
+])

@@ -3,9 +3,9 @@ import { serve } from "@hono/node-server";
 import { serveStatic } from "@hono/node-server/serve-static";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
+import { isProd, attachWsListeners } from "./src/ws";
 import { WebSocketServer } from "ws";
 
-const isProd = process.env["NODE_ENV"] === "production";
 let html = await readFile(
   isProd
     ? path.resolve(import.meta.dirname, "./static/index.html")
@@ -41,13 +41,11 @@ const app = new Hono()
           path.join(import.meta.dirname, "./static"),
         )
         : "./",
-      rewriteRequestPath: (path) => {
-        console.log(path);
-        return path;
-      },
     }),
   ) // path must end with '/'
   .get("/", (c) => c.html(html));
+
+// const {injectWebSocket, upgradeWebSocket} = createNodeWebSocket({ app})
 
 app.get("/api/heartbeat", (c) => {
   return c.json({ status: "ok" });
@@ -57,28 +55,20 @@ app.get("/api/helloToCore", (c) => {
   return c.json({ status: "ok" });
 });
 
-export default app;
-
-let server;
 if (isProd) {
-  server = serve({ ...app, port: import.meta.env.VITE_PORT }, (info) => {
-    console.log(`Listening on http://localhost:${info.port}`);
+  const server = serve(
+    { ...app, port: parseInt(process.env.VITE_PORT || "4202") },
+    (info) => {
+      console.log(`Listening on http://localhost:${info.port}`);
+    },
+  );
+
+  const wss = new WebSocketServer({
+    // @ts-expect-error It works
+    server: server,
   });
+
+  attachWsListeners(wss);
 }
 
-const wss = new WebSocketServer({
-  // @ts-expect-error It works
-  server: server,
-  // In prod it attaches to the server^ in dev it runs on the port above
-  port: isProd ? undefined : parseInt(import.meta.env.VITE_PORT) + 1,
-});
-
-wss.on("connection", function connection(ws) {
-  ws.on("error", console.error);
-
-  ws.on("message", function message(data) {
-    console.log("received: %s", data);
-  });
-
-  ws.send("something");
-});
+export default app;

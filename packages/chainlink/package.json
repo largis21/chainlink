@@ -25,15 +25,14 @@
   },
   "dependencies": {
     "@inquirer/prompts": "^5.3.8",
-    "argparse": "^2.0.1",
-    "cac": "^6.7.14"
+    "cac": "^6.7.14",
+    "@chainlink/core": "workspace:*"
   },
   "devDependencies": {
-    "@chainlink/core": "workspace:*",
+    "@types/node": "22.x.x",
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
-    "@types/node": "22.x.x",
     "rollup": "^4.21.0"
   },
   "peerDependencies": {

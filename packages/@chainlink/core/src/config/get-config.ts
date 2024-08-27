@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs/promises";
 import { cwd } from "process";
-import { ChainlinkConfig, defaultConfig } from "./define-config";
+import { ChainlinkConfig, configSchema, defaultConfig } from "./define-config";
 import babel from "@babel/core";
 
 const configLocationPrec = [
@@ -22,7 +22,7 @@ async function getConfigFilePath(): Promise<null | string> {
   return null;
 }
 
-export async function getConfig(configPath?: string) {
+export async function getConfig(configPath?: string): Promise<ChainlinkConfig> {
   const configFilePath = configPath || (await getConfigFilePath());
 
   if (!configFilePath) {
@@ -32,14 +32,20 @@ export async function getConfig(configPath?: string) {
   // @TODO: Allow ts
   const config = (await import(configFilePath)).default;
 
-  return deepMerge(defaultConfig, config)
+  const validateConfig = configSchema.safeParse(config)
+
+  if (!validateConfig.success) {
+    throw new Error(`Invalid schema: ${validateConfig.error.message}`)
+  }
+
+  return deepMerge<ChainlinkConfig>(defaultConfig, validateConfig.data)
 }
 
 function isObject(item: any) {
     return (item && typeof item === 'object' && !Array.isArray(item));
 }
 
-function deepMerge(target: any, ...sources: any[]): any {
+function deepMerge<T>(target: any, ...sources: any[]): T {
     if (!sources.length) return target;
     const source = sources.shift();
 

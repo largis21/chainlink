@@ -19,7 +19,6 @@ export type ChainlinkConfig = {
    * @default "requests"
    */
   chainlinkChains?: string;
-
   server?: {
     /**
      * Which port should the server run on
@@ -34,15 +33,20 @@ export const configSchema = z.object({
   chainlinkRoot: z.string().optional(),
   chainlinkRequests: z.string().optional(),
   chainlinkChains: z.string().optional(),
-  server: z.object({
-    port: z.number().optional()
-  }).optional()
+  server: z
+    .object({
+      port: z.number().optional(),
+    })
+    .optional(),
 });
 
 export const defaultConfig: ChainlinkConfig = {
   chainlinkRoot: "./chainlink",
   chainlinkRequests: "requests",
   chainlinkChains: "chains",
+  server: {
+    port: 4202,
+  },
 } as const;
 
 export const defaultConfigFile = `
@@ -50,8 +54,8 @@ import { defineConfig } from "@chainlink-io/chainlink"
 
 export default defineConfig({
 ${Object.keys(defaultConfig)
-    .map((key) => `  ${key}: ${defaultConfig[key as keyof typeof defaultConfig]}`)
-    .join(",\n")}
+  .map((key) => `  ${key}: ${defaultConfig[key as keyof typeof defaultConfig]}`)
+  .join(",\n")}
 })
 `;
 
