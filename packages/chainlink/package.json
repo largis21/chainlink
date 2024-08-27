@@ -26,8 +26,8 @@
   "dependencies": {
     "@inquirer/prompts": "^5.3.8",
     "cac": "^6.7.14",
-    "@chainlink-io/core": "0.0.6",
-    "@chainlink-io/cli": "0.0.6"
+    "@chainlink-io/core": "workspace:*",
+    "@chainlink-io/cli": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "22.x.x",

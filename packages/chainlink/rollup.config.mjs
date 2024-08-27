@@ -3,10 +3,6 @@ import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import { defineConfig } from "rollup";
 
-const includeChainlinkCoreInBundle = (id) => {
-  return id !== 'module-to-include' && !id.startsWith('.');
-}
-
 export default defineConfig([
   {
     input: "./src/index.ts",
@@ -15,7 +11,7 @@ export default defineConfig([
       format: "esm",
       sourcemap: true,
     },
-    external: includeChainlinkCoreInBundle,
+    external: "node_modules",
     plugins: [
       resolve(),
       commonjs(),
