@@ -2,7 +2,7 @@ import path from "path";
 import fs from "fs/promises";
 import { cwd } from "process";
 import { ChainlinkConfig, configSchema, defaultConfig } from "./define-config";
-import babel from "@babel/core";
+import { readTsFile } from "../read-ts/read-ts-file";
 
 const configLocationPrec = [
   "chainlink.config.js",
@@ -29,8 +29,7 @@ export async function getConfig(configPath?: string): Promise<ChainlinkConfig> {
     return defaultConfig;
   }
 
-  // @TODO: Allow ts
-  const config = (await import(configFilePath)).default;
+  const config = (await readTsFile(configFilePath))?.default
 
   const validateConfig = configSchema.safeParse(config)
 

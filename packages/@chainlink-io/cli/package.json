@@ -1,42 +1,39 @@
 {
-  "name": "@chainlink-io/chainlink",
+  "name": "@chainlink-io/cli",
   "version": "0.0.6",
   "license": "MIT",
   "type": "module",
   "types": "./dist/index.d.ts",
+  "bin": {
+    "chainlink": "./dist/index.js"
+  },
   "scripts": {
     "build": "rollup -c rollup.config.mjs",
     "watch": "rollup -c rollup.config.mjs --watch"
   },
-  "bin": {
-    "chainlink": "./node_modules/@chainlink-io/cli/dist/index.js"
-  },
-  "files": [
-    "dist",
-    "src"
-  ],
   "exports": {
     ".": {
       "source": "./src/index.ts",
       "import": "./dist/index.js",
-      "default": "./dist/index.js"
+      "default": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     },
     "./package.json": "./package.json"
   },
-  "dependencies": {
-    "@inquirer/prompts": "^5.3.8",
-    "cac": "^6.7.14",
-    "@chainlink-io/core": "0.0.6",
-    "@chainlink-io/cli": "0.0.6"
-  },
   "devDependencies": {
-    "@types/node": "22.x.x",
     "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
     "rollup": "^4.21.0"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@chainlink-io/core": "0.0.6",
+    "@types/node": "22.x.x",
+    "cac": "^6.7.14",
+    "zod": "^3.23.8"
   }
 }

@@ -7,8 +7,6 @@ import {
 } from "..";
 import fs from "fs/promises";
 import path from "path";
-import {transform} from "@swc/core"
-import {} from "tsconfig-paths"
 
 const dirSchema = z.object({
   type: z.literal("dir"),
@@ -24,42 +22,6 @@ const fileSchema = z.object({
 });
 
 const directorySchema = z.array(z.union([dirSchema, fileSchema]));
-
-/**
- * This is a custom implementation of require.resolve that takes into account the paths
- * configuration in tsconfig.json. This is necessary if we want to resolve paths that are
- * custom defined in the tsconfig.json file.
- * Resolving here is best effort and might not work in all cases.
- * @beta
- */
-export function getResolver(cwd?: string): NodeJS.RequireResolve {
-  const tsConfig = loadTSConfig(cwd)
-
-  if (tsConfig.resultType === 'failed') {
-    return require.resolve
-  }
-
-  const matchPath = createMatchPath(
-    tsConfig.absoluteBaseUrl,
-    tsConfig.paths,
-    tsConfig.mainFields,
-    tsConfig.addMatchAll,
-  )
-
-  const resolve = function (request: string, options?: {paths?: string[]}): string {
-    const found = matchPath(request)
-    if (found !== undefined) {
-      return require.resolve(found, options)
-    }
-    return require.resolve(request, options)
-  }
-
-  // wrap the resolve.path function to make it available.
-  resolve.paths = (request: string): string[] | null => {
-    return require.resolve.paths(request)
-  }
-  return resolve
-}
 
 async function readDirRecursive(dirPath: string, parentPath = "/") {
   try {
@@ -78,13 +40,11 @@ async function readDirRecursive(dirPath: string, parentPath = "/") {
           parentPath: parentPath,
         });
       } else {
-        const content = transform({})
-
         results.push({
           type: "file",
           name: item,
           parentPath: parentPath,
-          content: (await import(itemPath)).default
+          content: "@TODO"
         });
       }
 

@@ -24,15 +24,4 @@ export default defineConfig([
       }),
     ],
   },
-  {
-    input: "./src/cli.ts",
-    output: {
-      file: "./dist/cli.js",
-      format: "esm",
-      sourcemap: true,
-      banner: "#!/usr/bin/env node",
-    },
-    external: includeChainlinkCoreInBundle,
-    plugins: [resolve(), commonjs(), typescript({ declaration: true })],
-  },
 ])

@@ -10,10 +10,5 @@
   "packageManager": "pnpm@9.7.1",
   "dependencies": {
     "lerna": "^8.1.8"
-  },
-  "pnpm": {
-    "overrides": {
-      "rollup": "npm:@rollup/wasm-node"
-    }
   }
 }

@@ -1,6 +1,6 @@
 {
-  "name": "@chainlink/core",
-  "version": "0.0.5",
+  "name": "@chainlink-io/core",
+  "version": "0.0.6",
   "license": "MIT",
   "type": "module",
   "types": "./dist/index.d.ts",

@@ -2,9 +2,8 @@
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "npmClient": "pnpm",
   "packages": [
-    "dev/*",
     "packages/*",
-    "packages/@chainlink/*"
+    "packages/@chainlink-io/*"
   ],
   "version": "3.44.0"
 }
