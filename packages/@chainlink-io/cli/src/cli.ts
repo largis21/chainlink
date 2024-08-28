@@ -33,8 +33,6 @@ export function runCli() {
       console.log(config)
     });
 
-
-
   // Show help when no command is given
   // Defined after all other commands because the help menu still shows
   // an empty line for this command

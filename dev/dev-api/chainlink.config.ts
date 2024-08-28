@@ -1,7 +1,6 @@
-import { defineConfig } from "@chainlink-io/chainlink";
+import { text } from "./another-files"
 
-export default defineConfig({
-  server: {
-    port: 1234,
-  },
-});
+export default {
+  text: "this is a text",
+  anotherFilesText: text,
+}

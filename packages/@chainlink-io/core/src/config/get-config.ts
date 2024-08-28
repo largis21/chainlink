@@ -35,23 +35,21 @@ export async function getConfig(configPath?: string): Promise<ChainlinkConfig> {
 
   const config = (await readTsFile(configFilePath))?.default;
 
-  const validateConfig = configSchema.safeParse(config);
-
-  if (!validateConfig.success) {
-    throw new Error(`Invalid schema: ${validateConfig.error.message}`);
+  if (typeof config !== "object") {
+    throw new Error("Default export of chainlink.config.ts must be a valid Chainlink config")
   }
 
   // Merge with default values
   const mergedConfig = deepMerge<ChainlinkConfig>(
     defaultConfig,
-    validateConfig.data,
+    config,
   );
 
-  // If the user specified a config path and did not specify rootDir, set rootDir to the chainlink 
-  // directory in the file's location, not cwd which is default 
+  // If the user specified a config path and did not specify rootDir, set rootDir to the chainlink
+  // directory in the file's location, not cwd which is default
   // Will also make sure that the path is absolute so the code below doesn't change it again
   if (configPath && !(config as ChainlinkConfig).chainlinkRootDir) {
-    mergedConfig.chainlinkRootDir = path.resolve(configPath, "../chainlink")
+    mergedConfig.chainlinkRootDir = path.resolve(configPath, "../chainlink");
   }
 
   // If the path is relative, make it absolute
