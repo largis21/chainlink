@@ -1,6 +1,6 @@
 {
   "name": "@chainlink-io/core",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "license": "MIT",
   "type": "module",
   "types": "./dist/index.d.ts",
@@ -19,13 +19,13 @@
   },
   "//": "Rollup is needed as a dependency for reading ts files",
   "dependencies": {
-    "@types/node": "22.x.x",
-    "zod": "^3.23.8",
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
-    "rollup": "^4.21.0"
+    "@types/node": "22.x.x",
+    "rollup": "^4.21.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@repo/rollup": "workspace:*",

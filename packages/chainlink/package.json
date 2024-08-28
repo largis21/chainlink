@@ -1,6 +1,6 @@
 {
   "name": "@chainlink-io/chainlink",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "license": "MIT",
   "type": "module",
   "types": "./dist/index.d.ts",
@@ -24,10 +24,10 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "@inquirer/prompts": "^5.3.8",
-    "cac": "^6.7.14",
+    "@chainlink-io/cli": "workspace:*",
     "@chainlink-io/core": "workspace:*",
-    "@chainlink-io/cli": "workspace:*"
+    "@inquirer/prompts": "^5.3.8",
+    "cac": "^6.7.14"
   },
   "devDependencies": {
     "@repo/rollup": "workspace:*",

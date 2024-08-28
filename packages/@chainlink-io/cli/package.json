@@ -1,6 +1,6 @@
 {
   "name": "@chainlink-io/cli",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "license": "MIT",
   "type": "module",
   "types": "./dist/index.d.ts",
@@ -21,8 +21,8 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "@chainlink-io/core": "workspace:*",
     "@chainlink-io/app": "workspace:*",
+    "@chainlink-io/core": "workspace:*",
     "@types/node": "22.x.x",
     "cac": "^6.7.14",
     "zod": "^3.23.8"
@@ -33,7 +33,7 @@
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
-    "typescript": "^5.0.0",
-    "rollup": "^4.21.0"
+    "rollup": "^4.21.0",
+    "typescript": "^5.0.0"
   }
 }
