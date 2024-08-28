@@ -20,7 +20,9 @@ export default defineConfig({
   ],
 
   plugins: [
-    resolve(),
+    resolve({
+      preferBuiltins: true
+    }),
     commonjs(),
     typescript({
       declaration: true,

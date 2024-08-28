@@ -1,34 +1,49 @@
 import { rollup } from "rollup";
 import resolve from "@rollup/plugin-node-resolve";
-import commonjs from "@rollup/plugin-commonjs";
 import typescript from "@rollup/plugin-typescript";
+import nodePath from "path";
+import fs from "fs/promises";
 
 export async function readTsFile(path: string): Promise<{
   default: unknown;
   [key: string]: unknown;
 } | null> {
-  const { generate } = await rollup({
-    input: path,
-    plugins: [
-      resolve({
-        extensions: [".js", ".ts"],
-      }),
-      commonjs(),
-      typescript(),
-    ],
-  });
+  // A previous solution was to just generate a string of the result and use dynamic import() to 
+  // evaluate it. However it could not resolve external dependencies (external: [/node_modules/] results
+  // in rollup bundling itself which doesn't work)
+  // The solution was to bundle to a file, import() the bundled file and delete the file after
 
-  const bundle = await generate({
-    format: "esm",
-  });
+  const outFile = nodePath.join(process.cwd(), "__chainlink_temp.js");
 
-  const code = bundle.output[0].code;
+  let output = null;
 
-  if (!code) {
-    return null;
+  try {
+    // ugly
+    const bundle = await rollup({
+      input: path,
+      external: [/node_modules/, "@chainlink-io/chainlink"],
+      plugins: [
+        resolve({
+          extensions: [".mjs", ".js", ".ts"],
+        }),
+        typescript(),
+      ],
+      treeshake: true,
+    });
+
+    await bundle.write({
+      format: "esm",
+      file: outFile,
+    });
+
+    output = await import(outFile);
+  } catch (e) {
+    console.log(e);
   }
 
-  const encodedCode = `data:text/javascript;charset=utf-8,${encodeURIComponent(code)}`;
+  try {
+    await fs.rm(outFile, { force: true });
+  } catch {}
 
-  return await import(encodedCode);
+  return output;
 }

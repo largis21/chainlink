@@ -22,6 +22,19 @@ export function runCli() {
       });
     });
 
+  cli
+    .command("tests", "readConfig")
+    .option("-c, --config <path>", "Config file path")
+    .action(async (args) => {
+      const config = await getConfig(
+        args?.config && path.resolve(cwd(), args.config),
+      );
+
+      console.log(config)
+    });
+
+
+
   // Show help when no command is given
   // Defined after all other commands because the help menu still shows
   // an empty line for this command

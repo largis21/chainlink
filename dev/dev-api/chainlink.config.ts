@@ -1,8 +1,7 @@
-import { text } from "./another-file";
+import { defineConfig } from "@chainlink-io/chainlink";
 
-export default {
-  chainlinkRoot: "not default",
-  text: text,
-}
-
-export const hello = "hello"
+export default defineConfig({
+  server: {
+    port: 1234,
+  },
+});

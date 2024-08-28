@@ -5,8 +5,12 @@ import { ChainlinkConfig, configSchema, defaultConfig } from "./define-config";
 import { readTsFile } from "../read-ts/read-ts-file";
 
 const configLocationPrec = [
+  "chainlink.config.ts",
   "chainlink.config.js",
+  "chainlink.config.mjs",
+  "chainlink/chainlink.config.ts",
   "chainlink/chainlink.config.js",
+  "chainlink/chainlink.config.mjs",
 ].map((e) => path.resolve(cwd(), e));
 
 async function getConfigFilePath(): Promise<null | string> {
@@ -29,34 +33,44 @@ export async function getConfig(configPath?: string): Promise<ChainlinkConfig> {
     return defaultConfig;
   }
 
-  const config = (await readTsFile(configFilePath))?.default
+  const config = (await readTsFile(configFilePath))?.default;
 
-  const validateConfig = configSchema.safeParse(config)
+  const validateConfig = configSchema.safeParse(config);
 
   if (!validateConfig.success) {
-    throw new Error(`Invalid schema: ${validateConfig.error.message}`)
+    throw new Error(`Invalid schema: ${validateConfig.error.message}`);
   }
 
-  return deepMerge<ChainlinkConfig>(defaultConfig, validateConfig.data)
+  // Merge with default values
+  const mergedConfig = deepMerge<ChainlinkConfig>(
+    defaultConfig,
+    validateConfig.data,
+  );
+  mergedConfig.chainlinkRootDir = path.resolve(
+    process.cwd(),
+    mergedConfig.chainlinkRootDir,
+  );
+
+  return mergedConfig;
 }
 
 function isObject(item: any) {
-    return (item && typeof item === 'object' && !Array.isArray(item));
+  return item && typeof item === "object" && !Array.isArray(item);
 }
 
 function deepMerge<T>(target: any, ...sources: any[]): T {
-    if (!sources.length) return target;
-    const source = sources.shift();
+  if (!sources.length) return target;
+  const source = sources.shift();
 
-    if (isObject(target) && isObject(source)) {
-        for (const key in source) {
-            if (isObject(source[key])) {
-                if (!target[key]) Object.assign(target, { [key]: {} });
-                deepMerge(target[key], source[key]);
-            } else {
-                Object.assign(target, { [key]: source[key] });
-            }
-        }
+  if (isObject(target) && isObject(source)) {
+    for (const key in source) {
+      if (isObject(source[key])) {
+        if (!target[key]) Object.assign(target, { [key]: {} });
+        deepMerge(target[key], source[key]);
+      } else {
+        Object.assign(target, { [key]: source[key] });
+      }
     }
-    return deepMerge(target, ...sources);
+  }
+  return deepMerge(target, ...sources);
 }
