@@ -17,6 +17,11 @@
     },
     "./package.json": "./package.json"
   },
+  "files": [
+    "./README.md",
+    "./dist",
+    "./src"
+  ],
   "//": "Rollup is needed as a dependency for reading ts files",
   "dependencies": {
     "@rollup/plugin-commonjs": "^26.0.1",

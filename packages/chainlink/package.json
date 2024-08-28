@@ -12,8 +12,9 @@
     "chainlink": "./dist/runCli.js"
   },
   "files": [
-    "dist",
-    "src"
+    "./README.md",
+    "./dist",
+    "./src"
   ],
   "exports": {
     ".": {

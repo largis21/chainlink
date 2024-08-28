@@ -11,6 +11,11 @@
     "build": "rollup -c rollup.config.mjs",
     "watch": "rollup -c rollup.config.mjs --watch"
   },
+  "files": [
+    "./README.md",
+    "./src",
+    "./dist"
+  ],
   "exports": {
     ".": {
       "source": "./src/index.ts",
