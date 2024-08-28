@@ -13,7 +13,7 @@ export async function readTsFile(path: string): Promise<{
   // in rollup bundling itself which doesn't work)
   // The solution was to bundle to a file, import() the bundled file and delete the file after
 
-  const outFile = nodePath.join(process.cwd(), "__chainlink_temp.js");
+  const outFile = nodePath.join(process.cwd(), "__chainlink_temp.mjs");
 
   let output = null;
 
