@@ -2,7 +2,8 @@
   "name": "Chainlink",
   "scripts": {
     "build": "turbo run build",
-    "watch": "lerna run --parallel --stream --scope '{@chainlink-io/chainlink,@chainlink-io/core,@chainlink-io/cli,@chainlink-io/app}' watch"
+    "watch": "lerna run --parallel --stream --scope '{@chainlink-io/chainlink,@chainlink-io/core,@chainlink-io/cli,@chainlink-io/app}' watch",
+    "publish": "turbo run build && npx lerna publish"
   },
   "devDependencies": {
     "turbo": "latest"
