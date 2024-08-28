@@ -38,9 +38,9 @@ const app = new Hono()
     serveStatic({
       root: isProd
         ? path.relative(
-            process.cwd(),
-            path.join(import.meta.dirname, "./static"),
-          )
+          process.cwd(),
+          path.join(import.meta.dirname, "./static"),
+        )
         : "./",
     }),
   ) // path must end with '/'
@@ -54,11 +54,11 @@ app.get("/api/helloToCore", (c) => {
   return c.json({ status: "ok" });
 });
 
-function serveApp(port: number, config: ChainlinkConfig) {
+function serveApp(config: ChainlinkConfig) {
   // The frontend needs this
-  process.env["VITE_PORT"] = port.toString();
+  process.env["VITE_PORT"] = config.server.port.toString();
 
-  const server = serve({ ...app, port }, (info) => {
+  const server = serve({ ...app, port: config.server.port }, (info) => {
     console.log(`Listening on http://localhost:${info.port}`);
   });
 

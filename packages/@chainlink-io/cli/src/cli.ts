@@ -16,10 +16,11 @@ export function runCli() {
         args?.config && path.resolve(cwd(), args.config),
       );
 
+      if (args?.port && !isNaN(parseInt(args.port))) {
+        config.server.port = parseInt(args.port)
+      }
+
       cliActionStart(
-        args?.port ||
-        (config.server?.port && config.server.port.toString()) ||
-        null,
         config,
       );
     });
