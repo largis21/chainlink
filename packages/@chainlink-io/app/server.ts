@@ -45,8 +45,6 @@ const app = new Hono()
   ) // path must end with '/'
   .get("/", (c) => c.html(html));
 
-// const {injectWebSocket, upgradeWebSocket} = createNodeWebSocket({ app})
-
 app.get("/api/heartbeat", (c) => {
   return c.json({ status: "ok" });
 });
@@ -55,9 +53,12 @@ app.get("/api/helloToCore", (c) => {
   return c.json({ status: "ok" });
 });
 
-if (isProd) {
+function serveApp(port: number) {
+  // The frontend needs this
+  process.env["VITE_PORT"] = port.toString()
+
   const server = serve(
-    { ...app, port: parseInt(process.env.VITE_PORT || "4202") },
+    { ...app, port },
     (info) => {
       console.log(`Listening on http://localhost:${info.port}`);
     },
@@ -71,4 +72,8 @@ if (isProd) {
   attachWsListeners(wss);
 }
 
+// Exported for vite
 export default app;
+
+// Exported for cli
+export { serveApp }

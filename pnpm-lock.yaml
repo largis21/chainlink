@@ -14,7 +14,7 @@ importers:
     devDependencies:
       turbo:
         specifier: latest
-        version: 2.0.14
+        version: 2.1.0
 
   dev/dev-api:
     dependencies:
@@ -49,9 +49,6 @@ importers:
       '@radix-ui/react-slot':
         specifier: ^1.1.0
         version: 1.1.0(@types/react@18.3.4)(react@18.3.1)
-      '@rollup/plugin-terser':
-        specifier: ^0.4.4
-        version: 0.4.4(rollup@4.21.1)
       '@tanstack/react-query':
         specifier: ^5.52.0
         version: 5.52.1(react@18.3.1)
@@ -98,15 +95,9 @@ importers:
       '@hono/vite-dev-server':
         specifier: ^0.14.0
         version: 0.14.0(hono@4.5.5)
-      '@rollup/plugin-commonjs':
-        specifier: ^26.0.1
-        version: 26.0.1(rollup@4.21.1)
-      '@rollup/plugin-node-resolve':
-        specifier: ^15.2.3
-        version: 15.2.3(rollup@4.21.1)
-      '@rollup/plugin-typescript':
-        specifier: ^11.1.6
-        version: 11.1.6(rollup@4.21.1)(tslib@2.6.3)(typescript@5.5.4)
+      '@repo/rollup':
+        specifier: workspace:*
+        version: link:../../@repo/rollup
       '@types/node':
         specifier: 22.3.0
         version: 22.3.0
@@ -158,6 +149,9 @@ importers:
 
   packages/@chainlink-io/cli:
     dependencies:
+      '@chainlink-io/app':
+        specifier: workspace:*
+        version: link:../app
       '@chainlink-io/core':
         specifier: workspace:*
         version: link:../core
@@ -167,13 +161,13 @@ importers:
       cac:
         specifier: ^6.7.14
         version: 6.7.14
-      typescript:
-        specifier: ^5.0.0
-        version: 5.5.4
       zod:
         specifier: ^3.23.8
         version: 3.23.8
     devDependencies:
+      '@repo/rollup':
+        specifier: workspace:*
+        version: link:../../@repo/rollup
       '@rollup/plugin-commonjs':
         specifier: ^26.0.1
         version: 26.0.1(rollup@4.21.1)
@@ -189,25 +183,46 @@ importers:
       rollup:
         specifier: ^4.21.0
         version: 4.21.1
-
-  packages/@chainlink-io/core:
-    dependencies:
-      '@types/node':
-        specifier: 22.x.x
-        version: 22.3.0
       typescript:
         specifier: ^5.0.0
         version: 5.5.4
-      zod:
-        specifier: ^3.23.8
-        version: 3.23.8
-    devDependencies:
+
+  packages/@chainlink-io/core:
+    dependencies:
       '@rollup/plugin-commonjs':
         specifier: ^26.0.1
         version: 26.0.1(rollup@4.21.1)
       '@rollup/plugin-json':
         specifier: ^6.1.0
         version: 6.1.0(rollup@4.21.1)
+      '@rollup/plugin-node-resolve':
+        specifier: ^15.2.3
+        version: 15.2.3(rollup@4.21.1)
+      '@rollup/plugin-typescript':
+        specifier: ^11.1.6
+        version: 11.1.6(rollup@4.21.1)(tslib@2.6.3)(typescript@5.5.4)
+      '@types/node':
+        specifier: 22.x.x
+        version: 22.3.0
+      rollup:
+        specifier: ^4.21.0
+        version: 4.21.1
+      zod:
+        specifier: ^3.23.8
+        version: 3.23.8
+    devDependencies:
+      '@repo/rollup':
+        specifier: workspace:*
+        version: link:../../@repo/rollup
+      typescript:
+        specifier: ^5.0.0
+        version: 5.5.4
+
+  packages/@repo/rollup:
+    devDependencies:
+      '@rollup/plugin-commonjs':
+        specifier: ^26.0.1
+        version: 26.0.1(rollup@4.21.1)
       '@rollup/plugin-node-resolve':
         specifier: ^15.2.3
         version: 15.2.3(rollup@4.21.1)
@@ -236,15 +251,9 @@ importers:
         specifier: ^5.0.0
         version: 5.5.4
     devDependencies:
-      '@rollup/plugin-commonjs':
-        specifier: ^26.0.1
-        version: 26.0.1(rollup@4.21.1)
-      '@rollup/plugin-node-resolve':
-        specifier: ^15.2.3
-        version: 15.2.3(rollup@4.21.1)
-      '@rollup/plugin-typescript':
-        specifier: ^11.1.6
-        version: 11.1.6(rollup@4.21.1)(tslib@2.6.3)(typescript@5.5.4)
+      '@repo/rollup':
+        specifier: workspace:*
+        version: link:../@repo/rollup
       '@types/node':
         specifier: 22.x.x
         version: 22.3.0
@@ -1119,15 +1128,6 @@ packages:
       rollup:
         optional: true
 
-  '@rollup/plugin-terser@0.4.4':
-    resolution: {integrity: sha512-XHeJC5Bgvs8LfukDwWZp7yeqin6ns8RTl2B9avbejt6tZqsqvVoWI7ZTQrcNsfKEDWBTnTxM8nMDkO2IFFbd0A==}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      rollup: ^2.0.0||^3.0.0||^4.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-
   '@rollup/plugin-typescript@11.1.6':
     resolution: {integrity: sha512-R92yOmIACgYdJ7dJ97p4K69I8gg6IEHt8M7dUBxN3W6nrO8uUxX5ixl0yU/N3aZTi8WhPuICvOHXQvF6FaykAA==}
     engines: {node: '>=14.0.0'}
@@ -1229,11 +1229,6 @@ packages:
     resolution: {integrity: sha512-xGiIH95H1zU7naUyTKEyOA/I0aexNMUdO9qRv0bLKN3qu25bBdrxZHqA3PTJ24YNN/GdMzG4xkDcd/GvjuhfLg==}
     cpu: [x64]
     os: [win32]
-
-  '@rollup/wasm-node@4.21.1':
-    resolution: {integrity: sha512-U91HbBWWbyevXQAsW5/NTbfsOP1QoKFeyuQNWbo2dQTnfx5W1iVq7Ma1ul+Kp36oj5Cb8nj8D7e1PlRc02u/oQ==}
-    engines: {node: '>=18.0.0', npm: '>=8.0.0'}
-    hasBin: true
 
   '@sigstore/bundle@2.3.2':
     resolution: {integrity: sha512-wueKWDk70QixNLB363yHc2D2ItTgYiMTdPwK8D9dKQMR3ZQ0c35IxP5xnwQ8cNLoCgCRcHf14kE+CLIvNX1zmA==}
@@ -3232,9 +3227,6 @@ packages:
     resolution: {integrity: sha512-ARhCpm70fzdcvNQfPoy49IaanKkTlRWF2JMzqhcJbhSFRZv7nPTvZJdcY7301IPmvW+/p0RgIWnQDLJxifsQ7g==}
     engines: {node: '>=8'}
 
-  randombytes@2.1.0:
-    resolution: {integrity: sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==}
-
   react-dom@18.3.1:
     resolution: {integrity: sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==}
     peerDependencies:
@@ -3393,9 +3385,6 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  serialize-javascript@6.0.2:
-    resolution: {integrity: sha512-Saa1xPByTTq2gdeFZYLLo+RFE35NHZkAbqZeWNd3BpzppeVisAqpDjcp8dyf6uIvEqJRd46jemmyA4iFIeVk8g==}
-
   set-blocking@2.0.0:
     resolution: {integrity: sha512-KiKBS8AnWGEyLzofFfmvKwpdPzqiy16LvQfK3yv/fVH7Bj13/wl3JSR1J+rfgRE9q7xUJK4qvgS8raSOeLUehw==}
 
@@ -3429,9 +3418,6 @@ packages:
   smart-buffer@4.2.0:
     resolution: {integrity: sha512-94hK0Hh8rPqQl2xXc3HsaBoOXKV20MToPkcXvwbISWLEs+64sBq5kFgn2kJDHb1Pry9yrP0dxrCI9RRci7RXKg==}
     engines: {node: '>= 6.0.0', npm: '>= 3.0.0'}
-
-  smob@1.5.0:
-    resolution: {integrity: sha512-g6T+p7QO8npa+/hNx9ohv1E5pVCmWrVCUzUXJyLdMmftX6ER0oiWY/w9knEonLpnOp6b6FenKnMfR8gqwWdwig==}
 
   socks-proxy-agent@8.0.4:
     resolution: {integrity: sha512-GNAq/eg8Udq2x0eNiFkr9gRg5bA7PXEWagQdeRX4cPSG+X/8V38v637gim9bjFptMk1QWsCTr0ttrJEiXbNnRw==}
@@ -3645,38 +3631,38 @@ packages:
     resolution: {integrity: sha512-GwIJau9XaA8nLVbUXsN3IlFi7WmQ48gBUrl3FTkkL/XLu/POhBzfmX9hd33FNMX1qAsfl6ozO1iMmW9NC8YniA==}
     engines: {node: ^16.14.0 || >=18.0.0}
 
-  turbo-darwin-64@2.0.14:
-    resolution: {integrity: sha512-kwfDmjNwlNfvtrvT29+ZBg5n1Wvxl891bFHchMJyzMoR0HOE9N1NSNdSZb9wG3e7sYNIu4uDkNk+VBEqJW0HzQ==}
+  turbo-darwin-64@2.1.0:
+    resolution: {integrity: sha512-gHwpDk2gyB7qZ57gUUwDIS/IkglqEjjVtPZCTxmCRg28Tiwjui0azsLVKrnHP9UZHllozwbi28x8HXLXLEFF1w==}
     cpu: [x64]
     os: [darwin]
 
-  turbo-darwin-arm64@2.0.14:
-    resolution: {integrity: sha512-m3LXYEshCx3wc4ZClM6gb01KYpFmtjQ9IBF3A7ofjb6ahux3xlYZJZ3uFCLAGHuvGLuJ3htfiPbwlDPTdknqqw==}
+  turbo-darwin-arm64@2.1.0:
+    resolution: {integrity: sha512-GLaqGetNC6eS4eqXgsheLOHic/OcnGCGDi5boVf+TFZTXYH6YE15L4ugZha4xHXCr1KouCLILHh+f8EHEmWylg==}
     cpu: [arm64]
     os: [darwin]
 
-  turbo-linux-64@2.0.14:
-    resolution: {integrity: sha512-7vBzCPdoTtR92SNn2JMgj1FlMmyonGmpMaQdgAB1OVYtuQ6NVGoh7/lODfaILqXjpvmFSVbpBIDrKOT6EvcprQ==}
+  turbo-linux-64@2.1.0:
+    resolution: {integrity: sha512-VzBOsj7JyGoZtiNZZ6brjnY7UehRnClluw7pwznuLPzClkqOOPMd2jOcgkWxnP/xW4NBmOoFANXXrtvKBD4f2w==}
     cpu: [x64]
     os: [linux]
 
-  turbo-linux-arm64@2.0.14:
-    resolution: {integrity: sha512-jwH+c0bfjpBf26K/tdEFatmnYyXwGROjbr6bZmNcL8R+IkGAc/cglL+OToqJnQZTgZvH7uDGbeSyUo7IsHyjuA==}
+  turbo-linux-arm64@2.1.0:
+    resolution: {integrity: sha512-St7svJnOO5g4F6R7Z32e10I/0M3e6qpNjEYybXwPNul9NSfnUXeky4WoKaALwqNhyJ7nYemoFpZ1d+i8hFQTHg==}
     cpu: [arm64]
     os: [linux]
 
-  turbo-windows-64@2.0.14:
-    resolution: {integrity: sha512-w9/XwkHSzvLjmioo6cl3S1yRfI6swxsV1j1eJwtl66JM4/pn0H2rBa855R0n7hZnmI6H5ywLt/nLt6Ae8RTDmw==}
+  turbo-windows-64@2.1.0:
+    resolution: {integrity: sha512-iSobNud2MrJ1SZ1upVPlErT8xexsr0MQtKapdfq6z0M0rBnrDGEq5bUCSScWyGu+O4+glB4br9xkTAkGFqaxqQ==}
     cpu: [x64]
     os: [win32]
 
-  turbo-windows-arm64@2.0.14:
-    resolution: {integrity: sha512-XaQlyYk+Rf4xS5XWCo8XCMIpssgGGy8blzLfolN6YBp4baElIWMlkLZHDbGyiFmCbNf9I9gJI64XGRG+LVyyjA==}
+  turbo-windows-arm64@2.1.0:
+    resolution: {integrity: sha512-d61jN4rjE5PnUfF66GKrKoj8S8Ql4FGXzFFzZz4kjsHpZZzCTtqlzPZBmd1byzGYhDPTorTqG3G1USohbdyohA==}
     cpu: [arm64]
     os: [win32]
 
-  turbo@2.0.14:
-    resolution: {integrity: sha512-00JjdCMD/cpsjP0Izkjcm8Oaor5yUCfDwODtaLb+WyblyadkaDEisGhy3Dbd5az9n+5iLSPiUgf+WjPbns6MRg==}
+  turbo@2.1.0:
+    resolution: {integrity: sha512-A969/LO/sPHKlapIarY2VVzqQ5JnnW2/1kksZlnMEpsRD6gwOELvVL+ozfMiO7av9RILt3UeN02L17efr6HUCA==}
     hasBin: true
 
   type-check@0.4.0:
@@ -4286,6 +4272,7 @@ snapshots:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
+    optional: true
 
   '@jridgewell/sourcemap-codec@1.5.0': {}
 
@@ -4956,14 +4943,6 @@ snapshots:
     optionalDependencies:
       rollup: 4.21.1
 
-  '@rollup/plugin-terser@0.4.4(rollup@4.21.1)':
-    dependencies:
-      serialize-javascript: 6.0.2
-      smob: 1.5.0
-      terser: 5.31.6
-    optionalDependencies:
-      rollup: 4.21.1
-
   '@rollup/plugin-typescript@11.1.6(rollup@4.21.1)(tslib@2.6.3)(typescript@5.5.4)':
     dependencies:
       '@rollup/pluginutils': 5.1.0(rollup@4.21.1)
@@ -5028,12 +5007,6 @@ snapshots:
 
   '@rollup/rollup-win32-x64-msvc@4.21.1':
     optional: true
-
-  '@rollup/wasm-node@4.21.1':
-    dependencies:
-      '@types/estree': 1.0.5
-    optionalDependencies:
-      fsevents: 2.3.3
 
   '@sigstore/bundle@2.3.2':
     dependencies:
@@ -5589,7 +5562,8 @@ snapshots:
     dependencies:
       delayed-stream: 1.0.0
 
-  commander@2.20.3: {}
+  commander@2.20.3:
+    optional: true
 
   commander@4.1.1: {}
 
@@ -7184,10 +7158,6 @@ snapshots:
 
   quick-lru@4.0.1: {}
 
-  randombytes@2.1.0:
-    dependencies:
-      safe-buffer: 5.1.2
-
   react-dom@18.3.1(react@18.3.1):
     dependencies:
       loose-envify: 1.4.0
@@ -7365,10 +7335,6 @@ snapshots:
 
   semver@7.6.3: {}
 
-  serialize-javascript@6.0.2:
-    dependencies:
-      randombytes: 2.1.0
-
   set-blocking@2.0.0: {}
 
   shallow-clone@3.0.1:
@@ -7400,8 +7366,6 @@ snapshots:
 
   smart-buffer@4.2.0: {}
 
-  smob@1.5.0: {}
-
   socks-proxy-agent@8.0.4:
     dependencies:
       agent-base: 7.1.1
@@ -7425,6 +7389,7 @@ snapshots:
     dependencies:
       buffer-from: 1.1.2
       source-map: 0.6.1
+    optional: true
 
   source-map@0.6.1: {}
 
@@ -7585,6 +7550,7 @@ snapshots:
       acorn: 8.12.1
       commander: 2.20.3
       source-map-support: 0.5.21
+    optional: true
 
   text-extensions@1.9.0: {}
 
@@ -7643,32 +7609,32 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  turbo-darwin-64@2.0.14:
+  turbo-darwin-64@2.1.0:
     optional: true
 
-  turbo-darwin-arm64@2.0.14:
+  turbo-darwin-arm64@2.1.0:
     optional: true
 
-  turbo-linux-64@2.0.14:
+  turbo-linux-64@2.1.0:
     optional: true
 
-  turbo-linux-arm64@2.0.14:
+  turbo-linux-arm64@2.1.0:
     optional: true
 
-  turbo-windows-64@2.0.14:
+  turbo-windows-64@2.1.0:
     optional: true
 
-  turbo-windows-arm64@2.0.14:
+  turbo-windows-arm64@2.1.0:
     optional: true
 
-  turbo@2.0.14:
+  turbo@2.1.0:
     optionalDependencies:
-      turbo-darwin-64: 2.0.14
-      turbo-darwin-arm64: 2.0.14
-      turbo-linux-64: 2.0.14
-      turbo-linux-arm64: 2.0.14
-      turbo-windows-64: 2.0.14
-      turbo-windows-arm64: 2.0.14
+      turbo-darwin-64: 2.1.0
+      turbo-darwin-arm64: 2.1.0
+      turbo-linux-64: 2.1.0
+      turbo-linux-arm64: 2.1.0
+      turbo-windows-64: 2.1.0
+      turbo-windows-arm64: 2.1.0
 
   type-check@0.4.0:
     dependencies:
@@ -7766,7 +7732,7 @@ snapshots:
     dependencies:
       esbuild: 0.21.5
       postcss: 8.4.41
-      rollup: '@rollup/wasm-node@4.21.1'
+      rollup: 4.21.1
     optionalDependencies:
       '@types/node': 22.3.0
       fsevents: 2.3.3

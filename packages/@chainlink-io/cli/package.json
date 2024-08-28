@@ -5,7 +5,7 @@
   "type": "module",
   "types": "./dist/index.d.ts",
   "bin": {
-    "chainlink": "./dist/index.js"
+    "chainlink": "./dist/runCli.js"
   },
   "scripts": {
     "build": "rollup -c rollup.config.mjs",
@@ -20,20 +20,20 @@
     },
     "./package.json": "./package.json"
   },
+  "dependencies": {
+    "@chainlink-io/core": "workspace:*",
+    "@chainlink-io/app": "workspace:*",
+    "@types/node": "22.x.x",
+    "cac": "^6.7.14",
+    "zod": "^3.23.8"
+  },
   "devDependencies": {
+    "@repo/rollup": "workspace:*",
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
+    "typescript": "^5.0.0",
     "rollup": "^4.21.0"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  },
-  "dependencies": {
-    "@chainlink-io/core": "workspace:*",
-    "@types/node": "22.x.x",
-    "cac": "^6.7.14",
-    "zod": "^3.23.8"
   }
 }

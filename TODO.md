@@ -30,7 +30,7 @@ Chainlink will expose a `defineRequest` function that gives developers the abili
 
 There are 3 main parts
 
-## 1. Node functions in @chainlink/core
+## 1. Node functions in @chainlink-io/core
 
 Functions for using Chainlink:
 
@@ -40,7 +40,7 @@ Functions for using Chainlink:
 
 These are defined outside of the node server and the cli so they can be used in both
 
-## 2. Chainlink node server @chainlink/app
+## 2. Chainlink node server @chainlink-io/app
 
 This will run a next application with node.
 The backend functions from @chainlink/core will be used in the nextjs api

@@ -9,7 +9,7 @@
     "watch": "rollup -c rollup.config.mjs --watch"
   },
   "bin": {
-    "chainlink": "./node_modules/@chainlink-io/cli/dist/index.js"
+    "chainlink": "./dist/runCli.js"
   },
   "files": [
     "dist",
@@ -30,10 +30,8 @@
     "@chainlink-io/cli": "workspace:*"
   },
   "devDependencies": {
+    "@repo/rollup": "workspace:*",
     "@types/node": "22.x.x",
-    "@rollup/plugin-commonjs": "^26.0.1",
-    "@rollup/plugin-node-resolve": "^15.2.3",
-    "@rollup/plugin-typescript": "^11.1.6",
     "rollup": "^4.21.0"
   },
   "peerDependencies": {

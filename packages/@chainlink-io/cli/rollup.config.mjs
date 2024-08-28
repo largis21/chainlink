@@ -1,23 +1,25 @@
-import typescript from "@rollup/plugin-typescript";
-import resolve from "@rollup/plugin-node-resolve";
-import commonjs from "@rollup/plugin-commonjs";
-import json from "@rollup/plugin-json";
 import { defineConfig } from "rollup";
+import baseConfig from "@repo/rollup"
 
-export default defineConfig({
-  input: "./src/index.ts",
-  output: {
-    file: "dist/index.js",
-    format: "esm",
-    sourcemap: true,
+export default defineConfig([
+  // For exporting the runCli command
+  {
+    ...baseConfig,
+    input: "./src/index.ts",
+    output: {
+      ...baseConfig.output,
+      file: "./dist/index.js",
+    }
   },
-  external: ["node_modules"],
-  plugins: [
-    resolve(),
-    commonjs(),
-    typescript({
-      declaration: true,
-    }),
-    json()
-  ],
-})
+  
+  // For running the cli
+  {
+    ...baseConfig,
+    input: "./src/runCli.ts",
+    output: {
+      ...baseConfig.output,
+      file: "./dist/runCli.js",
+      banner: "#!/usr/bin/env node",
+    }
+  },
+])

@@ -23,7 +23,9 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "rootDir": ".",
+    "outDir": "./dist"
   },
   "include": ["**/*.ts", "**/*.tsx"],
   "exlude": ["node_modules/**"]

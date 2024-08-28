@@ -1,14 +1,11 @@
-import typescript from "@rollup/plugin-typescript";
-import resolve from "@rollup/plugin-node-resolve";
-import commonjs from "@rollup/plugin-commonjs";
-import terser from "@rollup/plugin-terser";
+import baseConfig from "@repo/rollup"
+import { defineConfig } from "rollup"
 
-export default {
-  input: "server.ts",
+export default defineConfig({
+  ...baseConfig,
+  input: "./server.ts",
   output: {
-    dir: "dist",
-    format: "esm",
-    sourcemap: true,
-  },
-  plugins: [typescript(), resolve(), commonjs(), terser()],
-};
+    ...baseConfig.output,
+    dir: "./dist"
+  }
+});
