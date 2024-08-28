@@ -16,10 +16,10 @@ export function runCli() {
         args?.config && path.resolve(cwd(), args.config),
       );
 
-      cliActionStart({
-        port: args?.port || config.server?.port,
-        configPath: args?.config,
-      });
+      cliActionStart(
+        args?.port || config.server?.port || null,
+        args?.config,
+      );
     });
 
   cli
@@ -30,7 +30,6 @@ export function runCli() {
         args?.config && path.resolve(cwd(), args.config),
       );
 
-      console.log("Reading config")
       console.log(config)
     });
 

@@ -1,64 +1,50 @@
 import { cn } from "@/src/lib/utils";
 import { useFsState } from "@/src/state/fs-state";
 import { ChevronRight, Folder } from "lucide-react";
-import { useState } from "react";
-// import { Spinner } from "@/src/components/spinner";
-// import { useFetchFileTree } from "@/src/api/useApi";
+import { useMemo, useState } from "react";
+import { Spinner } from "@/src/components/spinner";
+import type { FsDirectory } from "@chainlink-io/core";
 
-type FileNode = {
-  type: "file" | "dir";
-  name: string;
-  parentPath: string;
-};
-
-// Defined as a flat array, where each item has a parent. This makes drag and drop
-// behavior much easier
-// type Files = FileNode[];
-
-type FileHierarchy = (Omit<FileNode, "parentPath"> & {
+type FileHierarchy = (Omit<FsDirectory[number], "parentPath"> & {
   children: FileHierarchy;
 })[];
 
-// const files: Files = [
-//   {
-//     name: "index",
-//     type: "file",
-//     parentPath: "/",
-//   },
-//   {
-//     name: "dir1",
-//     type: "dir",
-//     parentPath: "/",
-//   },
-//   {
-//     name: "insidedir1",
-//     type: "file",
-//     parentPath: "/dir1",
-//   },
-//   {
-//     name: "alsoInsideDir1",
-//     type: "dir",
-//     parentPath: "/dir1",
-//   },
-//   {
-//     name: "insidealsoInsideDir1",
-//     type: "file",
-//     parentPath: "/dir1/alsoInsideDir1",
-//   },
-// ];
-//
-// function buildTree(items: Files, parentPath: string = "/"): FileHierarchy {
-//   return items
-//     .filter((item) => item.parentPath === parentPath)
-//     .map((item) => ({
-//       ...item,
-//       children: buildTree(
-//         items,
-//         `${parentPath}/${item.name}`.replace("//", "/"),
-//       ),
-//     }))
-//     .sort((a) => (a.type === "dir" ? -1 : 1));
-// }
+function buildTree(
+  items: FsDirectory,
+  parentPath: string = "/",
+): FileHierarchy {
+  return items
+    .filter((item) => item.parentPath === parentPath)
+    .map((item) => ({
+      ...item,
+      children: buildTree(
+        items,
+        `${parentPath}/${item.name}`.replace("//", "/"),
+      ),
+    }))
+    .sort((a) => (a.type === "dir" ? -1 : 1));
+}
+
+export function FileTree() {
+  const fsState = useFsState();
+
+  console.log(fsState)
+
+  const tree = useMemo(
+    () => buildTree(fsState.requestsDir || []),
+    [fsState.requestsDir],
+  );
+
+  if (!fsState.requestsDir.length) {
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        <Spinner />
+      </div>
+    );
+  }
+
+  return tree.map((node) => <FileNode node={node} index={0} key={node.name} />);
+}
 
 function FileNode(props: { node: FileHierarchy[number]; index: number }) {
   const [open, setOpen] = useState(false);
@@ -115,11 +101,4 @@ function FileNode(props: { node: FileHierarchy[number]; index: number }) {
       )}
     </div>
   );
-}
-
-export function FileTree() {
-  const fs = useFsState()
-  console.log(fs.requestsDir)
-
-  return null
 }

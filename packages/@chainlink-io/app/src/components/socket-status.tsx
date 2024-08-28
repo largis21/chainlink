@@ -2,7 +2,7 @@ import { Dialog, DialogContent } from "./ui/dialog";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
 import { useWs } from "../api/useWs";
 import { useCallback, useState } from "react";
-import { useWsListener } from "../services/ws-service-hooks";
+import { useWsListener } from "../hooks/useWsListener";
 
 export function SocketStatus() {
   const [status, setStatus] = useState<"open" | "closed">("open");

@@ -3,8 +3,9 @@ import { serve } from "@hono/node-server";
 import { serveStatic } from "@hono/node-server/serve-static";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import { isProd, attachWsListeners } from "./src/ws";
+import { attachWsListeners, isProd } from "./src/ws";
 import { WebSocketServer } from "ws";
+import { type ChainlinkConfig } from "@chainlink-io/core";
 
 let html = await readFile(
   isProd
@@ -37,9 +38,9 @@ const app = new Hono()
     serveStatic({
       root: isProd
         ? path.relative(
-          process.cwd(),
-          path.join(import.meta.dirname, "./static"),
-        )
+            process.cwd(),
+            path.join(import.meta.dirname, "./static"),
+          )
         : "./",
     }),
   ) // path must end with '/'
@@ -53,27 +54,24 @@ app.get("/api/helloToCore", (c) => {
   return c.json({ status: "ok" });
 });
 
-function serveApp(port: number) {
+function serveApp(port: number, config: ChainlinkConfig) {
   // The frontend needs this
-  process.env["VITE_PORT"] = port.toString()
+  process.env["VITE_PORT"] = port.toString();
 
-  const server = serve(
-    { ...app, port },
-    (info) => {
-      console.log(`Listening on http://localhost:${info.port}`);
-    },
-  );
+  const server = serve({ ...app, port }, (info) => {
+    console.log(`Listening on http://localhost:${info.port}`);
+  });
 
   const wss = new WebSocketServer({
     // @ts-expect-error It works
     server: server,
   });
 
-  attachWsListeners(wss);
+  attachWsListeners(wss, config);
 }
 
 // Exported for vite
 export default app;
 
 // Exported for cli
-export { serveApp }
+export { serveApp };

@@ -1,7 +1,6 @@
 import { createContext, useContext, useState } from "react";
-import { useWsListener, useWsServiceHandler } from "../services/ws-service-hooks";
 import { useFsState } from "../state/fs-state";
-import { callServiceFromClient } from "../services";
+import { useWsListener } from "../hooks/useWsListener";
 
 const wsContext = createContext<WebSocket | null>(null);
 
@@ -16,13 +15,15 @@ export function WSProvider(props: { children: React.ReactNode }) {
 
   const fsState = useFsState()
 
-  useWsListener(ws, "open", () => {
-    callServiceFromClient("fs.getRequestsDir", null, ws)
-  })
+  useWsListener(ws, "message", (data) => {
+    try {
+      // @TODO validate with zod
+      const parsedData = JSON.parse(data.data)
 
-  useWsServiceHandler(ws, {
-    "fs.getRequestsDir": (data) => {
-      fsState.setRequestsDir(data)
+      fsState.setRequestsDir(parsedData.requestsDir)
+      fsState.setChainsDir(parsedData.chainsDir)
+    } catch {
+      console.error("Got invalid data from wss")
     }
   })
 

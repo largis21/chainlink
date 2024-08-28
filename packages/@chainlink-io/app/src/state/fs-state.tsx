@@ -1,13 +1,20 @@
 import { create } from "zustand";
-import { wsServices } from "../services";
-import { z } from "zod";
-
-type Directory = z.infer<typeof wsServices["fs.getRequestsDir"]["output"]>
+import type { FsDirectory } from "@chainlink-io/core";
 
 export const useFsState = create<{
-  requestsDir: Directory
-  setRequestsDir: (newValue: Directory) => void
+  requestsDir: FsDirectory;
+  setRequestsDir: (newValue: FsDirectory) => void;
+  requestsDirError: string | null;
+
+  chainsDir: FsDirectory;
+  setChainsDir: (newValue: FsDirectory) => void;
+  chainsDirError: string | null;
 }>((set) => ({
   requestsDir: [],
-  setRequestsDir: (newValue) => set({requestsDir: newValue})
-}))
+  setRequestsDir: (newValue) => set({ requestsDir: newValue }),
+  requestsDirError: null,
+
+  chainsDir: [],
+  setChainsDir: (newValue) => set({ chainsDir: newValue }),
+  chainsDirError: null,
+}));

@@ -1,8 +1,6 @@
-import { rollup } from "rollup";
-import resolve from "@rollup/plugin-node-resolve";
-import typescript from "@rollup/plugin-typescript";
 import nodePath from "path";
 import fs from "fs/promises";
+import { build} from "esbuild"
 
 export async function readTsFile(path: string): Promise<{
   default: unknown;
@@ -13,27 +11,21 @@ export async function readTsFile(path: string): Promise<{
   // in rollup bundling itself which doesn't work)
   // The solution was to bundle to a file, import() the bundled file and delete the file after
 
-  const outFile = nodePath.join(process.cwd(), "__chainlink_temp.mjs");
+  const outFile = nodePath.join(path, "../__chainlink_temp.mjs");
 
   let output = null;
 
   try {
-    // ugly
-    const bundle = await rollup({
-      input: path,
-      external: [/node_modules/, "@chainlink-io/chainlink"],
-      plugins: [
-        resolve({
-          extensions: [".mjs", ".js", ".ts"],
-        }),
-        typescript(),
-      ],
-      treeshake: true,
-    });
-
-    await bundle.write({
+    await build({
+      entryPoints: [path],
+      bundle: true,
       format: "esm",
-      file: outFile,
+      platform: "node",
+      external: ["node_modules", "@chainlink-io/chainlink"],
+      outfile: outFile,
+      write: true,
+      logLevel: "silent",
+      drop: ["console", "debugger"]
     });
 
     output = await import(outFile);

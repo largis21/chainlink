@@ -5,9 +5,9 @@ import {
   readDirRecursive,
 } from "../utils/read-dir-recursive";
 
-export async function getRequestsDir(
+export async function getChainsDir(
   config: ChainlinkConfig,
 ): Promise<FsDirectory> {
-  const requestsDir = path.resolve(config.chainlinkRootDir, config.requestsDir);
-  return await readDirRecursive(requestsDir);
+  const chainsDir = path.resolve(config.chainlinkRootDir, config.chainsDir);
+  return await readDirRecursive(chainsDir);
 }

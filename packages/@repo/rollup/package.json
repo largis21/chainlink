@@ -3,7 +3,8 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./base.config.mjs"
+      "import": "./base.config.mjs",
+      "types": "./base.config.d.ts"
     }
   },
   "devDependencies": {

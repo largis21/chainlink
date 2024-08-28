@@ -46,10 +46,21 @@ export async function getConfig(configPath?: string): Promise<ChainlinkConfig> {
     defaultConfig,
     validateConfig.data,
   );
-  mergedConfig.chainlinkRootDir = path.resolve(
-    process.cwd(),
-    mergedConfig.chainlinkRootDir,
-  );
+
+  // If the user specified a config path and did not specify rootDir, set rootDir to the chainlink 
+  // directory in the file's location, not cwd which is default 
+  // Will also make sure that the path is absolute so the code below doesn't change it again
+  if (configPath && !(config as ChainlinkConfig).chainlinkRootDir) {
+    mergedConfig.chainlinkRootDir = path.resolve(configPath, "../chainlink")
+  }
+
+  // If the path is relative, make it absolute
+  if (!path.isAbsolute) {
+    mergedConfig.chainlinkRootDir = path.resolve(
+      process.cwd(),
+      mergedConfig.chainlinkRootDir,
+    );
+  }
 
   return mergedConfig;
 }

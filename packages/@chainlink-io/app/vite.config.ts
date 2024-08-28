@@ -4,10 +4,11 @@ import path from "path";
 import devServer from "@hono/vite-dev-server";
 import { attachWsListeners, isProd } from "./src/ws";
 import { WebSocketServer } from "ws";
+import { getConfig } from "@chainlink-io/core";
 
 declare global {
   // eslint-disable-next-line
-  var __chainlink_wss: WebSocketServer | undefined
+  var __chainlink_wss: WebSocketServer | undefined;
 }
 
 // https://vitejs.dev/config/
@@ -36,24 +37,29 @@ export default defineConfig({
     }),
     {
       name: "start-wss",
-      configureServer() {
+      configureServer: async () => {
         if (isProd) {
           return;
         }
 
-        const globalKey = '__chainlink_wss' as const;
+        const globalKey = "__chainlink_wss" as const;
         let wss = global[globalKey];
 
         if (!wss) {
           wss = new WebSocketServer({
-            port: parseInt(process.env.VITE_PORT || '4202') + 1,
-          })
+            port: parseInt(process.env.VITE_PORT || "4202") + 1,
+          });
           global[globalKey] = wss;
         }
 
-        wss.removeAllListeners()
+        wss.removeAllListeners();
 
-        attachWsListeners(wss)
+        const configPath = path.resolve(
+          process.cwd(),
+          "../../../dev/dev-api/chainlink.config.ts",
+        );
+        const config = await getConfig(configPath);
+        attachWsListeners(wss, config);
       },
     },
   ],
