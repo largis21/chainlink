@@ -30,6 +30,7 @@ export function runCli() {
         args?.config && path.resolve(cwd(), args.config),
       );
 
+      console.log("Reading config")
       console.log(config)
     });
 
