@@ -11,14 +11,16 @@ export function runCli() {
     .command("start")
     .option("-c, --config <path>", "Config file path")
     .option("-p, --port <port>", "Server port")
-    .action(async (args) => {
+    .action(async (args: { config: string; port: string } | undefined) => {
       const config = await getConfig(
         args?.config && path.resolve(cwd(), args.config),
       );
 
       cliActionStart(
-        args?.port || config.server?.port || null,
-        args?.config,
+        args?.port ||
+        (config.server?.port && config.server.port.toString()) ||
+        null,
+        config,
       );
     });
 
@@ -30,7 +32,7 @@ export function runCli() {
         args?.config && path.resolve(cwd(), args.config),
       );
 
-      console.log(config)
+      console.log(config);
     });
 
   // Show help when no command is given
