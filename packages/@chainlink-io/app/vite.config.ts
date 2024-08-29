@@ -1,10 +1,11 @@
 import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import devServer from "@hono/vite-dev-server";
 import { attachWsListeners, isProd } from "./src/ws";
 import { WebSocketServer } from "ws";
 import { getConfig } from "@chainlink-io/core";
+
+import react from "@vitejs/plugin-react-swc";
+import devServer from "@hono/vite-dev-server";
 
 declare global {
   // eslint-disable-next-line
@@ -23,16 +24,6 @@ export default defineConfig({
     react(),
     devServer({
       entry: "./server.ts",
-      exclude: [
-        // We need to override this option since the default setting doesn't fit
-        /.*\.tsx?($|\?)/,
-        /.*\.(s?css|less)($|\?)/,
-        /.*\.(svg|png)($|\?)/,
-        /^\/@.+$/,
-        /^\/favicon\.ico$/,
-        /^\/(public|assets|static)\/.+/,
-        /^\/node_modules\/.*/,
-      ],
       injectClientScript: false, // we do this manually in src/server.ts
     }),
     {

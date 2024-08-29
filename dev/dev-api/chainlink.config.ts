@@ -1,6 +1,3 @@
-import { text } from "./another-files"
+import { defineConfig } from "@chainlink-io/chainlink";
 
-export default {
-  text: "this is a text",
-  anotherFilesText: text,
-}
+export default defineConfig({});

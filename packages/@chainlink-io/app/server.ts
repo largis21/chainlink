@@ -5,7 +5,8 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { attachWsListeners, isProd } from "./src/ws";
 import { WebSocketServer } from "ws";
-import { type ChainlinkConfig } from "@chainlink-io/core";
+import { getConfig, type ChainlinkConfig } from "@chainlink-io/core";
+import { getApiRoutes } from "./src/server/api";
 
 let html = await readFile(
   isProd
@@ -32,31 +33,40 @@ window.__vite_plugin_react_preamble_installed__ = true
   );
 }
 
-const app = new Hono()
-  .use(
+function getHonoApp(config: ChainlinkConfig) {
+  const app = new Hono();
+
+  app.route("/api", getApiRoutes(config));
+
+  app.use(
     "/assets/*",
     serveStatic({
       root: isProd
         ? path.relative(
-          process.cwd(),
-          path.join(import.meta.dirname, "./static"),
-        )
+            process.cwd(),
+            path.join(import.meta.dirname, "./static"),
+          )
         : "./",
     }),
-  ) // path must end with '/'
-  .get("/", (c) => c.html(html));
+  );
 
-app.get("/api/fs/readFile", (c) => {
+  app.get("/", (c) => {
+    return c.html(html);
+  });
 
-});
+  return app;
+}
 
 function serveApp(config: ChainlinkConfig) {
   // The frontend needs this
   process.env["VITE_PORT"] = config.server.port.toString();
 
-  const server = serve({ ...app, port: config.server.port }, (info) => {
-    console.log(`Listening on http://localhost:${info.port}`);
-  });
+  const server = serve(
+    { ...getHonoApp(config), port: config.server.port },
+    (info) => {
+      console.log(`Listening on http://localhost:${info.port}`);
+    },
+  );
 
   const wss = new WebSocketServer({
     // @ts-expect-error It works
@@ -66,8 +76,10 @@ function serveApp(config: ChainlinkConfig) {
   attachWsListeners(wss, config);
 }
 
-// Exported for vite
-export default app;
+const config = await getConfig(
+  path.resolve(process.cwd(), "../../../dev/dev-api/chainlink.config.ts"),
+);
+export default getHonoApp(config);
 
 // Exported for cli
 export { serveApp };
