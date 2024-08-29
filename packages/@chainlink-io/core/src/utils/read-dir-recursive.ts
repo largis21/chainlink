@@ -2,20 +2,19 @@ import fs from "fs/promises"
 import path from "path"
 import { readTsFile } from "../read-ts/read-ts-file"
 
-type DirNode = {
+export type FsDirectoryDirNode = {
   type: "dir"
   name: string
   parentPath: string
 }
 
-type FileNode = {
+export type FsDirectoryFileNode = {
   type: "file"
   name: string
   parentPath: string
-  content: string 
 }
 
-export type FsDirectory = (DirNode | FileNode)[]
+export type FsDirectory = (FsDirectoryDirNode | FsDirectoryFileNode)[]
 
 export async function readDirRecursive(dirPath: string, parentPath = "/"): Promise<FsDirectory> {
   try {
@@ -32,15 +31,17 @@ export async function readDirRecursive(dirPath: string, parentPath = "/"): Promi
           type: "dir",
           name: item,
           parentPath: parentPath,
-        } satisfies DirNode);
+        } satisfies FsDirectoryDirNode);
       } else {
+        // const filePath = path.resolve(dirPath, item)
         results.push({
           type: "file",
           name: item,
           parentPath: parentPath,
-          // @TODO This will return an object I'll come back and fix types
-          content: (await readTsFile(path.resolve(dirPath, item)))?.default as string,
-        } satisfies FileNode);
+          // @TODO remove
+          // exports: await readTsFile(filePath),
+          // text: await fs.readFile(filePath).then((buf) => buf.toString())
+        } satisfies FsDirectoryFileNode);
       }
 
       if (isDir) {

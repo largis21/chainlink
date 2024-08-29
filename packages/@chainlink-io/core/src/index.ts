@@ -8,4 +8,8 @@ export { defineRequest } from "./define/define-request";
 export { getRequestsDir } from "./fs/get-requests-dir";
 export { getChainsDir } from "./fs/get-chains-dir";
 
-export type { FsDirectory } from "./utils/read-dir-recursive";
+export type {
+  FsDirectory,
+  FsDirectoryDirNode,
+  FsDirectoryFileNode,
+} from "./utils/read-dir-recursive";

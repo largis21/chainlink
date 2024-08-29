@@ -12,9 +12,15 @@
   "exports": {
     ".": {
       "source": "./src/index.ts",
-      "import": "./dist/index.js",
-      "default": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/core/index.js",
+      "default": "./dist/core/index.js",
+      "types": "./dist/core/index.d.ts"
+    },
+    "./schemas": {
+      "source": "./src/index.ts",
+      "import": "./dist/schemas/index.js",
+      "default": "./dist/schemas/index.js",
+      "types": "./dist/schemas/index.d.ts"
     },
     "./package.json": "./package.json"
   },
@@ -31,6 +37,7 @@
   },
   "devDependencies": {
     "@repo/rollup": "workspace:*",
+    "@rollup/plugin-typescript": "^11.1.6",
     "rollup": "^4.21.0",
     "typescript": "^5.0.0"
   },

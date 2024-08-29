@@ -1,0 +1,1 @@
+export { chainlinkConfigSchema } from "./configSchema";
