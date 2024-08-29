@@ -1,2 +1,2 @@
-export { chainlinkConfigSchema } from "./configSchema";
+export { chainlinkConfigSchema } from "./chainlinkConfigSchema";
 export { successfulReadFileResult } from "./readFileResult";

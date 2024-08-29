@@ -7,5 +7,9 @@ export function getApiRoutes(config: ChainlinkConfig) {
 
   api.route("/fs", getFsRoutes(config));
 
+  api.get("/getConfig", (c) => {
+    return c.json(config)
+  })
+
   return api
 }

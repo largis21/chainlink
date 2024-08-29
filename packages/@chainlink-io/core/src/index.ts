@@ -1,6 +1,5 @@
 export {
   defineConfig,
-  configSchema,
   defaultConfig,
   type ChainlinkConfig,
 } from "./config/define-config";

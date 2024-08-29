@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs/promises";
 import { cwd } from "process";
-import { ChainlinkConfig, configSchema, defaultConfig } from "./define-config";
+import { ChainlinkConfig, defaultConfig } from "./define-config";
 import { readTsFile } from "../read-ts/read-ts-file";
 
 const configLocationPrec = [

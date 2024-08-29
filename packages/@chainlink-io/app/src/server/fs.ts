@@ -18,20 +18,16 @@ export function getFsRoutes(config: ChainlinkConfig) {
       return c.text("Bad request");
     }
 
-    console.log("reading file")
-    const _fileData = await readFile(config, parsedQuery.data.path);
-    console.log("result", _fileData)
-
-
-    const fileData = successfulReadFileResult.safeParse(_fileData)
-
+    const fileData = successfulReadFileResult.safeParse(
+      await readFile(config, parsedQuery.data.path),
+    );
 
     if (!fileData.success) {
-      c.status(500)
-      return c.text("Internal server error")
+      c.status(500);
+      return c.text("Internal server error");
     }
 
-    return c.json(fileData.data)
+    return c.json(fileData.data);
   });
 
   return fsRoutes;
