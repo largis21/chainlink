@@ -46,12 +46,8 @@ const app = new Hono()
   ) // path must end with '/'
   .get("/", (c) => c.html(html));
 
-app.get("/api/heartbeat", (c) => {
-  return c.json({ status: "ok" });
-});
+app.get("/api/fs/readFile", (c) => {
 
-app.get("/api/helloToCore", (c) => {
-  return c.json({ status: "ok" });
 });
 
 function serveApp(config: ChainlinkConfig) {

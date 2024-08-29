@@ -28,8 +28,6 @@ function buildTree(
 export function FileTree() {
   const fsState = useFsState();
 
-  console.log(fsState)
-
   const tree = useMemo(
     () => buildTree(fsState.requestsDir || []),
     [fsState.requestsDir],

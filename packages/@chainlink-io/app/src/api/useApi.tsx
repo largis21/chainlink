@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { z, ZodSchema } from "zod";
 
-function apiHandler<Z extends ZodSchema>(
+export function apiHandler<Z extends ZodSchema>(
   endpoint: string,
   schema: Z,
 ): z.infer<Z> {

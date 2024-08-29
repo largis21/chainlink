@@ -1,6 +1,5 @@
 import { defineConfig } from "rollup";
 import baseConfig from "@repo/rollup";
-import typescript from "@rollup/plugin-typescript"
 
 export default defineConfig([
   {
@@ -8,7 +7,7 @@ export default defineConfig([
     input: "./src/index.ts",
     output: {
       ...baseConfig.output,
-      file: "./dist/core/index.js",
+      file: "./dist/index.js",
     },
   },
   {
@@ -16,15 +15,7 @@ export default defineConfig([
     input: "./src/schemas/index.ts",
     output: {
       ...baseConfig.output,
-      file: "./dist/schemas/index.js",
+      file: "./dist/schemas.js",
     },
-    plugins: [
-      ...baseConfig.plugins,
-      typescript({
-        rootDir: "./src/schemas",
-        include: "./src/schemas",
-        declaration: true,
-      })
-    ]
   },
 ]);

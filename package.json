@@ -2,8 +2,8 @@
   "name": "Chainlink",
   "scripts": {
     "build": "turbo run build",
-    "watch": "lerna run --parallel --stream --scope '{@chainlink-io/chainlink,@chainlink-io/core,@chainlink-io/cli,@chainlink-io/app}' watch",
-    "typecheck": "lerna run --parallel --stream --scope '{@chainlink-io/chainlink,@chainlink-io/core,@chainlink-io/cli,@chainlink-io/app}' typecheck",
+    "watch": "lerna run --parallel --stream watch",
+    "typecheck": "lerna run --parallel --stream typecheck",
     "publish": "turbo run build && npx lerna publish"
   },
   "devDependencies": {

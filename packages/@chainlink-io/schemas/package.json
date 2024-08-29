@@ -1,5 +1,5 @@
 {
-  "name": "@chainlink-io/core",
+  "name": "@chainlink-io/schemas",
   "version": "0.0.14",
   "license": "MIT",
   "type": "module",
@@ -24,12 +24,12 @@
   ],
   "dependencies": {
     "@types/node": "22.x.x",
-    "esbuild": "^0.23.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {
     "@repo/rollup": "workspace:*",
     "@rollup/plugin-typescript": "^11.1.6",
+    "@chainlink-io/core": "workspace:*",
     "rollup": "^4.21.0",
     "typescript": "^5.0.0"
   },

@@ -37,6 +37,9 @@ importers:
       '@chainlink-io/core':
         specifier: workspace:*
         version: link:../core
+      '@chainlink-io/schemas':
+        specifier: workspace:*
+        version: link:../schemas
       '@hono/node-server':
         specifier: ^1.12.0
         version: 1.12.0
@@ -205,6 +208,34 @@ importers:
       '@repo/rollup':
         specifier: workspace:*
         version: link:../../@repo/rollup
+      '@rollup/plugin-typescript':
+        specifier: ^11.1.6
+        version: 11.1.6(rollup@4.21.1)(tslib@2.6.3)(typescript@5.5.4)
+      rollup:
+        specifier: ^4.21.0
+        version: 4.21.1
+      typescript:
+        specifier: ^5.0.0
+        version: 5.5.4
+
+  packages/@chainlink-io/schemas:
+    dependencies:
+      '@types/node':
+        specifier: 22.x.x
+        version: 22.3.0
+      zod:
+        specifier: ^3.23.8
+        version: 3.23.8
+    devDependencies:
+      '@chainlink-io/core':
+        specifier: workspace:*
+        version: link:../core
+      '@repo/rollup':
+        specifier: workspace:*
+        version: link:../../@repo/rollup
+      '@rollup/plugin-typescript':
+        specifier: ^11.1.6
+        version: 11.1.6(rollup@4.21.1)(tslib@2.6.3)(typescript@5.5.4)
       rollup:
         specifier: ^4.21.0
         version: 4.21.1
