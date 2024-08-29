@@ -3,10 +3,11 @@ import { useFsState } from "@/src/state/fs-state";
 import { ChevronRight, Folder } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Spinner } from "@/src/components/spinner";
-import type { FsDirectory } from "@chainlink-io/core";
+import type { FsDirectory, FsDirectoryFileNode } from "@chainlink-io/core";
 
 type FileHierarchy = (Omit<FsDirectory[number], "parentPath"> & {
   children: FileHierarchy;
+  originalNode: FsDirectory[number];
 })[];
 
 function buildTree(
@@ -21,11 +22,15 @@ function buildTree(
         items,
         `${parentPath}/${item.name}`.replace("//", "/"),
       ),
+      originalNode: item,
     }))
     .sort((a) => (a.type === "dir" ? -1 : 1));
 }
 
-export function FileTree() {
+export function FileTree(props: {
+  selectedFile: FsDirectoryFileNode | null;
+  setSelectedFile: (file: FsDirectoryFileNode) => void;
+}) {
   const fsState = useFsState();
 
   const tree = useMemo(
@@ -41,10 +46,23 @@ export function FileTree() {
     );
   }
 
-  return tree.map((node) => <FileNode node={node} index={0} key={node.name} />);
+  return tree.map((node) => (
+    <FileNode
+      node={node}
+      index={0}
+      key={node.name}
+      selectedFile={props.selectedFile}
+      setSelectedFile={props.setSelectedFile}
+    />
+  ));
 }
 
-function FileNode(props: { node: FileHierarchy[number]; index: number }) {
+function FileNode(props: {
+  node: FileHierarchy[number];
+  index: number;
+  selectedFile: FsDirectoryFileNode | null;
+  setSelectedFile: (file: FsDirectoryFileNode) => void;
+}) {
   const [open, setOpen] = useState(false);
 
   const padding = 22;
@@ -71,7 +89,13 @@ function FileNode(props: { node: FileHierarchy[number]; index: number }) {
             className={cn(open ? "h-auto" : "h-0 overflow-hidden", "relative")}
           >
             {props.node.children.map((node, i) => (
-              <FileNode key={i} node={node} index={props.index + 1} />
+              <FileNode
+                key={i}
+                node={node}
+                index={props.index + 1}
+                selectedFile={props.selectedFile}
+                setSelectedFile={props.setSelectedFile}
+              />
             ))}
           </div>
         </div>
@@ -81,6 +105,11 @@ function FileNode(props: { node: FileHierarchy[number]; index: number }) {
           style={{
             paddingLeft: padding * props.index + 4,
           }}
+          onClick={() =>
+            props.setSelectedFile(
+              props.node.originalNode as FsDirectoryFileNode,
+            )
+          }
         >
           {props.node.name}
         </div>

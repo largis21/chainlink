@@ -35,6 +35,7 @@
     "cross-env": "^7.0.3",
     "hono": "^4.5.5",
     "lucide-react": "^0.428.0",
+    "path-browserify": "^1.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "tailwind-merge": "^2.5.2",
@@ -48,6 +49,7 @@
     "@hono/vite-dev-server": "^0.14.0",
     "@repo/rollup": "workspace:*",
     "@types/node": "22.3.0",
+    "@types/path-browserify": "^1.0.3",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@types/ws": "^8.5.12",
@@ -63,8 +65,7 @@
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
     "vite": "^5.4.1",
-    "vite-plugin-externalize-dependencies": "^1.0.1",
-    "vite-plugin-rewrite-all": "^1.0.2"
+    "vite-plugin-externalize-dependencies": "^1.0.1"
   },
   "gitHead": "42d925d51ba5452e9dee8906646c2961f6d2057f"
 }

@@ -24,6 +24,19 @@ export default defineConfig({
     react(),
     devServer({
       entry: "./server.ts",
+      exclude: [
+        // Matches when string ends with ".ts" or ".tsx", unless there is an "?" which means it is
+        // a query param
+        // Got ChatGpt to write it, I dont understand it but it seems to work
+        // If there is any issues with loading ts tsx files, this is a good place to look
+        /^(?!.*\.tsx?\?.*$).*\.tsx?$/,
+        /.*\.(s?css|less)($|\?)/,
+        /.*\.(svg|png)($|\?)/,
+        /^\/@.+$/,
+        /^\/favicon\.ico$/,
+        /^\/(public|assets|static)\/.+/,
+        /^\/node_modules\/.*/,
+      ],
       injectClientScript: false, // we do this manually in src/server.ts
     }),
     {
