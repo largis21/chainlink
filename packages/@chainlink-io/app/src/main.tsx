@@ -7,7 +7,7 @@ import { apiHandler } from './api/useApi.tsx'
 import { configStore } from './state/config-store.ts'
 
 async function startApp() {
-  const config = await apiHandler("/getConfig", {}, chainlinkConfigSchema)
+  const config = await apiHandler("/getConfig?test=kake.ts", {}, chainlinkConfigSchema)
 
   configStore.setState({ config })
 

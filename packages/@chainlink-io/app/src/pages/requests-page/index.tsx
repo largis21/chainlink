@@ -1,9 +1,10 @@
 import { useCallback, useState } from "react";
 import { FileTree } from "./file-tree";
 import { FsDirectoryFileNode } from "@chainlink-io/core";
-import { RequestFileEditor } from "./request-file-editor";
+import { RequestEditor } from "./request-editor";
 import { apiHandler } from "@/src/api/useApi";
-import { successfulReadFileResult } from "@chainlink-io/schemas";
+import { z } from "zod";
+// import { successfulReadFileResult } from "@chainlink-io/schemas";
 // import path from "path-browserify"
 
 export function RequestsPage() {
@@ -18,7 +19,7 @@ export function RequestsPage() {
 
     // const filePath = path.join("requests", file.parentPath, file.name)
     // Trailing slash very important vite dies without it
-    const res = await apiHandler(`/fs/readFile?path=requests/users.ts/`, {}, successfulReadFileResult)
+    const res = await apiHandler(`/fs/readFile?path=requests/users.ts/`, {}, z.any())
     console.log(res)
   }, [])
 
@@ -31,7 +32,7 @@ export function RequestsPage() {
         />
       </div>
       <div className="flex-grow">
-        <RequestFileEditor selectedFile={selectedFile} />
+        <RequestEditor selectedFile={selectedFile} />
       </div>
     </div>
   );

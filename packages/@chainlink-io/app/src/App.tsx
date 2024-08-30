@@ -5,11 +5,36 @@ import { Sidebar } from "./components/sidebar";
 import { ThemeProvider } from "./components/theme-provider";
 import { useCurrentPage } from "./state/current-page";
 import { WSProvider } from "./api/useWs";
+import { useCallback, useEffect, useState } from "react";
 
 const queryClient = new QueryClient();
 
+const minimumVPWidth = 768;
+
 function App() {
   const { CurrentPageComponent } = useCurrentPage();
+
+  const [viewportIsTooSmall, setViewportIsTooSmall] = useState(
+    window.innerWidth < minimumVPWidth,
+  );
+
+  const onResize = useCallback(() => {
+    setViewportIsTooSmall(window.innerWidth < minimumVPWidth);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("resize", onResize);
+
+    return () => window.removeEventListener("resize", onResize);
+  }, [onResize]);
+
+  if (viewportIsTooSmall) {
+    return (
+      <div className="bg-background w-screen h-screen flex items-center justify-center">
+        <h1>Sorry, Chainlink can only be used on desktop <br/> :(</h1>
+      </div>
+    );
+  }
 
   return (
     <QueryClientProvider client={queryClient}>

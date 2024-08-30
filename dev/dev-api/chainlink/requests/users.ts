@@ -1,6 +1,8 @@
+import text from "./test"
+
 export default {
   meta: {
-    name: "users",
+    name: `${text}users`,
     templateVersion: "v0.1"
   },
   method: "GET",

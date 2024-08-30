@@ -16,6 +16,9 @@ declare global {
 export default defineConfig({
   server: {
     port: 4202,
+    watch: {
+      ignored: [/__chainlink_temp/]
+    }
   },
   build: {
     outDir: "./dist/static",
@@ -25,19 +28,13 @@ export default defineConfig({
     devServer({
       entry: "./server.ts",
       exclude: [
-        // Matches when string ends with ".ts" or ".tsx", unless there is an "?" which means it is
-        // a query param
-        // Got ChatGpt to write it, I dont understand it but it seems to work
+        // Matches when string ends with ".ts" or ".tsx", unless there is an "?" in front, which 
+        // means it is a query param, if there is a question mark after .tsx? it will still be ignored
         // If there is any issues with loading ts tsx files, this is a good place to look
         /^[^?]*\.tsx?($|\?)/,
-        /.*\.(s?css|less)($|\?)/,
-        /.*\.(svg|png)($|\?)/,
-        /^\/@.+$/,
-        /^\/favicon\.ico$/,
-        /^\/(public|assets|static)\/.+/,
-        /^\/node_modules\/.*/,
+        /^(?!.*api).*/,
       ],
-      injectClientScript: false, // we do this manually in src/server.ts
+      injectClientScript: true,
     }),
     {
       name: "start-wss",
