@@ -18,7 +18,6 @@ export default defineConfig({
     "@chainlink-io/cli",
     "@chainlink-io/core",
   ],
-
   plugins: [
     resolve({
       preferBuiltins: true
@@ -28,4 +27,9 @@ export default defineConfig({
       declaration: true,
     }),
   ],
+  watch: {
+    chokidar: {
+      usePolling: true
+    }
+  }
 });

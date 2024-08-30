@@ -29,7 +29,7 @@ export default defineConfig({
         // a query param
         // Got ChatGpt to write it, I dont understand it but it seems to work
         // If there is any issues with loading ts tsx files, this is a good place to look
-        /^(?!.*\.tsx?\?.*$).*\.tsx?$/,
+        /^[^?]*\.tsx?($|\?)/,
         /.*\.(s?css|less)($|\?)/,
         /.*\.(svg|png)($|\?)/,
         /^\/@.+$/,

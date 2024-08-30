@@ -6,12 +6,17 @@ import { chainlinkConfigSchema } from "@chainlink-io/schemas"
 import { apiHandler } from './api/useApi.tsx'
 import { configStore } from './state/config-store.ts'
 
-const config = await apiHandler("/getConfig", {}, chainlinkConfigSchema)
+async function startApp() {
+  const config = await apiHandler("/getConfig", {}, chainlinkConfigSchema)
 
-configStore.setState({ config })
+  configStore.setState({ config })
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>
-)
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <App />
+    </StrictMode>
+  )
+}
+
+startApp()
+

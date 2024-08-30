@@ -2,6 +2,9 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"] 
+    },
+    "watch": {
+      "dependsOn": ["^watch"] 
     }
   }
 }

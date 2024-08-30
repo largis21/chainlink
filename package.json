@@ -2,7 +2,7 @@
   "name": "Chainlink",
   "scripts": {
     "build": "turbo run build",
-    "watch": "lerna run --parallel --stream watch",
+    "watch": "turbo run watch --parallel",
     "typecheck": "lerna run --parallel --stream typecheck",
     "publish": "turbo run build && npx lerna publish"
   },

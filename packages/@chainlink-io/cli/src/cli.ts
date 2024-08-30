@@ -17,12 +17,10 @@ export function runCli() {
       );
 
       if (args?.port && !isNaN(parseInt(args.port))) {
-        config.server.port = parseInt(args.port)
+        config.server.port = parseInt(args.port);
       }
 
-      cliActionStart(
-        config,
-      );
+      cliActionStart(config);
     });
 
   cli
