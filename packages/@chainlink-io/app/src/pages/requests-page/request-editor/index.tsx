@@ -78,7 +78,7 @@ export function RequestEditor(props: {
             key={view.name}
             className={cn(
               "h-full flex items-center border-r px-2 border-b-2 border-b-transparent",
-              activeView.name === view.name && "border-b-pink-500",
+              activeView.name === view.name && "border-b-orange-500",
             )}
             onClick={() => setActiveView(view)}
           >

@@ -120,11 +120,11 @@ export function QueryParamsEditor() {
                     value: "",
                     enabled: true,
                   });
-                  setTimeout(() => {
+                  requestAnimationFrame(() => {
                     document
                       .getElementById(getTableInputId(queryParam, "key"))
                       ?.focus();
-                  }, 0);
+                  });
                 }}
               />
             </TableData>
@@ -138,11 +138,11 @@ export function QueryParamsEditor() {
                     key: "",
                     enabled: true,
                   });
-                  setTimeout(() => {
+                  requestAnimationFrame(() => {
                     document
                       .getElementById(getTableInputId(queryParam, "key"))
                       ?.focus();
-                  }, 0);
+                  });
                 }}
               />
             </TableData>
@@ -159,7 +159,7 @@ function TableRow(
     HTMLTableRowElement
   >,
 ) {
-  return <tr className="border-b">{props.children}</tr>;
+  return <tr className={cn("border-b", props.className)} {...props}>{props.children}</tr>;
 }
 
 function TableHeader(
@@ -169,7 +169,7 @@ function TableHeader(
   >,
 ) {
   return (
-    <th className={cn("px-2 py-1 border-r text-left", props.className)}>
+    <th className={cn("px-2 py-1 border-r text-left", props.className)} {...props}>
       {props.children}
     </th>
   );
@@ -182,7 +182,7 @@ function TableData(
   >,
 ) {
   return (
-    <td className={cn("px-2 py-1 border-r", props.className)}>
+    <td className={cn("px-2 py-1 border-r", props.className)} {...props}>
       {props.children}
     </td>
   );
@@ -194,5 +194,5 @@ function TableDataInput(
     HTMLInputElement
   >,
 ) {
-  return <input type="text" {...props} />;
+  return <input type="text" className={cn("bg-background", props.className)} {...props} />;
 }
