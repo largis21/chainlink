@@ -1,15 +1,16 @@
 /**
  * @public
  */
-export type RequestTemplateV0_1 = {
+export type ChainlinkRequestTemplate = {
   meta: {
+    // @TODO: How should versioning work??
     templateVersion: "v0.1";
     name: string;
   };
-
   url: string;
   method: "POST" | "GET" | "PUT" | "DELETE";
-  payload?: any; // TODO: What is the type of payload, can arraybuffers be used in http for example?
+  queryParams: { enabled: boolean; key: string; value: string }[];
+  payload?: any;
   headers?: Record<string, string>;
   locals?: Record<string, string>;
 };
@@ -17,6 +18,6 @@ export type RequestTemplateV0_1 = {
 /**
  * @public
  */
-export function defineRequest(def: RequestTemplateV0_1) {
+export function defineRequest(def: ChainlinkRequestTemplate) {
   return def;
 }
