@@ -1,4 +1,4 @@
-import { getConfig } from "@chainlink-io/core";
+import { getConfig, readRequestDef } from "@chainlink-io/core";
 import { cliActionStart } from "./actions/start";
 import cac from "cac";
 import path from "path";
@@ -21,6 +21,24 @@ export function runCli() {
       }
 
       cliActionStart(config);
+    });
+
+  cli
+    .command("run", "request")
+    .option("-c, --config <path>", "Config file path")
+    .option("-p, --path <path>", "Request definition path")
+    .action(async (args: { path?: string, config?: string }) => {
+      if (!args.path) {
+        throw new Error("Please provide a path to the request definition")
+      }
+
+      const config = await getConfig(
+        args?.config && path.resolve(cwd(), args.config),
+      );
+
+      const requestDefinition = readRequestDef(config, args.path)
+
+      console.log("Running request NOT");
     });
 
   cli

@@ -7,7 +7,13 @@ export {
 } from "./config";
 
 export {
+  createClContext,
+  type ChainlinkContext
+} from "./cl-context"
+
+export {
   defineRequest,
+  readRequestDef,
   type ChainlinkRequestDefinition,
   type PartialChainlinkRequestDefinition,
 } from "./request-def";

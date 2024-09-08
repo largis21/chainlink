@@ -4,5 +4,5 @@ const defaultMethod = "GET"
 
 export default defineRequest({
   method: defaultMethod,
-  url: `${ cl.globals.BASE_URL }}/users`,
+  url: `${ cl.globals.BASE_URL }/users`,
 });

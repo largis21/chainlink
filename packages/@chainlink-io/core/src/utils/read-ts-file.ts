@@ -1,13 +1,18 @@
 import nodePath from "path";
 import fs from "fs/promises";
 import { build } from "esbuild";
+import { ChainlinkContext } from "@/cl-context";
+import { ChainlinkConfig } from "@/config";
 
 /**
  * @internal
  *
  * This function must not be exposed from core
  */
-export async function __readTsFile(path: string): Promise<{
+export async function __readTsFile(
+  path: string,
+  options?: { config?: ChainlinkConfig; clContext?: ChainlinkContext },
+): Promise<{
   default: unknown;
   [key: string]: unknown;
 } | null> {
@@ -20,7 +25,7 @@ export async function __readTsFile(path: string): Promise<{
 
   try {
     await fs.mkdir(outDir);
-  } catch {}
+  } catch { }
 
   let output = null;
 
@@ -36,10 +41,19 @@ export async function __readTsFile(path: string): Promise<{
       write: true,
       logLevel: "silent",
       drop: ["console", "debugger"],
+      banner: {
+        js:
+          options?.config && options?.clContext
+            // @TODO verify that the clContext is json serializable
+            ? `globalThis.${options.config.chainlinkContextName} = ${JSON.stringify(options.clContext)};`
+            : "",
+      },
     });
-    
-    const sourceMap = await fs.readFile(outFile.replace(".mjs", ".mjs.map")).then((e) => e.toString())
-    console.log(sourceMap)
+
+    // @TODO
+    const sourceMap = await fs
+      .readFile(outFile.replace(".mjs", ".mjs.map"))
+      .then((e) => e.toString());
 
     output = await import(/* @vite-ignore */ outFile);
   } catch (e) {
@@ -48,7 +62,7 @@ export async function __readTsFile(path: string): Promise<{
 
   try {
     await fs.rm(outDir, { force: true, recursive: true });
-  } catch {}
+  } catch { }
 
   return output;
 }

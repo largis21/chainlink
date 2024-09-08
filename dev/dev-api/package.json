@@ -3,7 +3,7 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "watch": "echo 'watching dev'"
+    "watch": "node rollup.watch.mjs"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"

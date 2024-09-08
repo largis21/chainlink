@@ -30,6 +30,7 @@ export async function getConfig(configPath?: string): Promise<ChainlinkConfig> {
   const configFilePath = configPath || (await getConfigFilePath());
 
   if (!configFilePath) {
+    console.warn("Could not find a chainlink config file, using default config...")
     return defaultConfig;
   }
 
@@ -42,6 +43,7 @@ export async function getConfig(configPath?: string): Promise<ChainlinkConfig> {
   }
 
   const mergedConfig = deepMerge<ChainlinkConfig>(defaultConfig, config);
+
 
   // If the user specified a config path and did not specify rootDir, set rootDir to the chainlink
   // directory in the file's location, not cwd which is default
