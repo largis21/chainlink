@@ -1,9 +1,8 @@
 import path from "path";
 import fs from "fs/promises";
 import { cwd } from "process";
-import { ChainlinkConfig, defaultConfig } from "./define-config";
-import { readTsFile } from "../read-ts/read-ts-file";
-import { deepMerge } from "../utils/deep-merge";
+import { ChainlinkConfig, defaultConfig } from ".";
+import { deepMerge, __readTsFile } from "@/utils";
 
 const configLocationPrec = [
   "chainlink.config.ts",
@@ -34,16 +33,15 @@ export async function getConfig(configPath?: string): Promise<ChainlinkConfig> {
     return defaultConfig;
   }
 
-  const config = (await readTsFile(configFilePath))?.default;
+  const config = (await __readTsFile(configFilePath))?.default;
 
   if (typeof config !== "object") {
-    throw new Error("Default export of chainlink.config.ts must be a valid Chainlink config")
+    throw new Error(
+      "Default export of chainlink.config.ts must be a valid Chainlink config",
+    );
   }
 
-  const mergedConfig = deepMerge<ChainlinkConfig>(
-    defaultConfig,
-    config,
-  );
+  const mergedConfig = deepMerge<ChainlinkConfig>(defaultConfig, config);
 
   // If the user specified a config path and did not specify rootDir, set rootDir to the chainlink
   // directory in the file's location, not cwd which is default
@@ -62,4 +60,3 @@ export async function getConfig(configPath?: string): Promise<ChainlinkConfig> {
 
   return mergedConfig;
 }
-

@@ -1,9 +1,6 @@
-import type { ChainlinkConfig } from "../config/define-config";
 import path from "path";
-import {
-  type FsDirectory,
-  readDirRecursive,
-} from "../utils/read-dir-recursive";
+import type { ChainlinkConfig } from "@/config";
+import { type FsDirectory, readDirRecursive } from ".";
 
 export async function getRequestsDir(
   config: ChainlinkConfig,

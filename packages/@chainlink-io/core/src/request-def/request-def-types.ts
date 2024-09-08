@@ -15,15 +15,6 @@ export type ChainlinkRequestDefinition = {
   //meta?: {};
 };
 
-export const defaultChainlinkRequestDefinition: ChainlinkRequestDefinition = {
-  url: "", // *
-  method: "", // *
-  queryParams: [],
-  extends: null,
-} as const;
-// * = Is reqired in ChainlinkRequestDefinition, their value here is not important because it will
-// be overriden anyway
-
 const RequiredChainlinkRequestDefinitionProperties = [
   "url",
   "method",
@@ -41,9 +32,3 @@ export type PartialChainlinkRequestDefinition =
       >
     >;
 
-/**
- * @public
- */
-export function defineRequest(def: PartialChainlinkRequestDefinition) {
-  return def;
-}

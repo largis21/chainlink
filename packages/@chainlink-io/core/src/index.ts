@@ -1,26 +1,23 @@
 export {
   defineConfig,
   defaultConfig,
+  getConfig,
   type ChainlinkConfig,
   type ClDeclareGlobal,
-} from "./config/define-config";
-
-export { getConfig } from "./config/get-config";
+} from "./config";
 
 export {
   defineRequest,
   type ChainlinkRequestDefinition,
-  type PartialChainlinkRequestdefinition
-} from "./define/define-request";
+  type PartialChainlinkRequestDefinition,
+} from "./request-def";
 
-export { getRequestsDir } from "./fs/get-requests-dir";
-
-export { getChainsDir } from "./fs/get-chains-dir";
-
-export { readFile, type ReadFileResult } from "./fs/read-file";
-
-export type {
-  FsDirectory,
-  FsDirectoryDirNode,
-  FsDirectoryFileNode,
-} from "./utils/read-dir-recursive";
+export {
+  getRequestsDir,
+  getChainsDir,
+  readFile,
+  type ReadFileResult,
+  type FsDirectory,
+  type FsDirectoryDirNode,
+  type FsDirectoryFileNode,
+} from "./utils";

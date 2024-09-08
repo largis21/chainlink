@@ -1,5 +1,5 @@
 import http, { OutgoingHttpHeaders } from "node:http";
-import { ChainlinkRequestDefinition } from "../define/define-request";
+import { ChainlinkRequestDefinition } from "@/request-def";
 
 const validProtocols = ["http", "https"];
 

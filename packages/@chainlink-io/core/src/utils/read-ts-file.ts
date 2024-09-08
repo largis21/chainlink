@@ -2,7 +2,12 @@ import nodePath from "path";
 import fs from "fs/promises";
 import { build } from "esbuild";
 
-export async function readTsFile(path: string): Promise<{
+/**
+ * @internal
+ *
+ * This function must not be exposed from core
+ */
+export async function __readTsFile(path: string): Promise<{
   default: unknown;
   [key: string]: unknown;
 } | null> {

@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
-import { ChainlinkConfig } from "../config/define-config";
-import { readTsFile } from "../read-ts/read-ts-file";
+import { ChainlinkConfig } from "@/config/";
+import { __readTsFile } from ".";
 
 export type ReadFileResult = {
   text: string;
@@ -21,7 +21,7 @@ export async function readFile(
 
   try {
     const file = await fs.readFile(resolvedFilePath);
-    const exports = await readTsFile(resolvedFilePath);
+    const exports = await __readTsFile(resolvedFilePath);
 
     if (!exports) throw new Error();
 
