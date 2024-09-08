@@ -1,7 +1,10 @@
 import path from "path";
 import { z } from "zod";
 
-export type ChainlinkConfig<TEnvSchema extends z.ZodSchema = z.ZodSchema> = {
+export type ChainlinkConfig<
+  TEnvSchema extends z.ZodSchema = z.ZodSchema,
+  TGlobals extends Record<string, string> = {},
+> = {
   /**
    * Request- and Chain definitions will have access to a global context. This will be the name of
    * the global variable
@@ -49,10 +52,11 @@ export type ChainlinkConfig<TEnvSchema extends z.ZodSchema = z.ZodSchema> = {
      */
     schema: TEnvSchema;
   };
+
   /*
    * Globals
    */
-  globals: Record<string, string>;
+  globals: TGlobals;
 
   /**
    * Location of the chainlink `requests` folder, relative to `chainlinkRoot`
@@ -86,19 +90,23 @@ export const defaultConfig: ChainlinkConfig = {
   },
 } as const;
 
-type PartialChainlinkConfig<TEnvSchema extends z.ZodSchema = z.ZodSchema> = {
-  [P in keyof ChainlinkConfig<TEnvSchema>]?: Partial<
-    ChainlinkConfig<TEnvSchema>[P]
+type PartialChainlinkConfig<
+  TEnvSchema extends z.ZodSchema = z.ZodSchema,
+  TGlobals extends Record<string, string> = {},
+> = {
+  [P in keyof ChainlinkConfig<TEnvSchema, TGlobals>]?: Partial<
+    ChainlinkConfig<TEnvSchema, TGlobals>[P]
   >;
 };
 
-export function defineConfig<TEnvSchema extends z.ZodSchema>(
-  config: PartialChainlinkConfig<TEnvSchema>,
-) {
+export function defineConfig<
+  TEnvSchema extends z.ZodSchema,
+  TGlobals extends Record<string, string>,
+>(config: PartialChainlinkConfig<TEnvSchema, TGlobals>) {
   return config;
 }
 
 export type ClDeclareGlobal<T extends PartialChainlinkConfig> = {
-  globals: T["globals"];
+  globals: NonNullable<T["globals"]>;
   env: z.infer<NonNullable<NonNullable<T["env"]>["schema"]>>;
 };

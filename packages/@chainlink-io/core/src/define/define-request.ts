@@ -19,7 +19,7 @@ export const defaultChainlinkRequestDefinition: ChainlinkRequestDefinition = {
   url: "", // *
   method: "", // *
   queryParams: [],
-  extends: null
+  extends: null,
 } as const;
 // * = Is reqired in ChainlinkRequestDefinition, their value here is not important because it will
 // be overriden anyway
@@ -32,15 +32,18 @@ const RequiredChainlinkRequestDefinitionProperties = [
 type RequiredChainlinkRequestDefinitionProperties =
   (typeof RequiredChainlinkRequestDefinitionProperties)[number];
 
-export type PartialChainlinkRequestdefinition = {
-  [K in keyof ChainlinkRequestDefinition]: K extends RequiredChainlinkRequestDefinitionProperties
-  ? ChainlinkRequestDefinition[K]
-  : ChainlinkRequestDefinition[K] | undefined;
-};
+export type PartialChainlinkRequestDefinition =
+  Partial<ChainlinkRequestDefinition> &
+    Required<
+      Pick<
+        ChainlinkRequestDefinition,
+        RequiredChainlinkRequestDefinitionProperties
+      >
+    >;
 
 /**
  * @public
  */
-export function defineRequest(def: Partial<PartialChainlinkRequestdefinition>) {
+export function defineRequest(def: PartialChainlinkRequestDefinition) {
   return def;
 }

@@ -24,5 +24,5 @@ app.get("/user/:name", (c) => c.json(users.find((e) => e.name === c.req.param("n
 
 serve({
   fetch: app.fetch,
-  port: 3000
+  port: 8080
 })

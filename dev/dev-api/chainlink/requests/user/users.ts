@@ -4,8 +4,5 @@ const defaultMethod = "GET"
 
 export default defineRequest({
   method: defaultMethod,
-  url: `${ cl.schema.parse({}) }}/users`,
-  expectedResponse: baseApiResponse(z.array(z.string()))
+  url: `${ cl.globals.BASE_URL }}/users`,
 });
-
-const a = cl.schema.parse({})

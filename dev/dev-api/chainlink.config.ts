@@ -4,7 +4,7 @@ import type { ClDeclareGlobal } from "../../packages/@chainlink-io/core/dist/con
 
 const config = defineConfig({
   globals: {
-    BASE_URL: "http://localhost:3000/api",
+    BASE_URL: "http://localhost:8080/api",
   },
   env: {
     file: "./.env",

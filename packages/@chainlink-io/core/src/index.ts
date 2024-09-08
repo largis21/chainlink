@@ -9,7 +9,8 @@ export { getConfig } from "./config/get-config";
 
 export {
   defineRequest,
-  type ChainlinkRequestTemplate,
+  type ChainlinkRequestDefinition,
+  type PartialChainlinkRequestdefinition
 } from "./define/define-request";
 
 export { getRequestsDir } from "./fs/get-requests-dir";
