@@ -14,15 +14,22 @@ const users = [
     name: "user-3",
     age: "34",
   },
-]
+];
 
-const app = new Hono()
+const app = new Hono();
 
-app.get("/users", (c) => c.json(users.map((e) => e.name)))
+app.get("/users", (c) => c.json(users.map((e) => e.name)));
 
-app.get("/user/:name", (c) => c.json(users.find((e) => e.name === c.req.param("name"))))
+app.get("/user/:name", (c) =>
+  c.json(users.find((e) => e.name === c.req.param("name"))),
+);
 
-serve({
-  fetch: app.fetch,
-  port: 8080
-})
+serve(
+  {
+    fetch: app.fetch,
+    port: 8080,
+  },
+  (info) => {
+    console.log(`Listening on http://localhost:${info.port}`);
+  },
+);

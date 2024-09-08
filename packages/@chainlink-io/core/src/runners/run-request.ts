@@ -25,14 +25,21 @@ export function runRequest(requestDef: ChainlinkRequestDefinition) {
     {},
   );
 
-  const request = http.request({
+  const options = 
+{
     hostname: url.hostname,
     port: url.port,
     protocol: url.protocol,
     path: url.pathname,
     method: requestDef.method,
     headers: requestHeaders,
-  }, (res) => {
+  }
+
+  console.log(options)
+
+  console.log("Not sending request")
+
+  /* const request = http.request(, (res) => {
     let data = ''
  
     res.on('data', (chunk) => {
@@ -43,5 +50,5 @@ export function runRequest(requestDef: ChainlinkRequestDefinition) {
     res.on('end', () => {
         console.log('Body:', JSON.parse(data))
     })
-  })
+  }) */
 }

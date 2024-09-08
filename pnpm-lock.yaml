@@ -34,6 +34,15 @@ importers:
       '@chainlink-io/chainlink':
         specifier: workspace:*
         version: link:../../packages/chainlink
+      '@repo/rollup':
+        specifier: workspace:*
+        version: link:../../packages/@repo/rollup
+      '@types/node':
+        specifier: 22.3.0
+        version: 22.3.0
+      rollup:
+        specifier: ^4.21.0
+        version: 4.21.1
 
   packages/@chainlink-io/app:
     dependencies:

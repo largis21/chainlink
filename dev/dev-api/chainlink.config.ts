@@ -1,6 +1,6 @@
 import { defineConfig } from "@chainlink-io/chainlink";
 import { z } from "zod";
-import type { ClDeclareGlobal } from "../../packages/@chainlink-io/core/dist/config/define-config";
+import type { ClDeclareGlobal } from "@chainlink-io/chainlink";
 
 const config = defineConfig({
   globals: {
