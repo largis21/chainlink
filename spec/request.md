@@ -16,6 +16,7 @@ In any string field not in the `meta` object, you can use double curlies (`{{ }}
   - Example usage: `{{ locals.BASE_URL }}/user/{{ parameters.userId }}`
 
 - Environment Variables:
+
   - Defined in a `.env` or `.env.local` file
   - Example: usage: `{ Authorization: "Bearer {{ secrets.AUTH_SECRET}}" }`
 

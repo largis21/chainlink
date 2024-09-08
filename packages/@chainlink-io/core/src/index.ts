@@ -2,6 +2,7 @@ export {
   defineConfig,
   defaultConfig,
   type ChainlinkConfig,
+  type ClDeclareGlobal,
 } from "./config/define-config";
 
 export { getConfig } from "./config/get-config";

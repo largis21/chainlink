@@ -9,6 +9,7 @@ export default defineConfig({
     format: "esm",
     sourcemap: true,
   },
+  strictDeprecations: true,
   external: [
     /node_modules/,
     // These have to be added manually because they don't get recognized as
@@ -29,6 +30,7 @@ export default defineConfig({
   ],
   watch: {
     chokidar: {
+      // Fixes a bug where it only rebuilds on the first save when running `watch` with lerna
       usePolling: true
     }
   }

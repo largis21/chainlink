@@ -3,6 +3,7 @@ import fs from "fs/promises";
 import { cwd } from "process";
 import { ChainlinkConfig, defaultConfig } from "./define-config";
 import { readTsFile } from "../read-ts/read-ts-file";
+import { deepMerge } from "../utils/deep-merge";
 
 const configLocationPrec = [
   "chainlink.config.ts",
@@ -39,7 +40,6 @@ export async function getConfig(configPath?: string): Promise<ChainlinkConfig> {
     throw new Error("Default export of chainlink.config.ts must be a valid Chainlink config")
   }
 
-  // Merge with default values
   const mergedConfig = deepMerge<ChainlinkConfig>(
     defaultConfig,
     config,
@@ -63,23 +63,3 @@ export async function getConfig(configPath?: string): Promise<ChainlinkConfig> {
   return mergedConfig;
 }
 
-function isObject(item: any) {
-  return item && typeof item === "object" && !Array.isArray(item);
-}
-
-function deepMerge<T>(target: any, ...sources: any[]): T {
-  if (!sources.length) return target;
-  const source = sources.shift();
-
-  if (isObject(target) && isObject(source)) {
-    for (const key in source) {
-      if (isObject(source[key])) {
-        if (!target[key]) Object.assign(target, { [key]: {} });
-        deepMerge(target[key], source[key]);
-      } else {
-        Object.assign(target, { [key]: source[key] });
-      }
-    }
-  }
-  return deepMerge(target, ...sources);
-}

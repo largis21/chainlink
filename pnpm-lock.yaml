@@ -27,6 +27,9 @@ importers:
       typescript:
         specifier: ^5.0.0
         version: 5.5.4
+      zod:
+        specifier: ^3.23.8
+        version: 3.23.8
     devDependencies:
       '@chainlink-io/chainlink':
         specifier: workspace:*

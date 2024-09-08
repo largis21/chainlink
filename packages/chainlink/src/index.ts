@@ -1,1 +1,7 @@
-export {defineConfig, type ChainlinkConfig} from "@chainlink-io/core"
+export {
+  defineConfig,
+  type ChainlinkConfig,
+
+  defineRequest,
+  type ChainlinkRequestTemplate,
+} from "@chainlink-io/core";
