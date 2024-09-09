@@ -17,7 +17,8 @@ export async function __readTsFile(
     default: unknown;
     [key: string]: unknown;
   } | null;
-  text: string
+  text: string;
+  sourceMap: string;
 }> {
   // A previous solution was to just generate a string of the result and use dynamic import() to
   // evaluate it. However it could not resolve external dependencies (external: [/node_modules/] results
@@ -33,6 +34,7 @@ export async function __readTsFile(
   let output = {
     exports: null,
     text: "",
+    sourceMap: "",
   };
 
   try {
@@ -56,15 +58,13 @@ export async function __readTsFile(
       },
     });
 
-    // @TODO
-    const sourceMap = await fs
-      .readFile(outFile.replace(".mjs", ".mjs.map"))
-      .then((e) => e.toString());
-
     output = {
       exports: await import(/* @vite-ignore */ outFile),
-      text: await fs.readFile(outFile).then((e) => e.toString())
-    }
+      text: await fs.readFile(outFile).then((e) => e.toString()),
+      sourceMap: await fs
+        .readFile(outFile.replace(".mjs", ".mjs.map"))
+        .then((e) => e.toString()),
+    };
   } catch (e) {
     console.log(e);
   }

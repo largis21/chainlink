@@ -23,16 +23,20 @@
     "./src"
   ],
   "dependencies": {
+    "@babel/generator": "^7.25.6",
     "@babel/parser": "^7.25.6",
     "@babel/traverse": "^7.25.6",
     "@babel/types": "^7.25.6",
     "@types/node": "22.x.x",
     "esbuild": "^0.23.1",
+    "recast": "^0.23.9",
+    "source-map": "^0.7.4",
     "zod": "^3.23.8"
   },
   "devDependencies": {
     "@repo/rollup": "workspace:*",
     "@rollup/plugin-typescript": "^11.1.6",
+    "@types/babel__generator": "^7.6.8",
     "@types/babel__traverse": "^7.20.6",
     "rollup": "^4.21.0",
     "typescript": "^5.0.0"

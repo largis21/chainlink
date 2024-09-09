@@ -29,6 +29,8 @@ export function getNodeOrigin(nodePath: NodePath): NodePath {
     return getNodeOrigin(nodePath.get("init") as NodePath)
   }
 
+  // We support callExpression only if it's callee is the `defineRequest` helper function
+  // We then use its first argument, as that will be the actual declaration
   if (
     isCallExpression(nodePath.node) &&
     isIdentifier(nodePath.node.callee) &&

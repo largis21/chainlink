@@ -35,3 +35,7 @@ export {
 export {
   getEditableRequestDefinition
 } from "./request-def/editable-request-def/get-editable-request-def"
+
+export {
+  setRequestDefinitionValue
+} from "./request-def/editable-request-def/set-request-definition-value"

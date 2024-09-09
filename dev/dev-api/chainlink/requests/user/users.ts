@@ -1,8 +1,9 @@
 import { defineRequest } from "@chainlink-io/chainlink";
 
-const defaultMethod = "GET"
+type Test = "hello"
+const url = "URLURLURL"
 
 export default defineRequest({
-  method: defaultMethod,
-  url: `${ cl.globals.BASE_URL }/users`,
+  method: "GET",
+  url,
 });

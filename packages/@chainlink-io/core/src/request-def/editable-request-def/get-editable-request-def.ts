@@ -3,10 +3,7 @@ import { createClContext } from "@/cl-context";
 import { readFile } from "@/utils";
 import { ChainlinkConfig } from "@/config";
 import { getDefaultExportedObjectExpression } from "./get-default-exported-object-expression";
-
-type EditableRequestDefinition = {
-  url: any;
-};
+import { getEditableProperties } from "./editable-properties";
 
 const withDefaultExportDeclarationWithCaller = `
 const defaultMethod = "GET"
@@ -47,7 +44,6 @@ const tests = {
   3: withNamedDefaultExportDeclaration,
 }
 
-
 export async function getEditableRequestDefinition(
   config: ChainlinkConfig,
   filePath: string,
@@ -55,6 +51,8 @@ export async function getEditableRequestDefinition(
   const file = await readFile(config, filePath, {
     clContext: createClContext(config),
   });
+
+  console.log(file?.bundledText)
 
   if (!file?.bundledText) {
     throw new Error("@TODO Create error text");
@@ -66,6 +64,11 @@ export async function getEditableRequestDefinition(
 
   const objectExpression = getDefaultExportedObjectExpression(ast)
 
-  console.log("Success", objectExpression.node.type)
+  const editableProperties = getEditableProperties(objectExpression)
+
+  return {
+    editableRequestDefinition: editableProperties,
+    sourceMap: file.sourceMap,
+  }
 }
 

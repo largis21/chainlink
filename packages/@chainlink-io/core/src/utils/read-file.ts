@@ -8,6 +8,7 @@ export type ReadFileResult = {
   text: string;
   bundledText: string;
   exports: { default?: unknown; [key: string]: unknown };
+  sourceMap: string
 } | null;
 
 export async function readFile(
@@ -26,7 +27,7 @@ export async function readFile(
 
   try {
     const file = await fs.readFile(resolvedFilePath);
-    const { exports, text } = await __readTsFile(resolvedFilePath, {
+    const { exports, text, sourceMap } = await __readTsFile(resolvedFilePath, {
       config,
       clContext: options?.clContext,
     });
@@ -37,6 +38,7 @@ export async function readFile(
       text: file.toString(),
       bundledText: text,
       exports: exports,
+      sourceMap,
     };
   } catch (e) {
     console.error(e);

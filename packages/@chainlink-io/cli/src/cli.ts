@@ -1,4 +1,4 @@
-import { getConfig, getEditableRequestDefinition, readRequestDef, runRequest } from "@chainlink-io/core";
+import { getConfig, getEditableRequestDefinition, readRequestDef, runRequest, setRequestDefinitionValue } from "@chainlink-io/core";
 import { cliActionStart } from "./actions/start";
 import cac from "cac";
 import path from "path";
@@ -68,8 +68,27 @@ export function runCli() {
       );
 
       const editableRequestDefinition = await getEditableRequestDefinition(config, path.resolve(cwd(), args.path))
+    });
 
-      console.log(editableRequestDefinition)
+  cli
+    .command("tests", "set-url")
+    .option("-c, --config <path>", "Config file path")
+    .option("-p, --path <path>", "Request definition path")
+    .option("-n, --new <path>", "New url value")
+    .action(async (args: { path?: string, config?: string, new?: string }) => {
+      if (!args.path) {
+        throw new Error("Please provide a path to the request definition")
+      }
+
+      if (!args.new) {
+        throw new Error("Please provide a new value")
+      }
+
+      const config = await getConfig(
+        args?.config && path.resolve(cwd(), args.config),
+      );
+
+      await setRequestDefinitionValue(config, path.resolve(cwd(), args.path), "url", args.new)
     });
 
   // Show help when no command is given
