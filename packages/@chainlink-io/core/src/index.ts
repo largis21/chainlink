@@ -19,6 +19,10 @@ export {
 } from "./request-def";
 
 export {
+  runRequest
+} from "./runners/run-request"
+
+export {
   getRequestsDir,
   getChainsDir,
   readFile,

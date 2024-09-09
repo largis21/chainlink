@@ -1,4 +1,4 @@
-import { getConfig, readRequestDef } from "@chainlink-io/core";
+import { getConfig, readRequestDef, runRequest } from "@chainlink-io/core";
 import { cliActionStart } from "./actions/start";
 import cac from "cac";
 import path from "path";
@@ -36,9 +36,11 @@ export function runCli() {
         args?.config && path.resolve(cwd(), args.config),
       );
 
-      const requestDefinition = readRequestDef(config, args.path)
+      const requestDefinition = await readRequestDef(config, path.resolve(cwd(), args.path))
 
-      console.log("Running request NOT");
+      const response = await runRequest(requestDefinition)
+
+      console.log(response.headers)
     });
 
   cli

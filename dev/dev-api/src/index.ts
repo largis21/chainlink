@@ -18,11 +18,20 @@ const users = [
 
 const app = new Hono();
 
-app.get("/users", (c) => c.json(users.map((e) => e.name)));
+const api = new Hono();
 
-app.get("/user/:name", (c) =>
+api.get("/users", (c) => {
+  c.res.headers.append("Set-Cookie", "name1=value1")
+  c.res.headers.append("Set-Cookie", "name2=value2")
+
+  return c.json(users.map((e) => e.name));
+});
+
+api.get("/user/:name", (c) =>
   c.json(users.find((e) => e.name === c.req.param("name"))),
 );
+
+app.route("/api", api);
 
 serve(
   {

@@ -20,7 +20,7 @@ export async function readFile(
 
   // Only files inside of the chainlinkRoot should be readable through this function
   if (!resolvedFilePath.startsWith(config.chainlinkRootDir)) {
-    return null;
+    throw new Error("Cannot read files outside of 'chainlinkRootDir'")
   }
 
   try {

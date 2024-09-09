@@ -17,7 +17,7 @@ let current = null;
 watcher.on('event', (e) => {
 	if (e.result) {
     if (current) {
-      current.kill()
+      current.kill?.()
     }
 
     current = spawn('node', [path.resolve(import.meta.dirname, "dist")], {

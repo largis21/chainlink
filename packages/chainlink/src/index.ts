@@ -1,7 +1,8 @@
 export {
   defineConfig,
-  type ChainlinkConfig,
-
   defineRequest,
-  type ChainlinkRequestTemplate,
+  type ChainlinkConfig,
+  type ClDeclareGlobal,
+  type ChainlinkRequestDefinition,
+  type PartialChainlinkRequestDefinition,
 } from "@chainlink-io/core";
