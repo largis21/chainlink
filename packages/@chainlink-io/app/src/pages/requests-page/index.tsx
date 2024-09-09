@@ -18,8 +18,7 @@ export function RequestsPage() {
     _setSelectedFile(file)
 
     // const filePath = path.join("requests", file.parentPath, file.name)
-    // Trailing slash very important vite dies without it
-    const res = await apiHandler(`/fs/readFile?path=requests/users.ts/`, {}, z.any())
+    const res = await apiHandler(`/fs/readFile?path=requests/user/users.ts/`, {}, z.any())
     console.log(res)
   }, [])
 

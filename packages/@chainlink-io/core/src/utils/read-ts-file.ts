@@ -13,9 +13,12 @@ export async function __readTsFile(
   path: string,
   options?: { config?: ChainlinkConfig; clContext?: ChainlinkContext },
 ): Promise<{
-  default: unknown;
-  [key: string]: unknown;
-} | null> {
+  exports: {
+    default: unknown;
+    [key: string]: unknown;
+  } | null;
+  text: string
+}> {
   // A previous solution was to just generate a string of the result and use dynamic import() to
   // evaluate it. However it could not resolve external dependencies (external: [/node_modules/] results
   // in rollup bundling itself which doesn't work)
@@ -25,9 +28,12 @@ export async function __readTsFile(
 
   try {
     await fs.mkdir(outDir);
-  } catch { }
+  } catch {}
 
-  let output = null;
+  let output = {
+    exports: null,
+    text: "",
+  };
 
   try {
     await build({
@@ -44,8 +50,8 @@ export async function __readTsFile(
       banner: {
         js:
           options?.config && options?.clContext
-            // @TODO verify that the clContext is json serializable
-            ? `globalThis.${options.config.chainlinkContextName} = ${JSON.stringify(options.clContext)};`
+            ? // @TODO verify that the clContext is json serializable
+              `globalThis.${options.config.chainlinkContextName} = ${JSON.stringify(options.clContext)};`
             : "",
       },
     });
@@ -55,14 +61,17 @@ export async function __readTsFile(
       .readFile(outFile.replace(".mjs", ".mjs.map"))
       .then((e) => e.toString());
 
-    output = await import(/* @vite-ignore */ outFile);
+    output = {
+      exports: await import(/* @vite-ignore */ outFile),
+      text: await fs.readFile(outFile).then((e) => e.toString())
+    }
   } catch (e) {
     console.log(e);
   }
 
   try {
     await fs.rm(outDir, { force: true, recursive: true });
-  } catch { }
+  } catch {}
 
   return output;
 }

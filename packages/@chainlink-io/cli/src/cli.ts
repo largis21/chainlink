@@ -1,4 +1,4 @@
-import { getConfig, readRequestDef, runRequest } from "@chainlink-io/core";
+import { getConfig, getEditableRequestDefinition, readRequestDef, runRequest } from "@chainlink-io/core";
 import { cliActionStart } from "./actions/start";
 import cac from "cac";
 import path from "path";
@@ -52,6 +52,24 @@ export function runCli() {
       );
 
       console.log(config);
+    });
+
+  cli
+    .command("tests", "editable")
+    .option("-c, --config <path>", "Config file path")
+    .option("-p, --path <path>", "Request definition path")
+    .action(async (args: { path?: string, config?: string }) => {
+      if (!args.path) {
+        throw new Error("Please provide a path to the request definition")
+      }
+
+      const config = await getConfig(
+        args?.config && path.resolve(cwd(), args.config),
+      );
+
+      const editableRequestDefinition = await getEditableRequestDefinition(config, path.resolve(cwd(), args.path))
+
+      console.log(editableRequestDefinition)
     });
 
   // Show help when no command is given

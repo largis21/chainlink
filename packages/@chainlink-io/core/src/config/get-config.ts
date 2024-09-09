@@ -34,7 +34,7 @@ export async function getConfig(configPath?: string): Promise<ChainlinkConfig> {
     return defaultConfig;
   }
 
-  const config = (await __readTsFile(configFilePath))?.default;
+  const config = (await __readTsFile(configFilePath)).exports?.default;
 
   if (typeof config !== "object") {
     throw new Error(

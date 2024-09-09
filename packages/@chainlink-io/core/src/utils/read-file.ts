@@ -6,7 +6,8 @@ import { ChainlinkContext } from "@/cl-context";
 
 export type ReadFileResult = {
   text: string;
-  exports: { default?: unknown;[key: string]: unknown };
+  bundledText: string;
+  exports: { default?: unknown; [key: string]: unknown };
 } | null;
 
 export async function readFile(
@@ -20,12 +21,12 @@ export async function readFile(
 
   // Only files inside of the chainlinkRoot should be readable through this function
   if (!resolvedFilePath.startsWith(config.chainlinkRootDir)) {
-    throw new Error("Cannot read files outside of 'chainlinkRootDir'")
+    throw new Error("Cannot read files outside of 'chainlinkRootDir'");
   }
 
   try {
     const file = await fs.readFile(resolvedFilePath);
-    const exports = await __readTsFile(resolvedFilePath, {
+    const { exports, text } = await __readTsFile(resolvedFilePath, {
       config,
       clContext: options?.clContext,
     });
@@ -34,6 +35,7 @@ export async function readFile(
 
     return {
       text: file.toString(),
+      bundledText: text,
       exports: exports,
     };
   } catch (e) {

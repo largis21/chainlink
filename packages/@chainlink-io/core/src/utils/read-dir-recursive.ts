@@ -1,6 +1,5 @@
 import fs from "fs/promises"
 import path from "path"
-import { __readTsFile } from "."
 
 export type FsDirectoryDirNode = {
   type: "dir"

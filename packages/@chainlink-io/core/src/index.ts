@@ -31,3 +31,7 @@ export {
   type FsDirectoryDirNode,
   type FsDirectoryFileNode,
 } from "./utils";
+
+export {
+  getEditableRequestDefinition
+} from "./request-def/editable-request-def/get-editable-request-def"
