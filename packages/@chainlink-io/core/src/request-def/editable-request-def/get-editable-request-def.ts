@@ -52,8 +52,6 @@ export async function getEditableRequestDefinition(
     clContext: createClContext(config),
   });
 
-  console.log(file?.bundledText)
-
   if (!file?.bundledText) {
     throw new Error("@TODO Create error text");
   }

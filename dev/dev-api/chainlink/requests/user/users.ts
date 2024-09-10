@@ -1,9 +1,11 @@
 import { defineRequest } from "@chainlink-io/chainlink";
 
-type Test = "hello"
-const url = "URLURLURL"
+type Test = 'hello';
+const url = 'URLURLURL';
 
-export default defineRequest({
+const config = defineRequest({
   method: "GET",
   url,
-});
+})
+
+export default config

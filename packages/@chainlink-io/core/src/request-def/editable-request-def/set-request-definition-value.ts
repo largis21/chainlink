@@ -3,16 +3,11 @@ import { ChainlinkRequestDefinition } from "..";
 import { EditableRequestDefinition } from "./editable-properties";
 import { getEditableRequestDefinition } from "./get-editable-request-def";
 import sourceMap, { MappedPosition } from "source-map";
-import { parse, } from "recast/parsers/typescript.js";
-import { print, visit, types } from "recast";
+import { parse, print, visit, types } from "recast";
 import path from "path";
 import fs from "fs/promises";
 import { SourceLocation } from "@babel/types";
 
-// this function will read the request, with getDefaultExportedObjectExpression
-// Find the node that the property evaluates to and read it's location
-// Map that location to the location in the source files
-// Change that value to the newValue
 export async function setRequestDefinitionValue<
   K extends keyof EditableRequestDefinition,
 >(
@@ -21,7 +16,10 @@ export async function setRequestDefinitionValue<
   propertyToChange: K,
   newValue: ChainlinkRequestDefinition[K],
 ) {
-  const { editableRequestDefinition, sourceMap: bundleSourceMap } =
+  // This returns an object, with the same keys as ChainlinkRequestDefinition
+  // But their value is the NodePath to where the value is actually defined
+  // It also returns the sourceMap
+  const { editableRequestDefinition, sourceMap } =
     await getEditableRequestDefinition(config, filePath);
 
   const nodePath = editableRequestDefinition[propertyToChange];
@@ -31,18 +29,26 @@ export async function setRequestDefinitionValue<
     );
   }
 
-  const sourceLoc = await getSourceLoc(bundleSourceMap, nodePath.node.loc);
+  // Use the sourcemap so we can map the location of the node in the bundle, to the location of the
+  // node in the sourcecode
+  const sourceLoc = await getSourceLoc(sourceMap, nodePath.node.loc);
 
+  // The sourceLoc also returns which file the sourceNode is in, we read that file and parse it with
+  // recast
+  // When changing sourcefiles, we use recast, as it can preserve the formatting in the file
   const fileContents = (await fs.readFile(path.resolve(filePath, sourceLoc.source))).toString();
-  // When parsing sourcecode we use recast, because it can print the code with the same formatting
-  // as it was parsed with
-  const sourceCodeAst = parse(fileContents);
+  const sourceCodeAst = await parse(fileContents, {
+    parser: await import("recast/parsers/typescript.js")
+  });
 
+  // Use the AST recast generated, and find a node that starts on the same line and column as
+  // the location we got from the sourceMap
   const sourceNode = await getSourceNode(sourceCodeAst, sourceLoc)
 
   if (sourceNode.type === "StringLiteral") {
+    // @TODO, when this prints, it still doesn't preserve the correct quote
     const literalNode = (sourceNode as types.namedTypes.StringLiteral)
-    const quoteToUse = literalNode.extra?.raw[0] || ""
+    const quoteToUse = literalNode.extra?.raw[0] || "\""
 
     const newStringLiteralValue: types.namedTypes.StringLiteral = {
       type: "StringLiteral",
@@ -55,11 +61,10 @@ export async function setRequestDefinitionValue<
 
     Object.assign(sourceNode, newStringLiteralValue)
 
-    console.log(print(sourceCodeAst))
+    console.log(print(sourceCodeAst).code)
 
     return
   }
-
 
   throw new Error(`Unsupported nodeType: '${sourceNode.type}'`)
 }
@@ -92,11 +97,11 @@ async function getSourceNode(ast: types.ASTNode, sourceLoc: MappedPosition): Pro
 
   visit(ast, {
     visitNode(path) {
-      const { start } = path.node.loc!;
+      const start = path.node.loc?.start;
 
       if (
-        start.line === sourceLoc.line &&
-        start.column === sourceLoc.column
+        start?.line === sourceLoc.line &&
+        start?.column === sourceLoc.column
       ) {
         node = path.node
         return false;
