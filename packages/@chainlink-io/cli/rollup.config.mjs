@@ -1,5 +1,5 @@
+import baseConfig from "@repo/shared/rollup";
 import { defineConfig } from "rollup";
-import baseConfig from "@repo/rollup"
 
 export default defineConfig([
   // For exporting the runCli command
@@ -9,9 +9,9 @@ export default defineConfig([
     output: {
       ...baseConfig.output,
       file: "./dist/index.js",
-    }
+    },
   },
-  
+
   // For running the cli
   {
     ...baseConfig,
@@ -20,6 +20,6 @@ export default defineConfig([
       ...baseConfig.output,
       file: "./dist/runCli.js",
       banner: "#!/usr/bin/env node",
-    }
+    },
   },
-])
+]);

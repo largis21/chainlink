@@ -14,16 +14,16 @@ const watcher = watch(config);
 
 let current = null;
 
-watcher.on('event', (e) => {
-	if (e.result) {
+watcher.on("event", (e) => {
+  if (e.result) {
     if (current) {
-      current.kill?.()
+      current.kill?.();
     }
 
-    current = spawn('node', [path.resolve(import.meta.dirname, "dist")], {
+    current = spawn("node", [path.resolve(import.meta.dirname, "dist")], {
       detached: false,
-      stdio: ["pipe", "inherit", "inherit"]
-    }).listeners
-		e.result.close();
-	}
+      stdio: ["pipe", "inherit", "inherit"],
+    }).listeners;
+    e.result.close();
+  }
 });

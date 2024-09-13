@@ -1,5 +1,5 @@
-import { z } from "zod";
 import type { ReadFileResult } from "@chainlink-io/core";
+import { z } from "zod";
 
 export const successfulReadFileResult = z.object({
   text: z.string(),

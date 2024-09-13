@@ -7,6 +7,9 @@
   "scripts": {
     "build": "rollup -c rollup.config.mjs",
     "watch": "rollup -c rollup.config.mjs --watch",
+    "lint": "eslint",
+    "lint-fix": "eslint --fix",
+    "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
   "bin": {
@@ -32,9 +35,11 @@
     "cac": "^6.7.14"
   },
   "devDependencies": {
-    "@repo/rollup": "workspace:*",
+    "@repo/shared": "workspace:*",
     "@types/node": "22.x.x",
-    "rollup": "^4.21.0"
+    "eslint": "^9.9.0",
+    "rollup": "^4.21.0",
+    "vitest": "^2.0.5"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"

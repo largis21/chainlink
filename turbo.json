@@ -1,10 +1,17 @@
 {
   "tasks": {
     "build": {
-      "dependsOn": ["^build"] 
     },
     "watch": {
-      "dependsOn": ["^watch"] 
+      "persistent": true
+    },
+    "lint": {
+    },
+    "lint-fix": {
+    },
+    "typecheck": {
+    },
+    "test": {
     }
   }
 }

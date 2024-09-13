@@ -1,5 +1,5 @@
 packages:
   - "packages/chainlink"
   - "packages/@chainlink-io/*"
-  - 'packages/@repo/*'
+  - 'packages/@repo'
   - "dev/*"

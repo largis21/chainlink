@@ -11,5 +11,6 @@ export function getApiRoutes(config: ChainlinkConfig) {
     return c.json(config)
   })
 
+
   return api
 }

@@ -1,8 +1,8 @@
-function isObject(item: any) {
-  return item && typeof item === "object" && !Array.isArray(item);
+function isObject(item: unknown): item is object {
+  return !!item && typeof item === "object" && !Array.isArray(item);
 }
 
-export function deepMerge<T>(target: any, ...sources: any[]): T {
+export function deepMerge<T>(target: T, ...sources: Partial<T>[]): T {
   if (!sources.length) return target;
   const source = sources.shift();
 

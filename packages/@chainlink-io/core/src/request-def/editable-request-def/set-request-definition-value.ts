@@ -1,12 +1,14 @@
+import { SourceLocation } from "@babel/types";
+import fs from "fs/promises";
+import path from "path";
+import { parse, print, types,visit } from "recast";
+import sourceMap, { MappedPosition } from "source-map";
+
 import { ChainlinkConfig } from "@/config";
+
 import { ChainlinkRequestDefinition } from "..";
 import { EditableRequestDefinition } from "./editable-properties";
 import { getEditableRequestDefinition } from "./get-editable-request-def";
-import sourceMap, { MappedPosition } from "source-map";
-import { parse, print, visit, types } from "recast";
-import path from "path";
-import fs from "fs/promises";
-import { SourceLocation } from "@babel/types";
 
 export async function setRequestDefinitionValue<
   K extends keyof EditableRequestDefinition,

@@ -1,6 +1,7 @@
+import { createClContext } from "@/cl-context";
 import { ChainlinkConfig } from "@/config";
 import { deepMerge, readFile } from "@/utils";
-import { createClContext } from "@/cl-context";
+
 import {
   ChainlinkRequestDefinition,
   defaultChainlinkRequestDefinition,

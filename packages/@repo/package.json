@@ -1,0 +1,33 @@
+{
+  "name": "@repo/shared",
+  "private": true,
+  "version": "0.0.14",
+  "type": "module",
+  "tsconfig": "./tsconfig.json",
+  "exports": {
+    "./rollup": {
+      "import": "./rollup.base.config.mjs"
+    },
+    "./eslint": {
+      "import": "./eslint.base.config.mjs"
+    },
+    "./vite": {
+      "import": "./vite.config.mjs"
+    }
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@types/eslint__js": "^8.42.3",
+    "eslint-plugin-jsdoc": "^50.2.2",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "globals": "^15.9.0",
+    "rollup": "^4.21.0",
+    "typescript-eslint": "^8.0.1"
+  },
+  "dependencies": {
+    "vite-tsconfig-paths": "^5.0.1",
+    "vitest": "^2.0.5"
+  }
+}

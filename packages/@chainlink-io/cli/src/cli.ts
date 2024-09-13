@@ -1,8 +1,15 @@
-import { getConfig, getEditableRequestDefinition, readRequestDef, runRequest, setRequestDefinitionValue } from "@chainlink-io/core";
-import { cliActionStart } from "./actions/start";
+import {
+  getConfig,
+  getEditableRequestDefinition,
+  readRequestDef,
+  runRequest,
+  setRequestDefinitionValue,
+} from "@chainlink-io/core";
 import cac from "cac";
 import path from "path";
 import { cwd } from "process";
+
+import { cliActionStart } from "./actions/start";
 
 export function runCli() {
   const cli = cac("chainlink");
@@ -27,20 +34,23 @@ export function runCli() {
     .command("run", "request")
     .option("-c, --config <path>", "Config file path")
     .option("-p, --path <path>", "Request definition path")
-    .action(async (args: { path?: string, config?: string }) => {
+    .action(async (args: { path?: string; config?: string }) => {
       if (!args.path) {
-        throw new Error("Please provide a path to the request definition")
+        throw new Error("Please provide a path to the request definition");
       }
 
       const config = await getConfig(
         args?.config && path.resolve(cwd(), args.config),
       );
 
-      const requestDefinition = await readRequestDef(config, path.resolve(cwd(), args.path))
+      const requestDefinition = await readRequestDef(
+        config,
+        path.resolve(cwd(), args.path),
+      );
 
-      const response = await runRequest(requestDefinition)
+      const response = await runRequest(requestDefinition);
 
-      console.log(response.headers)
+      console.log(response.headers);
     });
 
   cli
@@ -58,16 +68,19 @@ export function runCli() {
     .command("tests", "editable")
     .option("-c, --config <path>", "Config file path")
     .option("-p, --path <path>", "Request definition path")
-    .action(async (args: { path?: string, config?: string }) => {
+    .action(async (args: { path?: string; config?: string }) => {
       if (!args.path) {
-        throw new Error("Please provide a path to the request definition")
+        throw new Error("Please provide a path to the request definition");
       }
 
       const config = await getConfig(
         args?.config && path.resolve(cwd(), args.config),
       );
 
-      const editableRequestDefinition = await getEditableRequestDefinition(config, path.resolve(cwd(), args.path))
+      await getEditableRequestDefinition(
+        config,
+        path.resolve(cwd(), args.path),
+      );
     });
 
   cli
@@ -75,20 +88,25 @@ export function runCli() {
     .option("-c, --config <path>", "Config file path")
     .option("-p, --path <path>", "Request definition path")
     .option("-n, --new <path>", "New url value")
-    .action(async (args: { path?: string, config?: string, new?: string }) => {
+    .action(async (args: { path?: string; config?: string; new?: string }) => {
       if (!args.path) {
-        throw new Error("Please provide a path to the request definition")
+        throw new Error("Please provide a path to the request definition");
       }
 
       if (!args.new) {
-        throw new Error("Please provide a new value")
+        throw new Error("Please provide a new value");
       }
 
       const config = await getConfig(
         args?.config && path.resolve(cwd(), args.config),
       );
 
-      await setRequestDefinitionValue(config, path.resolve(cwd(), args.path), "url", args.new)
+      await setRequestDefinitionValue(
+        config,
+        path.resolve(cwd(), args.path),
+        "url",
+        args.new,
+      );
     });
 
   // Show help when no command is given

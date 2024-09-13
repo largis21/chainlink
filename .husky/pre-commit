@@ -1,0 +1,3 @@
+npm lint
+npm typecheck
+npm test

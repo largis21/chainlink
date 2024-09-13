@@ -1,4 +1,6 @@
+import { ChainlinkConfig } from "@/config";
+
 export type ChainlinkContext = {
-  globals: Record<string, any>
-  env: Record<string, string>
-}
+  globals: ChainlinkConfig["globals"];
+  env: Record<string, string>;
+};

@@ -1,6 +1,7 @@
-import nodePath from "path";
-import fs from "fs/promises";
 import { build } from "esbuild";
+import fs from "fs/promises";
+import nodePath from "path";
+
 import { ChainlinkContext } from "@/cl-context";
 import { ChainlinkConfig } from "@/config";
 
@@ -27,9 +28,8 @@ export async function __readTsFile(
   const outDir = nodePath.join(path, "../__chainlink_temp");
   const outFile = nodePath.join(outDir, "index.mjs");
 
-  try {
-    await fs.mkdir(outDir);
-  } catch {}
+  // @TODO handle this error
+  await fs.mkdir(outDir);
 
   let output = {
     exports: null,
@@ -69,9 +69,8 @@ export async function __readTsFile(
     console.log(e);
   }
 
-  try {
-    await fs.rm(outDir, { force: true, recursive: true });
-  } catch {}
+  // @TODO handle error
+  await fs.rm(outDir, { force: true, recursive: true });
 
   return output;
 }

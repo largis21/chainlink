@@ -1,5 +1,5 @@
+import baseConfig from "@repo/shared/rollup";
 import { defineConfig } from "rollup";
-import baseConfig from "@repo/rollup";
 
 export default defineConfig([
   // For exporting the runCli command

@@ -2,7 +2,7 @@ import type { z } from "zod";
 
 export type ChainlinkConfig<
   TEnvSchema extends z.ZodSchema = z.ZodSchema,
-  TGlobals extends Record<string, string> = {},
+  TGlobals extends Record<string, string> = Record<string, string>,
 > = {
   /**
    * Request- and Chain definitions will have access to a global context. This will be the name of
@@ -49,7 +49,7 @@ export type ChainlinkConfig<
      * }
      * ```
      */
-    schema: TEnvSchema;
+    schema?: TEnvSchema;
   };
 
   /*
@@ -81,12 +81,12 @@ export type ChainlinkConfig<
  */
 export type PartialChainlinkConfig<
   TEnvSchema extends z.ZodSchema = z.ZodSchema,
-  TGlobals extends Record<string, string> = {},
+  TGlobals extends Record<string, string> = Record<string, string>,
 > = {
-  [P in keyof ChainlinkConfig<TEnvSchema, TGlobals>]?: Partial<
-    ChainlinkConfig<TEnvSchema, TGlobals>[P]
-  >;
-};
+    [P in keyof ChainlinkConfig<TEnvSchema, TGlobals>]?: Partial<
+      ChainlinkConfig<TEnvSchema, TGlobals>[P]
+    >;
+  };
 
 /**
  * @public

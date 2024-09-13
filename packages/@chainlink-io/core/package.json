@@ -7,6 +7,9 @@
   "scripts": {
     "build": "rollup -c rollup.config.mjs",
     "watch": "rollup -c rollup.config.mjs --watch",
+    "lint": "eslint",
+    "lint-fix": "eslint --fix",
+    "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
   "exports": {
@@ -27,6 +30,8 @@
     "@babel/parser": "^7.25.6",
     "@babel/traverse": "^7.25.6",
     "@babel/types": "^7.25.6",
+    "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
     "@types/node": "22.x.x",
     "esbuild": "^0.23.1",
     "recast": "^0.23.9",
@@ -34,12 +39,17 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@repo/rollup": "workspace:*",
+    "@eslint/js": "^9.9.0",
+    "@repo/shared": "workspace:*",
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/babel__generator": "^7.6.8",
     "@types/babel__traverse": "^7.20.6",
+    "globals": "^15.9.0",
     "rollup": "^4.21.0",
-    "typescript": "^5.0.0"
+    "typescript": "5.6.2",
+    "typescript-eslint": "^8.0.1",
+    "vite-tsconfig-paths": "^5.0.1",
+    "vitest": "^2.0.5"
   },
   "gitHead": "42d925d51ba5452e9dee8906646c2961f6d2057f"
 }

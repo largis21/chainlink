@@ -1,8 +1,6 @@
-import { defineConfig } from "rollup";
-
-import typescript from "@rollup/plugin-typescript";
 import resolve from "@rollup/plugin-node-resolve";
-import commonjs from "@rollup/plugin-commonjs";
+import typescript from "@rollup/plugin-typescript";
+import { defineConfig } from "rollup";
 
 export default defineConfig({
   output: {
@@ -21,9 +19,8 @@ export default defineConfig({
   ],
   plugins: [
     resolve({
-      preferBuiltins: true
+      preferBuiltins: true,
     }),
-    commonjs(),
     typescript({
       declaration: true,
     }),
@@ -31,7 +28,7 @@ export default defineConfig({
   watch: {
     chokidar: {
       // Fixes a bug where it only rebuilds on the first save when running `watch` with lerna
-      usePolling: true
-    }
-  }
+      usePolling: true,
+    },
+  },
 });

@@ -1,5 +1,7 @@
 import path from "path";
+
 import type { ChainlinkConfig } from "@/config";
+
 import { type FsDirectory, readDirRecursive } from ".";
 
 export async function getChainsDir(

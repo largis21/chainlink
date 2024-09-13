@@ -1,8 +1,10 @@
 import fs from "fs/promises";
 import path from "path";
-import { ChainlinkConfig } from "@/config/";
-import { __readTsFile } from ".";
+
 import { ChainlinkContext } from "@/cl-context";
+import { ChainlinkConfig } from "@/config/";
+
+import { __readTsFile } from ".";
 
 export type ReadFileResult = {
   text: string;

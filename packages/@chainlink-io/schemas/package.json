@@ -7,6 +7,9 @@
   "scripts": {
     "build": "rollup -c rollup.config.mjs",
     "watch": "rollup -c rollup.config.mjs --watch",
+    "lint": "eslint",
+    "lint-fix": "eslint --fix",
+    "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
   "exports": {
@@ -23,15 +26,17 @@
     "./src"
   ],
   "dependencies": {
-    "@types/node": "22.x.x",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@repo/rollup": "workspace:*",
+    "@eslint/js": "^9.9.0",
+    "@repo/shared": "workspace:*",
     "@rollup/plugin-typescript": "^11.1.6",
+    "@types/node": "22.x.x",
     "@chainlink-io/core": "workspace:*",
     "rollup": "^4.21.0",
-    "typescript": "^5.0.0"
+    "typescript": "5.6.2",
+    "vitest": "^2.0.5"
   },
   "gitHead": "42d925d51ba5452e9dee8906646c2961f6d2057f"
 }

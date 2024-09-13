@@ -1,8 +1,10 @@
-import path from "path";
 import fs from "fs/promises";
+import path from "path";
 import { cwd } from "process";
+
+import { __readTsFile,deepMerge } from "@/utils";
+
 import { ChainlinkConfig, defaultConfig } from ".";
-import { deepMerge, __readTsFile } from "@/utils";
 
 const configLocationPrec = [
   "chainlink.config.ts",

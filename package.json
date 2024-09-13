@@ -2,11 +2,18 @@
   "name": "Chainlink",
   "scripts": {
     "build": "turbo run build",
-    "watch": "turbo run watch --parallel",
-    "typecheck": "lerna run --parallel --stream typecheck",
-    "publish": "turbo run build && npx lerna publish"
+    "watch": "turbo run watch --filter='./packages/**/*'",
+    "publish": "turbo run build && npx lerna publish",
+
+    "lint": "turbo run lint --parallel --filter='./packages/**/*' --continue",
+    "lint-fix": "turbo run lint-fix --parallel --filter='./packages/**/*' --continue",
+    "typecheck": "turbo run typecheck --parallel --filter='./packages/**/*' --continue",
+    "test": "turbo run test --parallel --filter='./packages/**/*' --continue",
+
+    "prepare": "husky"
   },
   "devDependencies": {
+    "husky": "^9.1.6",
     "turbo": "latest"
   },
   "packageManager": "pnpm@9.7.1",
