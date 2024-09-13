@@ -1,7 +1,6 @@
+import { ChainlinkConfig } from "@chainlink-io/types";
 import path from "path";
 import { z } from "zod";
-
-import { ChainlinkConfig } from ".";
 
 export const defaultConfig: ChainlinkConfig = {
   chainlinkContextName: "cl",

@@ -1,12 +1,15 @@
-import { Hono } from "hono";
-import { serve } from "@hono/node-server";
-import { serveStatic } from "@hono/node-server/serve-static";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import { attachWsListeners, isProd } from "./src/ws";
+
+import { getConfig } from "@chainlink-io/core";
+import { ChainlinkConfig } from "@chainlink-io/types";
+import { serve } from "@hono/node-server";
+import { serveStatic } from "@hono/node-server/serve-static";
+import { Hono } from "hono";
 import { WebSocketServer } from "ws";
-import { getConfig, type ChainlinkConfig } from "@chainlink-io/core";
+
 import { getApiRoutes } from "./src/server/api";
+import { attachWsListeners, isProd } from "./src/ws";
 
 const html = await readFile(
   isProd

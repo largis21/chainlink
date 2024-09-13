@@ -1,5 +1,6 @@
+import { ChainlinkConfig } from "@chainlink-io/types";
+
 import { createClContext } from "@/cl-context";
-import { ChainlinkConfig } from "@/config";
 import { deepMerge, readFile } from "@/utils";
 
 import {
@@ -26,9 +27,10 @@ export async function readRequestDef(
     );
   }
 
-  // Not using the parsedRequestDef because it strips all non required properties
+  // Not using the parsedRequestDef because it strips all non required properties but casting should
+  // be safe because it is validated
   return deepMerge<ChainlinkRequestDefinition>(
     defaultChainlinkRequestDefinition,
-    maybeRequestDef?.exports.default,
+    maybeRequestDef?.exports.default as ChainlinkRequestDefinition,
   );
 }

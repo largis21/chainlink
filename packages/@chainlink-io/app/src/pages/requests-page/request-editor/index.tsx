@@ -1,15 +1,17 @@
-import { HighlightedInputField } from "@/src/components/highlighted-input-field";
+import { FsDirectoryFileNode } from "@chainlink-io/core";
+import { ChevronDownIcon } from "lucide-react";
+import { useState } from "react";
+
+import { HighlightedInputField } from "@/components/highlighted-input-field";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/src/components/ui/dropdown-menu";
-import { FsDirectoryFileNode } from "@chainlink-io/core";
-import { ChevronDownIcon } from "lucide-react";
-import { useState } from "react";
+} from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
+
 import { QueryParamsEditor } from "./query-params-editor";
-import { cn } from "@/src/lib/utils";
 
 const defaultMethods = ["POST", "GET", "PUT", "DELETE"] as const;
 const requestEditorViews = [

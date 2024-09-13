@@ -10,6 +10,8 @@
     "typecheck": "turbo run typecheck --parallel --filter='./packages/**/*' --continue",
     "test": "turbo run test --parallel --filter='./packages/**/*' --continue",
 
+    "clean-dist": "rm -rf packages/chainlink/dist packages/@chainlink-io/app/dist packages/@chainlink-io/cli/dist packages/@chainlink-io/core/dist packages/@chainlink-io/types/dist",
+
     "prepare": "husky"
   },
   "devDependencies": {

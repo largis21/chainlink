@@ -1,8 +1,5 @@
-import {
-  type ChainlinkConfig,
-  getChainsDir,
-  getRequestsDir,
-} from "@chainlink-io/core";
+import { getRequestsDir } from "@chainlink-io/core";
+import { ChainlinkConfig } from "@chainlink-io/types";
 import { type WebSocketServer } from "ws";
 
 export const isProd = process.env.NODE_ENV !== "development";
@@ -21,7 +18,6 @@ export function attachWsListeners(
     ws.send(
       JSON.stringify({
         requestsDir: await getRequestsDir(config),
-        chainsDir: await getChainsDir(config),
       }),
     );
   });

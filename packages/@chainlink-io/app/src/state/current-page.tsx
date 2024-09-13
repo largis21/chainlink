@@ -1,7 +1,8 @@
 import { LinkIcon, LucideProps, RadioTowerIcon } from "lucide-react";
 import { create } from "zustand";
-import { RequestsPage } from "../pages/requests-page";
+
 import { ChainsPage } from "../pages/chains-page";
+import { RequestsPage } from "../pages/requests-page";
 
 export const pages: {
   name: string

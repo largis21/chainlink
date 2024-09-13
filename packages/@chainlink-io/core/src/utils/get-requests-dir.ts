@@ -1,6 +1,5 @@
+import type { ChainlinkConfig } from "@chainlink-io/types";
 import path from "path";
-
-import type { ChainlinkConfig } from "@/config";
 
 import { type FsDirectory, readDirRecursive } from ".";
 

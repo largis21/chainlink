@@ -1,5 +1,5 @@
-import { Button } from "./ui/button";
 import { pages, useCurrentPage } from "../state/current-page";
+import { Button } from "./ui/button";
 
 export function Sidebar() {
   const {

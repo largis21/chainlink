@@ -1,9 +1,10 @@
-import { Checkbox } from "@/src/components/ui/checkbox";
+import type { ChainlinkRequestDefinition } from "@chainlink-io/core";
 import { useCallback, useState } from "react";
-import type { ChainlinkRequestTemplate } from "@chainlink-io/core";
-import { cn } from "@/src/lib/utils";
 
-type QueryParams = (ChainlinkRequestTemplate["queryParams"][number] & {
+import { Checkbox } from "@/components/ui/checkbox";
+import { cn } from "@/lib/utils";
+
+type QueryParams = (ChainlinkRequestDefinition["queryParams"][number] & {
   id: string;
 })[];
 
@@ -159,7 +160,11 @@ function TableRow(
     HTMLTableRowElement
   >,
 ) {
-  return <tr className={cn("border-b", props.className)} {...props}>{props.children}</tr>;
+  return (
+    <tr className={cn("border-b", props.className)} {...props}>
+      {props.children}
+    </tr>
+  );
 }
 
 function TableHeader(
@@ -169,7 +174,10 @@ function TableHeader(
   >,
 ) {
   return (
-    <th className={cn("px-2 py-1 border-r text-left", props.className)} {...props}>
+    <th
+      className={cn("px-2 py-1 border-r text-left", props.className)}
+      {...props}
+    >
       {props.children}
     </th>
   );
@@ -194,5 +202,11 @@ function TableDataInput(
     HTMLInputElement
   >,
 ) {
-  return <input type="text" className={cn("bg-background", props.className)} {...props} />;
+  return (
+    <input
+      type="text"
+      className={cn("bg-background", props.className)}
+      {...props}
+    />
+  );
 }

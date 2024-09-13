@@ -1,4 +1,6 @@
-import type { z } from "zod";
+import { z } from "zod";
+
+import { deepPartialify } from "@/utils/deepPartial";
 
 export type ChainlinkConfig<
   TEnvSchema extends z.ZodSchema = z.ZodSchema,
@@ -79,7 +81,7 @@ export type ChainlinkConfig<
  *
  * This is the type that should be the default config of the chainlink config file
  */
-export type PartialChainlinkConfig<
+export type UserChainlinkConfig<
   TEnvSchema extends z.ZodSchema = z.ZodSchema,
   TGlobals extends Record<string, string> = Record<string, string>,
 > = {
@@ -93,7 +95,36 @@ export type PartialChainlinkConfig<
  *
  * Helper type for using the chainlink global context typesafely
  */
-export type ClDeclareGlobal<T extends PartialChainlinkConfig> = {
+export type ClDeclareGlobal<T extends UserChainlinkConfig> = {
   globals: NonNullable<T["globals"]>;
   env: z.infer<NonNullable<NonNullable<T["env"]>["schema"]>>;
 };
+
+export const chainlinkConfigSchema = z.object({
+  chainlinkContextName: z.string(),
+  chainlinkRootDir: z.string(),
+  chainsDir: z.string(),
+  env: z.object({
+    file: z.string(),
+    schema: z.any(),
+  }),
+  globals: z.record(z.string(), z.string()),
+  requestsDir: z.string(),
+  server: z.object({
+    port: z.number(),
+  }),
+});
+
+export const userChainlinkConfigSchema = deepPartialify(chainlinkConfigSchema);
+
+const _satisfiesConfigSchema: ChainlinkConfig extends z.infer<
+  typeof chainlinkConfigSchema
+>
+  ? true
+  : false = true;
+
+const _satisfiesChainlinkConfig: z.infer<
+  typeof chainlinkConfigSchema
+> extends ChainlinkConfig
+  ? true
+  : false = true;

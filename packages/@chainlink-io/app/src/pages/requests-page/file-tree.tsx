@@ -1,9 +1,10 @@
-import { cn } from "@/src/lib/utils";
-import { useFsState } from "@/src/state/fs-state";
+import type { FsDirectory, FsDirectoryFileNode } from "@chainlink-io/core";
 import { ChevronRight, Folder } from "lucide-react";
 import { useMemo, useState } from "react";
-import { Spinner } from "@/src/components/spinner";
-import type { FsDirectory, FsDirectoryFileNode } from "@chainlink-io/core";
+
+import { Spinner } from "@/components/spinner";
+import { cn } from "@/lib/utils";
+import { useFsState } from "@/state/fs-state";
 
 type FileHierarchy = (Omit<FsDirectory[number], "parentPath"> & {
   children: FileHierarchy;

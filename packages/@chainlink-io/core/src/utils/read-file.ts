@@ -1,16 +1,16 @@
+import { ChainlinkConfig } from "@chainlink-io/types";
 import fs from "fs/promises";
 import path from "path";
 
 import { ChainlinkContext } from "@/cl-context";
-import { ChainlinkConfig } from "@/config/";
 
 import { __readTsFile } from ".";
 
 export type ReadFileResult = {
   text: string;
   bundledText: string;
-  exports: { default?: unknown; [key: string]: unknown };
-  sourceMap: string
+  exports: { default?: unknown;[key: string]: unknown };
+  sourceMap: string;
 } | null;
 
 export async function readFile(

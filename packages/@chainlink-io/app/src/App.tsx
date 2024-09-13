@@ -1,11 +1,12 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { SocketStatus } from "./components/socket-status";
+import { useCallback, useEffect, useState } from "react";
+
+import { WSProvider } from "./api/useWs";
 import { Navbar } from "./components/navbar";
 import { Sidebar } from "./components/sidebar";
+import { SocketStatus } from "./components/socket-status";
 import { ThemeProvider } from "./components/theme-provider";
 import { useCurrentPage } from "./state/current-page";
-import { WSProvider } from "./api/useWs";
-import { useCallback, useEffect, useState } from "react";
 
 const queryClient = new QueryClient();
 

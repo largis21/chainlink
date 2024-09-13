@@ -1,22 +1,23 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
-import { chainlinkConfigSchema } from "@chainlink-io/schemas"
-import { apiHandler } from './api/useApi.tsx'
-import { configStore } from './state/config-store.ts'
+import "./index.css";
+
+import { chainlinkConfigSchema } from "@chainlink-io/types";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+
+import { apiHandler } from "./api/useApi";
+import App from "./App";
+import { configStore } from "./state/config-store";
 
 async function startApp() {
-  const config = await apiHandler("/getConfig?test=kake.ts", {}, chainlinkConfigSchema)
+  const config = await apiHandler("/getConfig", {}, chainlinkConfigSchema);
 
-  configStore.setState({ config })
+  configStore.setState({ config: config });
 
-  createRoot(document.getElementById('root')!).render(
+  createRoot(document.getElementById("root")!).render(
     <StrictMode>
       <App />
-    </StrictMode>
-  )
+    </StrictMode>,
+  );
 }
 
-startApp()
-
+startApp();

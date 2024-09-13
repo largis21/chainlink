@@ -1,6 +1,5 @@
+import { UserChainlinkConfig } from "@chainlink-io/types";
 import { z } from "zod";
-
-import { PartialChainlinkConfig } from ".";
 
 /**
  * @public
@@ -10,7 +9,6 @@ import { PartialChainlinkConfig } from ".";
 export function defineConfig<
   TEnvSchema extends z.ZodSchema,
   TGlobals extends Record<string, string>,
->(config: PartialChainlinkConfig<TEnvSchema, TGlobals>) {
+>(config: UserChainlinkConfig<TEnvSchema, TGlobals>) {
   return config;
 }
-

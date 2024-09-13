@@ -9,7 +9,6 @@
     "watch": "rollup -c rollup.config.mjs --watch",
     "lint": "eslint",
     "lint-fix": "eslint --fix",
-    "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
   "bin": {
@@ -24,7 +23,7 @@
     ".": {
       "source": "./src/index.ts",
       "import": "./dist/index.js",
-      "default": "./dist/index.js"
+      "types": "./dist/src/index.d.ts"
     },
     "./package.json": "./package.json"
   },

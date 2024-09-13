@@ -1,5 +1,5 @@
-import { create } from "zustand";
 import type { FsDirectory } from "@chainlink-io/core";
+import { create } from "zustand";
 
 export const useFsState = create<{
   requestsDir: FsDirectory;

@@ -1,9 +1,9 @@
+import { ChainlinkConfig } from "@chainlink-io/types";
 import { build } from "esbuild";
 import fs from "fs/promises";
 import nodePath from "path";
 
 import { ChainlinkContext } from "@/cl-context";
-import { ChainlinkConfig } from "@/config";
 
 /**
  * @internal
@@ -53,7 +53,7 @@ export async function __readTsFile(
         js:
           options?.config && options?.clContext
             ? // @TODO verify that the clContext is json serializable
-              `globalThis.${options.config.chainlinkContextName} = ${JSON.stringify(options.clContext)};`
+            `globalThis.${options.config.chainlinkContextName} = ${JSON.stringify(options.clContext)};`
             : "",
       },
     });

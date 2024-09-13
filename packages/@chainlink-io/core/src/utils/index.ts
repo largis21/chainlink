@@ -1,5 +1,4 @@
 export { deepMerge } from "./deep-merge";
-export { getChainsDir } from "./get-chains-dir";
 export { getRequestsDir } from "./get-requests-dir";
 export {
   type FsDirectory,

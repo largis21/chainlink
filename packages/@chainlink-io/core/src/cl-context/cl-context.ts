@@ -1,4 +1,4 @@
-import { ChainlinkConfig } from "@/config";
+import { ChainlinkConfig } from "@chainlink-io/types";
 
 export type ChainlinkContext = {
   globals: ChainlinkConfig["globals"];

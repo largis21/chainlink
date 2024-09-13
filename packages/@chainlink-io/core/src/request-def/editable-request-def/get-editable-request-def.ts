@@ -1,7 +1,7 @@
 import { parse } from "@babel/parser";
+import { ChainlinkConfig } from "@chainlink-io/types";
 
 import { createClContext } from "@/cl-context";
-import { ChainlinkConfig } from "@/config";
 import { readFile } from "@/utils";
 
 import { getEditableProperties } from "./editable-properties";

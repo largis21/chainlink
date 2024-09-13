@@ -1,11 +1,5 @@
 export { type ChainlinkContext, createClContext } from "./cl-context";
-export {
-  type ChainlinkConfig,
-  type ClDeclareGlobal,
-  defaultConfig,
-  defineConfig,
-  getConfig,
-} from "./config";
+export { defaultConfig, defineConfig, getConfig } from "./config";
 export {
   type ChainlinkRequestDefinition,
   defineRequest,
@@ -19,8 +13,8 @@ export {
   type FsDirectory,
   type FsDirectoryDirNode,
   type FsDirectoryFileNode,
-  getChainsDir,
   getRequestsDir,
   readFile,
   type ReadFileResult,
 } from "./utils";
+export * from "@chainlink-io/types";

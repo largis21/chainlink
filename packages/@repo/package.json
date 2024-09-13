@@ -12,7 +12,8 @@
       "import": "./eslint.base.config.mjs"
     },
     "./vite": {
-      "import": "./vite.config.mjs"
+      "import": "./vite.config.mjs",
+      "types": "./vite.config.d.ts"
     }
   },
   "devDependencies": {

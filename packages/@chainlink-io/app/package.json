@@ -8,13 +8,16 @@
     "build:server": "rollup -c rollup.config.mjs",
     "build": "npm run build:frontend && npm run build:server",
     "watch": "rollup -c rollup.config.mjs --watch",
+    "lint": "eslint",
+    "lint-fix": "eslint --fix",
+    "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
   "exports": {
     ".": {
       "source": "./server.ts",
       "import": "./dist/server.js",
-      "default": "./dist/index.js"
+      "types": "./dist/src/index.js"
     }
   },
   "files": [
@@ -24,7 +27,7 @@
   ],
   "dependencies": {
     "@chainlink-io/core": "workspace:*",
-    "@chainlink-io/schemas": "workspace:*",
+    "@chainlink-io/types": "workspace:*",
     "@hono/node-server": "^1.12.0",
     "@radix-ui/react-checkbox": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.1",
@@ -41,13 +44,11 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "tailwind-merge": "^2.5.2",
-    "tailwindcss-animate": "^1.0.7",
     "ws": "^8.18.0",
     "zod": "^3.23.8",
     "zustand": "^4.5.5"
   },
   "devDependencies": {
-    "@eslint/js": "^9.9.0",
     "@hono/vite-dev-server": "^0.14.0",
     "@repo/shared": "workspace:*",
     "@types/node": "22.3.0",
@@ -65,9 +66,8 @@
     "rollup": "^4.21.0",
     "tailwindcss": "^3.4.10",
     "typescript": "^5.5.3",
-    "typescript-eslint": "^8.0.1",
     "vite": "^5.4.1",
-    "vite-plugin-externalize-dependencies": "^1.0.1"
+    "vitest": "^2.0.5"
   },
   "gitHead": "42d925d51ba5452e9dee8906646c2961f6d2057f"
 }

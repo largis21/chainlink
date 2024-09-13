@@ -12,7 +12,6 @@
     "watch": "rollup -c rollup.config.mjs --watch",
     "lint": "eslint",
     "lint-fix": "eslint --fix",
-    "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
   "files": [
@@ -24,8 +23,7 @@
     ".": {
       "source": "./src/index.ts",
       "import": "./dist/index.js",
-      "default": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/src/index.d.ts"
     },
     "./package.json": "./package.json"
   },
@@ -37,12 +35,8 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@eslint/js": "^9.9.0",
+    "eslint": "^9.9.0",
     "@repo/shared": "workspace:*",
-    "@rollup/plugin-commonjs": "^26.0.1",
-    "@rollup/plugin-json": "^6.1.0",
-    "@rollup/plugin-node-resolve": "^15.2.3",
-    "@rollup/plugin-typescript": "^11.1.6",
     "rollup": "^4.21.0",
     "typescript": "5.6.2",
     "vitest": "^2.0.5"

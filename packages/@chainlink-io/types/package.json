@@ -1,5 +1,5 @@
 {
-  "name": "@chainlink-io/schemas",
+  "name": "@chainlink-io/types",
   "version": "0.0.14",
   "license": "MIT",
   "type": "module",
@@ -9,14 +9,13 @@
     "watch": "rollup -c rollup.config.mjs --watch",
     "lint": "eslint",
     "lint-fix": "eslint --fix",
-    "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
   "exports": {
     ".": {
       "source": "./src/index.ts",
       "import": "./dist/index.js",
-      "default": "./dist/index.js"
+      "types": "./dist/src/index.d.ts"
     },
     "./package.json": "./package.json"
   },
@@ -29,14 +28,9 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@eslint/js": "^9.9.0",
     "@repo/shared": "workspace:*",
-    "@rollup/plugin-typescript": "^11.1.6",
     "@types/node": "22.x.x",
-    "@chainlink-io/core": "workspace:*",
     "rollup": "^4.21.0",
-    "typescript": "5.6.2",
-    "vitest": "^2.0.5"
-  },
-  "gitHead": "42d925d51ba5452e9dee8906646c2961f6d2057f"
+    "typescript": "5.6.2"
+  }
 }

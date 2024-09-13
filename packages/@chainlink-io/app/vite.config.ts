@@ -1,11 +1,12 @@
-import { defineConfig } from "vite";
-import path from "path";
-import { attachWsListeners, isProd } from "./src/ws";
-import { WebSocketServer } from "ws";
 import { getConfig } from "@chainlink-io/core";
-
-import react from "@vitejs/plugin-react-swc";
 import devServer from "@hono/vite-dev-server";
+import baseViteConfig from "@repo/shared/vite";
+import react from "@vitejs/plugin-react-swc";
+import path from "path";
+import { defineConfig } from "vite";
+import { WebSocketServer } from "ws";
+
+import { attachWsListeners, isProd } from "./src/ws";
 
 declare global {
   // eslint-disable-next-line
@@ -17,18 +18,19 @@ export default defineConfig({
   server: {
     port: 4202,
     watch: {
-      ignored: [/__chainlink_temp/]
-    }
+      ignored: [/__chainlink_temp/],
+    },
   },
   build: {
     outDir: "./dist/static",
   },
   plugins: [
+    ...baseViteConfig.plugins!,
     react(),
     devServer({
       entry: "./server.ts",
       exclude: [
-        // Matches when string ends with ".ts" or ".tsx", unless there is an "?" in front, which 
+        // Matches when string ends with ".ts" or ".tsx", unless there is an "?" in front, which
         // means it is a query param, if there is a question mark after .tsx? it will still be ignored
         // If there is any issues with loading ts tsx files, this is a good place to look
         /^[^?]*\.tsx?($|\?)/,
@@ -64,9 +66,4 @@ export default defineConfig({
       },
     },
   ],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./"),
-    },
-  },
 });
