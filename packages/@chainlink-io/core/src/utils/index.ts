@@ -1,5 +1,6 @@
 export { deepMerge } from "./deep-merge";
 export { getRequestsDir } from "./get-requests-dir";
+export { isObject } from "./is-object";
 export {
   type FsDirectory,
   type FsDirectoryDirNode,

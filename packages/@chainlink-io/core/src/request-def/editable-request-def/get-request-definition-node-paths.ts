@@ -4,10 +4,10 @@ import { ChainlinkConfig } from "@chainlink-io/types";
 import { createClContext } from "@/cl-context";
 import { readFile } from "@/utils";
 
-import { getEditableProperties } from "./editable-properties";
 import { getDefaultExportedObjectExpression } from "./get-default-exported-object-expression";
+import { getPropertyNodePaths } from "./get-property-node-paths";
 
-export async function getEditableRequestDefinition(
+export async function getRequestDefinitionNodePaths(
   config: ChainlinkConfig,
   filePath: string,
 ) {
@@ -25,10 +25,10 @@ export async function getEditableRequestDefinition(
 
   const objectExpression = getDefaultExportedObjectExpression(ast);
 
-  const editableProperties = getEditableProperties(objectExpression);
+  const nodePaths = getPropertyNodePaths(objectExpression);
 
   return {
-    editableRequestDefinition: editableProperties,
+    requestDefinitionNodePaths: nodePaths,
     sourceMap: file.sourceMap,
   };
 }

@@ -1,4 +1,4 @@
-import { PartialChainlinkRequestDefinition } from "./";
+import { PartialChainlinkRequestDefinition } from "@chainlink-io/types";
 
 /**
  * @public

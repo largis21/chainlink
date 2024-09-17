@@ -1,6 +1,6 @@
+import type { ClDeclareGlobal } from "@chainlink-io/chainlink";
 import { defineConfig } from "@chainlink-io/chainlink";
 import { z } from "zod";
-import type { ClDeclareGlobal } from "@chainlink-io/chainlink";
 
 const config = defineConfig({
   globals: {
@@ -15,7 +15,8 @@ const config = defineConfig({
 });
 
 declare global {
-  var cl: ClDeclareGlobal<typeof config>
+  // eslint-disable-next-line no-var
+  var cl: ClDeclareGlobal<typeof config>;
 }
 
 export default config;

@@ -1,11 +1,11 @@
 {
-  "extends": "../../packages/@repo/tsconfig.json",
+  "extends": "../../packages/@repo/tsconfig.base.json",
   "compilerOptions": {
-    "rootDir": "./src/",
+    "rootDir": "./",
     "outDir": "./dist",
     "paths": {
       "@/*": ["./src/*"]
     }
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*", "./chainlink.config.ts", "./chainlink/**/*"]
 }

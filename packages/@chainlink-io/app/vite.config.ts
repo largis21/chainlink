@@ -30,11 +30,8 @@ export default defineConfig({
     devServer({
       entry: "./server.ts",
       exclude: [
-        // Matches when string ends with ".ts" or ".tsx", unless there is an "?" in front, which
-        // means it is a query param, if there is a question mark after .tsx? it will still be ignored
-        // If there is any issues with loading ts tsx files, this is a good place to look
-        /^[^?]*\.tsx?($|\?)/,
-        /^(?!.*api).*/,
+        // Matches any string NOT containing "/api" UNLESS it also contains "/src"
+        /^(((?!\/api).)|(.*\/src.*))*$/,
       ],
       injectClientScript: true,
     }),

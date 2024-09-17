@@ -5,26 +5,23 @@ import path from "path";
 import { parse, print, types, visit } from "recast";
 import sourceMap, { MappedPosition } from "source-map";
 
-import { ChainlinkRequestDefinition } from "..";
-import { EditableRequestDefinition } from "./editable-properties";
-import { getEditableRequestDefinition } from "./get-editable-request-def";
+import { PropertyNodePaths } from "./get-property-node-paths";
+import { getRequestDefinitionNodePaths } from "./get-request-definition-node-paths";
 
-export async function setRequestDefinitionValue<
-  K extends keyof EditableRequestDefinition,
->(
+export async function setRequestDefinitionValue(
   config: ChainlinkConfig,
   filePath: string,
-  propertyToChange: K,
-  newValue: ChainlinkRequestDefinition[K],
+  propertyToChange: keyof PropertyNodePaths,
+  newValue: string,
 ) {
   // This returns an object, with the same keys as ChainlinkRequestDefinition
   // But their value is the NodePath to where the value is actually defined
   // It also returns the sourceMap
-  const { editableRequestDefinition, sourceMap } =
-    await getEditableRequestDefinition(config, filePath);
+  const { requestDefinitionNodePaths, sourceMap } =
+    await getRequestDefinitionNodePaths(config, filePath);
 
-  const nodePath = editableRequestDefinition[propertyToChange];
-  if (!nodePath.node.loc) {
+  const nodePath = requestDefinitionNodePaths[propertyToChange];
+  if (!nodePath?.node.loc) {
     throw new Error(
       "Missing loc for node, impossible to get original position in sourcecode",
     );
@@ -48,6 +45,8 @@ export async function setRequestDefinitionValue<
   // the location we got from the sourceMap
   const sourceNode = await getSourceNode(sourceCodeAst, sourceLoc);
 
+  // @TODO, this was a poc implementation, all values will now be a stringified value as it will be
+  // in the code, this value must be parsed with recast and replace the node
   if (sourceNode.type === "StringLiteral") {
     // @TODO, when this prints, it still doesn't preserve the correct quote
     const literalNode = sourceNode as types.namedTypes.StringLiteral;
@@ -55,10 +54,10 @@ export async function setRequestDefinitionValue<
 
     const newStringLiteralValue: types.namedTypes.StringLiteral = {
       type: "StringLiteral",
-      value: newValue as string,
+      value: newValue,
       extra: {
         raw: `${quoteToUse}${newValue as string}${quoteToUse}`,
-        rawValue: newValue as string,
+        rawValue: newValue,
       },
     };
 

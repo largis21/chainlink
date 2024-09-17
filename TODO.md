@@ -51,3 +51,29 @@ Does 2 things:
 
 1. Starting the next application
 2. _BACKLOG_ CLI for running requests and chains
+
+
+
+
+
+
+
+
+
+How a request def should go from fs to frontend
+
+
+url: text - Should be the value of the Stringliteral/TemplateLiteral
+get --||--
+queryParams: QueryParam[]
+
+How I edit values from frontend
+
+// Map of valid origins
+url: StringLiteral | TemplateLiteral
+
+queryParams: ObjectExpression
+
+setRequestProperty("url", string) - converts to StringLiteral | TemplateLiteral ASTNode and replaces the node based on if it has ${} in the string
+
+setRequestProperty("queryParams", jsonObject) - will convert the jsonObject to ASTNodes and sets the node regardless of if the ASTNodes are "valid"

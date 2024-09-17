@@ -1,12 +1,10 @@
+import { isObject } from ".";
+
 type DeepPartial<T> = T extends object
   ? {
     [P in keyof T]?: DeepPartial<T[P]>;
   }
   : T;
-
-function isObject(item: unknown): item is object {
-  return !!item && typeof item === "object" && !Array.isArray(item);
-}
 
 export function deepMerge<T>(target: T, ...sources: DeepPartial<T>[]): T {
   if (!sources.length) return target;

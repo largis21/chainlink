@@ -1,11 +1,12 @@
 import { NodePath } from "@babel/traverse";
-import traverse from "@babel/traverse";
 import {
   isIdentifier,
   isObjectExpression,
   Node,
   ObjectExpression,
 } from "@babel/types";
+
+import { traverse } from "@/babel-import";
 
 import { getNodeOrigin } from "./get-node-origin";
 
@@ -17,7 +18,7 @@ export function getDefaultExportedObjectExpression(
 
   traverse(ast, {
     ExportDefaultDeclaration: (path) => {
-      defaultExportObjectExpression = getNodeOrigin(path);
+      defaultExportObjectExpression = getNodeOrigin(path, ["ObjectExpression"]);
     },
     ExportNamedDeclaration: (path) => {
       path.traverse({
@@ -28,6 +29,7 @@ export function getDefaultExportedObjectExpression(
           ) {
             defaultExportObjectExpression = getNodeOrigin(
               specifierPath.get("local"),
+              ["ObjectExpression"],
             );
           }
         },

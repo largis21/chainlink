@@ -1,4 +1,4 @@
-import { ChainlinkRequestDefinition } from "@/request-def";
+import { ChainlinkRequestDefinition } from "@chainlink-io/types";
 
 const validProtocols = ["http:", "https:"];
 

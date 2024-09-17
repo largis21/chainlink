@@ -1,11 +1,13 @@
 import { defineRequest } from "@chainlink-io/chainlink";
 
-type Test = 'hello';
-const url = 'URLURLURL';
+const url = `${cl.globals.BASE_URL}/users`;
 
 const config = defineRequest({
-  method: "GET",
   url,
-})
+  method: "GET",
+  queryParams: [
+    { enabled: true, key: "Authentication", value: "Bearer 12345" },
+  ],
+});
 
-export default config
+export default config;
