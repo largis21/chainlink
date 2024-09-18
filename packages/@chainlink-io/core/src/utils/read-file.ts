@@ -21,6 +21,7 @@ export async function readFile(
   },
 ): Promise<ReadFileResult> {
   const resolvedFilePath = path.resolve(config.chainlinkRootDir, filePath);
+  console.log("resolved", resolvedFilePath);
 
   // Only files inside of the chainlinkRoot should be readable through this function
   if (!resolvedFilePath.startsWith(config.chainlinkRootDir)) {

@@ -1,4 +1,3 @@
-import { FsDirectoryFileNode } from "@chainlink-io/core";
 import { ChevronDownIcon } from "lucide-react";
 import { useState } from "react";
 
@@ -10,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
+import { useLoadedRequests } from "@/state/loaded-requests";
 
 import { QueryParamsEditor } from "./query-params-editor";
 
@@ -32,15 +32,19 @@ const requestEditorViews = [
   },
 ] as const;
 
-export function RequestEditor(props: {
-  selectedFile: FsDirectoryFileNode | null;
-}) {
-  const [requestUrl, setRequestUrl] = useState("{{ params.baseUrl }}");
+export function RequestEditor() {
   const [activeView, setActiveView] = useState<
     (typeof requestEditorViews)[number]
   >(requestEditorViews[0]);
 
-  if (!props.selectedFile) {
+  const currentOpenedFilePath = useLoadedRequests(
+    (state) => state.currentOpenedFilePath,
+  );
+  const loadedRequests = useLoadedRequests((state) => state.loadedRequests);
+
+  const currentRequestDef = loadedRequests[currentOpenedFilePath as string];
+
+  if (!currentRequestDef) {
     return (
       <div className="w-full h-full flex items-center justify-center">
         Please select a file
@@ -67,8 +71,11 @@ export function RequestEditor(props: {
         <div className="flex-grow">
           <div className="w-full h-full relative">
             <HighlightedInputField
-              value={requestUrl}
-              setValue={setRequestUrl}
+              initial={
+                currentRequestDef.requestDef.stringifiedPropertySources?.url ||
+                ""
+              }
+              setValue={() => { }}
               context={{}}
             />
           </div>

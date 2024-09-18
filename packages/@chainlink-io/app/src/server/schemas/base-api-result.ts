@@ -15,3 +15,5 @@ export const baseApiResultSchema = (successSchema: z.ZodSchema) =>
 const _baseApiResultSchema = baseApiResultSchema(z.any());
 
 export type BaseApiResult = z.infer<typeof _baseApiResultSchema>;
+
+export type WithBaseApiResult<T> = Omit<BaseApiResult, "data"> & { data: T };

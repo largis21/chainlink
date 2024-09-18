@@ -26,7 +26,12 @@ export async function __readTsFile(
   // in rollup bundling itself which doesn't work)
   // The solution was to bundle to a file, import() the bundled file and delete the file after
   const outDir = nodePath.join(path, "../__chainlink_temp");
-  const outFile = nodePath.join(outDir, "index.mjs");
+  const outFile = nodePath.join(
+    outDir,
+    // dynamic import has some caching behavior, this _almost_ makes sure that it actually evaluates
+    // the file
+    `index-${Math.floor(Math.random() * 100000)}.mjs`,
+  );
 
   // @TODO handle this error
   await fs.mkdir(outDir);

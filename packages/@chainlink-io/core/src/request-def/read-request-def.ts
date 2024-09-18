@@ -24,13 +24,15 @@ export async function readRequestDef<
   TGetStringifiedPropertySources extends boolean = false,
 >(
   config: ChainlinkConfig,
-  filePath: string,
+  _filePath: string,
   options?: {
     getStringifiedPropertySources?: TGetStringifiedPropertySources;
   },
 ): Promise<ReadRequestDefResult<TGetStringifiedPropertySources>> {
   type Result = ReadRequestDefResult<TGetStringifiedPropertySources>;
   const result: Result = {} as Result;
+
+  const filePath = `${config.requestsDir}/${_filePath}`;
 
   const maybeRequestDef = await readFile(config, filePath, {
     clContext: createClContext(config),

@@ -1,10 +1,11 @@
 import type { FsDirectory, FsDirectoryFileNode } from "@chainlink-io/core";
 import { ChevronRight, Folder } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import { Spinner } from "@/components/spinner";
 import { cn } from "@/lib/utils";
 import { useFsState } from "@/state/fs-state";
+import { useLoadedRequests } from "@/state/loaded-requests";
 
 type FileHierarchy = (Omit<FsDirectory[number], "parentPath"> & {
   children: FileHierarchy;
@@ -28,10 +29,7 @@ function buildTree(
     .sort((a) => (a.type === "dir" ? -1 : 1));
 }
 
-export function FileTree(props: {
-  selectedFile: FsDirectoryFileNode | null;
-  setSelectedFile: (file: FsDirectoryFileNode) => void;
-}) {
+export function FileTree() {
   const fsState = useFsState();
 
   const tree = useMemo(
@@ -47,24 +45,35 @@ export function FileTree(props: {
     );
   }
 
-  return tree.map((node) => (
-    <FileNode
-      node={node}
-      index={0}
-      key={node.name}
-      selectedFile={props.selectedFile}
-      setSelectedFile={props.setSelectedFile}
-    />
-  ));
+  return tree.map((node) => <FileNode node={node} index={0} key={node.name} />);
 }
 
-function FileNode(props: {
-  node: FileHierarchy[number];
-  index: number;
-  selectedFile: FsDirectoryFileNode | null;
-  setSelectedFile: (file: FsDirectoryFileNode) => void;
-}) {
+function FileNode(props: { node: FileHierarchy[number]; index: number }) {
   const [open, setOpen] = useState(false);
+
+  const currentOpenedFilePath = useLoadedRequests(
+    (state) => state.currentOpenedFilePath,
+  );
+  const loadRequest = useLoadedRequests((state) => state.loadRequest);
+  const setCurrentOpenedFilePath = useLoadedRequests(
+    (state) => state.setCurrentOpenedFilePath,
+  );
+
+  const loadAndOpenFile = useCallback(async () => {
+    const node = props.node.originalNode;
+    if (node.type !== "file") return;
+
+    const filePath = `${node.parentPath}/${node.name}`;
+    const loadFileStatus = await loadRequest(filePath);
+
+    if (!loadFileStatus) {
+      // @TODO toast?
+      console.error(`Could not load request`);
+      return;
+    }
+
+    setCurrentOpenedFilePath(filePath);
+  }, []);
 
   const padding = 22;
 
@@ -90,27 +99,22 @@ function FileNode(props: {
             className={cn(open ? "h-auto" : "h-0 overflow-hidden", "relative")}
           >
             {props.node.children.map((node, i) => (
-              <FileNode
-                key={i}
-                node={node}
-                index={props.index + 1}
-                selectedFile={props.selectedFile}
-                setSelectedFile={props.setSelectedFile}
-              />
+              <FileNode key={i} node={node} index={props.index + 1} />
             ))}
           </div>
         </div>
       ) : (
         <div
-          className={"py-1 hover:bg-accent relative"}
+          className={cn(
+            "py-1 hover:bg-accent relative",
+            currentOpenedFilePath ===
+            `${props.node.originalNode.parentPath}/${props.node.originalNode.name}` &&
+            "bg-accent",
+          )}
           style={{
             paddingLeft: padding * props.index + 4,
           }}
-          onClick={() =>
-            props.setSelectedFile(
-              props.node.originalNode as FsDirectoryFileNode,
-            )
-          }
+          onClick={loadAndOpenFile}
         >
           {props.node.name}
         </div>

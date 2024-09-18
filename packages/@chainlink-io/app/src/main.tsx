@@ -11,7 +11,7 @@ import { configStore } from "./state/config-store";
 async function startApp() {
   const config = await apiHandler("/getConfig", {}, chainlinkConfigSchema);
 
-  configStore.setState({ config: config });
+  configStore.setState({ config: config.data });
 
   createRoot(document.getElementById("root")!).render(
     <StrictMode>
