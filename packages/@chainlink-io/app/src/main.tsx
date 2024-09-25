@@ -1,4 +1,5 @@
 import "./index.css";
+import "./lib/initMonacoWorkers";
 
 import { chainlinkConfigSchema } from "@chainlink-io/types";
 import { StrictMode } from "react";

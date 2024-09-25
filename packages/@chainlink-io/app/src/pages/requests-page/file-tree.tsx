@@ -1,4 +1,4 @@
-import type { FsDirectory, FsDirectoryFileNode } from "@chainlink-io/core";
+import type { FsDirectory } from "@chainlink-io/core";
 import { ChevronRight, Folder } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 

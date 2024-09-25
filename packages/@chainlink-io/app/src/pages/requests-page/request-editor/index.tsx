@@ -1,7 +1,6 @@
 import { ChevronDownIcon } from "lucide-react";
 import { useState } from "react";
 
-import { HighlightedInputField } from "@/components/highlighted-input-field";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { useLoadedRequests } from "@/state/loaded-requests";
 
 import { QueryParamsEditor } from "./query-params-editor";
+import { UrlEditor } from "./url-editor";
 
 const defaultMethods = ["POST", "GET", "PUT", "DELETE"] as const;
 const requestEditorViews = [
@@ -41,10 +41,11 @@ export function RequestEditor() {
     (state) => state.currentOpenedFilePath,
   );
   const loadedRequests = useLoadedRequests((state) => state.loadedRequests);
+  const saveRequest = useLoadedRequests((state) => state.saveRequestChanges);
 
-  const currentRequestDef = loadedRequests[currentOpenedFilePath as string];
+  const currentLoadedReq = loadedRequests[currentOpenedFilePath as string];
 
-  if (!currentRequestDef) {
+  if (!currentLoadedReq) {
     return (
       <div className="w-full h-full flex items-center justify-center">
         Please select a file
@@ -58,7 +59,7 @@ export function RequestEditor() {
         <div className="w-fit">
           <DropdownMenu>
             <DropdownMenuTrigger className="border-r px-4 flex items-center gap-2 h-full">
-              POST
+              {currentLoadedReq.requestDef.method}
               <ChevronDownIcon size={16} />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
@@ -68,18 +69,22 @@ export function RequestEditor() {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <div className="flex-grow">
+        <div className="w-full">
           <div className="w-full h-full relative">
-            <HighlightedInputField
-              initial={
-                currentRequestDef.requestDef.stringifiedPropertySources?.url ||
-                ""
+            <UrlEditor
+              value={currentLoadedReq.stringifiedPropertySources.url || ""}
+              setValue={(newValue) =>
+                (currentLoadedReq.localChanges.url = newValue)
               }
-              setValue={() => { }}
-              context={{}}
             />
           </div>
         </div>
+        <button
+          className="px-8 border-l hover:bg-primary-foreground"
+          onClick={() => saveRequest(currentOpenedFilePath!)}
+        >
+          Send
+        </button>
       </div>
       <div className="h-10 border-b flex">
         {requestEditorViews.map((view) => (

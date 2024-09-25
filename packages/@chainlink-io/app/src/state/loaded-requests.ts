@@ -8,15 +8,16 @@ export const useLoadedRequests = create<{
   loadedRequests: Record<
     string,
     {
-      requestDef: z.infer<typeof requestGetSuccessSchema>;
-      localChanges: Partial<z.infer<typeof requestGetSuccessSchema>>;
+      requestDef: z.infer<typeof requestGetSuccessSchema>["requestDefinition"];
+      stringifiedPropertySources: z.infer<
+        typeof requestGetSuccessSchema
+      >["stringifiedPropertySources"];
+      localChanges: Partial<
+        z.infer<typeof requestGetSuccessSchema>["requestDefinition"]
+      >;
     }
   >;
-  saveRequestChanges: (
-    newValues: Partial<
-      z.infer<typeof requestGetSuccessSchema>["stringifiedPropertySources"]
-    >,
-  ) => void;
+  saveRequestChanges: (filePath: string) => void;
 
   currentOpenedFilePath: string | null;
   setCurrentOpenedFilePath: (filePath: string) => void;
@@ -28,9 +29,14 @@ export const useLoadedRequests = create<{
   ) => void;
 }>((set, get) => ({
   loadedRequests: {},
-  saveRequestChanges: (newValues) => {
-    console.log("TODO set request");
-    console.log(newValues);
+  saveRequestChanges: (filePath) => {
+    const loadedRequest = get().loadedRequests[filePath];
+    if (!loadedRequest) {
+      console.error(`Request with filepath '${filePath}' doesn't exist`);
+      return;
+    }
+
+    console.log(loadedRequest.localChanges);
   },
 
   currentOpenedFilePath: null,
@@ -46,6 +52,10 @@ export const useLoadedRequests = create<{
     return true;
   },
   pushLoadedRequests: (filePath, request) => {
-    get().loadedRequests[filePath] = { requestDef: request, localChanges: {} };
+    get().loadedRequests[filePath] = {
+      requestDef: request.requestDefinition,
+      stringifiedPropertySources: request.stringifiedPropertySources,
+      localChanges: {},
+    };
   },
 }));
