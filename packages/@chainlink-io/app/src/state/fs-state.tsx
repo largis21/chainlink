@@ -1,20 +1,10 @@
-import type { FsDirectory } from "@chainlink-io/core";
+import { ReadChainlinkDirResult } from "@chainlink-io/types";
 import { create } from "zustand";
 
 export const useFsState = create<{
-  requestsDir: FsDirectory;
-  setRequestsDir: (newValue: FsDirectory) => void;
-  requestsDirError: string | null;
-
-  chainsDir: FsDirectory;
-  setChainsDir: (newValue: FsDirectory) => void;
-  chainsDirError: string | null;
+  chainlinkDir: ReadChainlinkDirResult;
+  setChainlinkDir: (newValue: ReadChainlinkDirResult) => void;
 }>((set) => ({
-  requestsDir: [],
-  setRequestsDir: (newValue) => set({ requestsDir: newValue }),
-  requestsDirError: null,
-
-  chainsDir: [],
-  setChainsDir: (newValue) => set({ chainsDir: newValue }),
-  chainsDirError: null,
+  chainlinkDir: [],
+  setChainlinkDir: (newValue) => set({ chainlinkDir: newValue }),
 }));

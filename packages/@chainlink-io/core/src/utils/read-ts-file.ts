@@ -25,7 +25,10 @@ export async function __readTsFile(
   // evaluate it. However it could not resolve external dependencies (external: [/node_modules/] results
   // in rollup bundling itself which doesn't work)
   // The solution was to bundle to a file, import() the bundled file and delete the file after
-  const outDir = nodePath.join(path, "../__chainlink_temp");
+  const outDir = nodePath.join(
+    path,
+    `../__chainlink_temp_${path.split("/").at(-1)}_${Math.floor(Math.random() * 100000)}`,
+  );
   const outFile = nodePath.join(
     outDir,
     // dynamic import has some caching behavior, this _almost_ makes sure that it actually evaluates
@@ -33,8 +36,8 @@ export async function __readTsFile(
     `index-${Math.floor(Math.random() * 100000)}.mjs`,
   );
 
-  // @TODO handle this error
-  await fs.mkdir(outDir);
+  await fs.rm(outDir, { force: true, recursive: true });
+  await fs.mkdir(outDir, {});
 
   let output = {
     exports: null,
@@ -61,10 +64,11 @@ export async function __readTsFile(
             `globalThis.${options.config.chainlinkContextName} = ${JSON.stringify(options.clContext)};`
             : "",
       },
+      treeShaking: true,
     });
 
     output = {
-      exports: await import(/* @vite-ignore */ outFile),
+      exports: await import(/* @vite-ignore */ outFile).catch(() => ({})),
       text: await fs.readFile(outFile).then((e) => e.toString()),
       sourceMap: await fs
         .readFile(outFile.replace(".mjs", ".mjs.map"))

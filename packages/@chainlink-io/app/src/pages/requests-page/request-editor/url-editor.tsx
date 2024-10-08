@@ -1,6 +1,8 @@
-import { useTheme } from "@/components/theme-provider";
 import * as monaco from "monaco-editor";
 import { useCallback, useEffect, useRef } from "react";
+import { useEventListener } from "usehooks-ts";
+
+import { useTheme } from "@/components/theme-provider";
 
 monaco.languages.typescript.typescriptDefaults.addExtraLib(
   `export declare global {
@@ -34,6 +36,18 @@ export function UrlEditor(props: {
   const editor = useRef<monaco.editor.IStandaloneCodeEditor>();
 
   const theme = useTheme();
+
+  const docRef = useRef(document);
+  useEventListener(
+    "resize",
+    () => {
+      if (!editor.current) return;
+      editor.current.layout({} as monaco.editor.IDimension);
+    },
+    docRef,
+  );
+
+  console.log("Rerender");
 
   useEffect(() => {
     monaco.editor.setTheme(

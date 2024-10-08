@@ -21,14 +21,7 @@ export type ChainlinkConfig<
    *
    * @default "./chainlink"
    */
-  chainlinkRootDir: string;
-
-  /**
-   * Location of the chainlink `chains` folder, relative to `chainlinkRoot`
-   *
-   * @default "requests"
-   */
-  chainsDir: string;
+  chainlinkDir: string;
 
   env: {
     /**
@@ -59,13 +52,6 @@ export type ChainlinkConfig<
    */
   globals: TGlobals;
 
-  /**
-   * Location of the chainlink `requests` folder, relative to `chainlinkRoot`
-   *
-   * @default "requests"
-   */
-  requestsDir: string;
-
   server: {
     /**
      * Which port should the server run on
@@ -85,10 +71,10 @@ export type UserChainlinkConfig<
   TEnvSchema extends z.ZodSchema = z.ZodSchema,
   TGlobals extends Record<string, string> = Record<string, string>,
 > = {
-    [P in keyof ChainlinkConfig<TEnvSchema, TGlobals>]?: Partial<
-      ChainlinkConfig<TEnvSchema, TGlobals>[P]
-    >;
-  };
+  [P in keyof ChainlinkConfig<TEnvSchema, TGlobals>]?: Partial<
+    ChainlinkConfig<TEnvSchema, TGlobals>[P]
+  >;
+};
 
 /**
  * @public
@@ -102,14 +88,12 @@ export type ClDeclareGlobal<T extends UserChainlinkConfig> = {
 
 export const chainlinkConfigSchema = z.object({
   chainlinkContextName: z.string(),
-  chainlinkRootDir: z.string(),
-  chainsDir: z.string(),
+  chainlinkDir: z.string(),
   env: z.object({
     file: z.string(),
     schema: z.any(),
   }),
   globals: z.record(z.string(), z.string()),
-  requestsDir: z.string(),
   server: z.object({
     port: z.number(),
   }),

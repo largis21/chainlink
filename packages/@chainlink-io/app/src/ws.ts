@@ -1,4 +1,4 @@
-import { getRequestsDir } from "@chainlink-io/core";
+import { readChainlinkDir } from "@chainlink-io/core";
 import { ChainlinkConfig } from "@chainlink-io/types";
 import { type WebSocketServer } from "ws";
 
@@ -15,9 +15,11 @@ export function attachWsListeners(
       console.log("TODO UPDATE FS");
     });
 
+    const chainlinkDir = await readChainlinkDir(config);
+
     ws.send(
       JSON.stringify({
-        requestsDir: await getRequestsDir(config),
+        chainlinkDir,
       }),
     );
   });

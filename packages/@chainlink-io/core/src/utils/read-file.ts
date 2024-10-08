@@ -1,4 +1,4 @@
-import { ChainlinkConfig } from "@chainlink-io/types";
+import { ChainlinkConfig, ReadFileResult } from "@chainlink-io/types";
 import fs from "fs/promises";
 import path from "path";
 
@@ -6,45 +6,39 @@ import { ChainlinkContext } from "@/cl-context";
 
 import { __readTsFile } from ".";
 
-export type ReadFileResult = {
-  text: string;
-  bundledText: string;
-  exports: { default?: unknown;[key: string]: unknown };
-  sourceMap: string;
-} | null;
+export type { ReadFileResult } from "@chainlink-io/types";
 
+/**
+ * Helper function to get a bunch of data from a typescript file
+ *
+ * Only allows reading from inside chainlinkDir, if filePath isn't inside chainlinkDir,
+ * the final path will be relative to chainlinkDir
+ */
 export async function readFile(
   config: ChainlinkConfig,
-  filePath: string,
+  _filePath: string,
   options?: {
     clContext?: ChainlinkContext;
   },
 ): Promise<ReadFileResult> {
-  const resolvedFilePath = path.resolve(config.chainlinkRootDir, filePath);
-  console.log("resolved", resolvedFilePath);
+  let filePath = _filePath;
 
-  // Only files inside of the chainlinkRoot should be readable through this function
-  if (!resolvedFilePath.startsWith(config.chainlinkRootDir)) {
-    throw new Error("Cannot read files outside of 'chainlinkRootDir'");
+  if (!filePath.startsWith(config.chainlinkDir)) {
+    filePath = path.resolve(path.join(config.chainlinkDir, _filePath));
   }
 
-  try {
-    const file = await fs.readFile(resolvedFilePath);
-    const { exports, text, sourceMap } = await __readTsFile(resolvedFilePath, {
-      config,
-      clContext: options?.clContext,
-    });
+  const file = await fs.readFile(filePath);
+  const { exports, text, sourceMap } = await __readTsFile(filePath, {
+    config,
+    clContext: options?.clContext,
+  });
 
-    if (!exports) throw new Error();
+  if (!exports) throw new Error();
 
-    return {
-      text: file.toString(),
-      bundledText: text,
-      exports: exports,
-      sourceMap,
-    };
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
+  return {
+    text: file.toString(),
+    bundledText: text,
+    exports: exports,
+    sourceMap,
+  };
 }

@@ -4,14 +4,12 @@ import { z } from "zod";
 
 export const defaultConfig: ChainlinkConfig = {
   chainlinkContextName: "cl",
-  chainlinkRootDir: path.resolve(process.cwd(), "chainlink"),
-  chainsDir: "chains",
+  chainlinkDir: path.resolve(process.cwd(), "chainlink"),
   env: {
     file: path.resolve(process.cwd(), ".env"),
     schema: z.object({}),
   },
   globals: {},
-  requestsDir: "requests",
   server: {
     port: 4202,
   },

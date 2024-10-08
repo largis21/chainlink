@@ -1,6 +1,6 @@
+import { readFileResultSchema } from "@chainlink-io/types";
 import { z, ZodSchema } from "zod";
 
-import { requestGetSuccessSchema } from "@/server/request/schemas";
 import {
   baseApiResultSchema,
   WithBaseApiResult,
@@ -34,6 +34,10 @@ export async function apiHandler<Z extends ZodSchema>(
   );
 }
 
-export async function getRequest(filePath: string) {
-  return await apiHandler(`/request${filePath}`, {}, requestGetSuccessSchema);
+export async function readFile(filePath: string) {
+  return await apiHandler(
+    `/readFile?filePath=${filePath}`,
+    {},
+    readFileResultSchema,
+  );
 }

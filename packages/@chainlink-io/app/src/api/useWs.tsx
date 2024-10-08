@@ -1,36 +1,41 @@
-import { createContext, useContext, useState } from "react";
+import { readChainlinkDirResultSchema } from "@chainlink-io/types";
+import { createContext, useContext, useEffect, useState } from "react";
 
 import { useWsListener } from "../hooks/useWsListener";
 import { useFsState } from "../state/fs-state";
 
-const wsContext = createContext<WebSocket | null>(null);
+const WsContext = createContext<WebSocket | null>(null);
 
 export function WSProvider(props: { children: React.ReactNode }) {
-  const [ws] = useState(
-    new WebSocket(
-      import.meta.env.PROD === true
-        ? `ws://localhost:${import.meta.env.VITE_PORT}`
-        : `ws://localhost:${parseInt(import.meta.env.VITE_PORT) + 1}`,
-    ),
-  );
+  const [ws, setWs] = useState<WebSocket | null>(null);
+
+  useEffect(() => {
+    setWs(
+      new WebSocket(
+        import.meta.env.PROD === true
+          ? `ws://localhost:${import.meta.env.VITE_PORT}`
+          : `ws://localhost:${parseInt(import.meta.env.VITE_PORT) + 1}`,
+      ),
+    );
+  }, []);
 
   const fsState = useFsState();
 
   useWsListener(ws, "message", (data) => {
     try {
-      // @TODO validate with zod
-      const parsedData = JSON.parse(data.data);
+      const parsedData = readChainlinkDirResultSchema.parse(
+        JSON.parse(data.data)?.chainlinkDir,
+      );
 
-      fsState.setRequestsDir(parsedData.requestsDir);
-      // fsState.setChainsDir(parsedData.chainsDir)
+      fsState.setChainlinkDir(parsedData);
     } catch {
       console.error("Got invalid data from wss");
     }
   });
 
-  return <wsContext.Provider value={ws}>{props.children}</wsContext.Provider>;
+  return <WsContext.Provider value={ws}>{props.children}</WsContext.Provider>;
 }
 
 export function useWs() {
-  return useContext(wsContext);
+  return useContext(WsContext);
 }

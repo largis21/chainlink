@@ -21,13 +21,12 @@
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/eslint__js": "^8.42.3",
+    "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsdoc": "^50.2.2",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "globals": "^15.9.0",
     "rollup": "^4.21.0",
-    "typescript-eslint": "^8.0.1"
-  },
-  "dependencies": {
+    "typescript-eslint": "^8.0.1",
     "vite-tsconfig-paths": "^5.0.1",
     "vitest": "^2.0.5"
   }

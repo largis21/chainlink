@@ -6,6 +6,11 @@ export {
   userChainlinkConfigSchema,
 } from "./config";
 export {
+  type ReadChainlinkDirResult,
+  readChainlinkDirResultSchema,
+} from "./read-chainlink-dir";
+export { type ReadFileResult, readFileResultSchema } from "./read-file";
+export {
   type ChainlinkRequestDefinition,
   chainlinkRequestDefinitionSchema,
   type PartialChainlinkRequestDefinition,

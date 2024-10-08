@@ -12,7 +12,7 @@ import { defaultChainlinkRequestDefinition } from ".";
 import { getRequestDefinitionNodePaths } from "./editable-request-def/get-request-definition-node-paths";
 
 export type ReadRequestDefResult<
-  TGetStringifiedPropertySources extends boolean,
+  TGetStringifiedPropertySources extends boolean = false,
 > = {
   requestDefinition: ChainlinkRequestDefinition;
   stringifiedPropertySources: TGetStringifiedPropertySources extends true
@@ -32,7 +32,7 @@ export async function readRequestDef<
   type Result = ReadRequestDefResult<TGetStringifiedPropertySources>;
   const result: Result = {} as Result;
 
-  const filePath = `${config.requestsDir}/${_filePath}`;
+  const filePath = `${_filePath}`;
 
   const maybeRequestDef = await readFile(config, filePath, {
     clContext: createClContext(config),

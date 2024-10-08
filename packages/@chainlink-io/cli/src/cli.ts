@@ -1,4 +1,4 @@
-import { getConfig, readRequestDef } from "@chainlink-io/core";
+import { getConfig, readChainlinkDir } from "@chainlink-io/core";
 import cac from "cac";
 import path from "path";
 import { cwd } from "process";
@@ -46,9 +46,20 @@ export function runCli() {
   //
   //     console.log(response.headers);
   //   });
-  //
+
   cli
-    .command("tests", "readConfig")
+    .command("test-read-cl-dir")
+    .option("-c, --config <path>", "Config file path")
+    .action(async (args) => {
+      const config = await getConfig(
+        args?.config && path.resolve(cwd(), args.config),
+      );
+
+      console.log(await readChainlinkDir(config));
+    });
+
+  cli
+    .command("test-read-config")
     .option("-c, --config <path>", "Config file path")
     .action(async (args) => {
       const config = await getConfig(
@@ -57,26 +68,26 @@ export function runCli() {
 
       console.log(config);
     });
-
-  cli
-    .command("test-read-request-def")
-    .option("-c, --config <path>", "Config file path")
-    .option("-p, --path <path>", "Request definition path")
-    .action(async (args) => {
-      if (!args.path) {
-        throw new Error("Please provide a path to the request definition");
-      }
-
-      const config = await getConfig(
-        args?.config && path.resolve(cwd(), args.config),
-      );
-
-      console.log(
-        await readRequestDef(config, path.resolve(cwd(), args.path), {
-          getStringifiedPropertySources: true,
-        }),
-      );
-    });
+  //
+  // cli
+  //   .command("test-read-request-def")
+  //   .option("-c, --config <path>", "Config file path")
+  //   .option("-p, --path <path>", "Request definition path")
+  //   .action(async (args) => {
+  //     if (!args.path) {
+  //       throw new Error("Please provide a path to the request definition");
+  //     }
+  //
+  //     const config = await getConfig(
+  //       args?.config && path.resolve(cwd(), args.config),
+  //     );
+  //
+  //     console.log(
+  //       await readRequestDef(config, path.resolve(cwd(), args.path), {
+  //         getStringifiedPropertySources: true,
+  //       }),
+  //     );
+  //   });
 
   // cli
   //   .command("tests editable")
