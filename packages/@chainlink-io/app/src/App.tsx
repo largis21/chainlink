@@ -7,6 +7,8 @@ import { Navbar } from "@/components/navbar";
 import { SocketStatus } from "@/components/socket-status";
 import { ThemeProvider } from "@/components/theme-provider";
 
+import { OpenedFile } from "./views/opened-file";
+
 const minimumVPWidth = 768;
 
 function App() {
@@ -37,6 +39,9 @@ function App() {
           <div className="flex flex-grow">
             <div className="w-80 border-r h-full pt-2">
               <FileTree />
+            </div>
+            <div className="h-full flex-grow">
+              <OpenedFile />
             </div>
           </div>
         </div>

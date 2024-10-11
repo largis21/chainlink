@@ -12,6 +12,10 @@ import { configStore } from "./state/config-store";
 async function startApp() {
   const config = await apiHandler("/getConfig", {}, chainlinkConfigSchema);
 
+  if (!config.success) {
+    throw new Error("Could not get config");
+  }
+
   configStore.setState({ config: config.data });
 
   createRoot(document.getElementById("root")!).render(

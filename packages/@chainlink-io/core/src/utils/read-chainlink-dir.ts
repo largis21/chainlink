@@ -1,13 +1,13 @@
-import type {
-  ChainlinkConfig,
-  ReadChainlinkDirResult,
+import {
+  type ChainlinkConfig,
+  chainlinkRequestDefinitionSchema,
+  type ReadChainlinkDirResult,
 } from "@chainlink-io/types";
 import fg from "fast-glob";
 import fs from "fs/promises";
 import path from "path";
 
 import { createClContext } from "@/cl-context";
-import { readRequestDef, ReadRequestDefResult } from "@/request-def";
 
 import { readFile } from "./read-file";
 
@@ -68,17 +68,14 @@ async function getFileInfo(
     return null;
   }
 
-  let chainlinkDef: ReadRequestDefResult | undefined;
-  try {
-    chainlinkDef = await readRequestDef(config, filePath);
-    // eslint-disable-next-line no-empty
-  } catch { }
-
-  if (chainlinkDef) {
+  const requestDef = chainlinkRequestDefinitionSchema.safeParse(
+    file.exports.default,
+  );
+  if (requestDef.success) {
     return {
       path: publicFilePath,
       type: "requestDef",
-      data: chainlinkDef.requestDefinition.method,
+      data: requestDef.data.method,
     };
   }
   console.error("Chain definitions are not supported YET");

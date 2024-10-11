@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const baseApiResultSchema = (successSchema: z.ZodSchema) =>
-  z.discriminatedUnion("success", [
+  z.union([
     z.object({
       success: z.literal(true),
       data: successSchema,
@@ -16,4 +16,6 @@ const _baseApiResultSchema = baseApiResultSchema(z.any());
 
 export type BaseApiResult = z.infer<typeof _baseApiResultSchema>;
 
-export type WithBaseApiResult<T> = BaseApiResult & { data: T };
+export type WithBaseApiResult<T> =
+  | (Omit<Extract<BaseApiResult, { success: true }>, "data"> & { data: T })
+  | Extract<BaseApiResult, { success: false }>;

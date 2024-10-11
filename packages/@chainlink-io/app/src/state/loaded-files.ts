@@ -16,7 +16,8 @@ type InsertPatch = {
 
 type Patch = { set: SetPatch } | { insert: InsertPatch };
 
-type LoadedFile = ReadFileResult & {
+export type LoadedFile = ReadFileResult & {
+  fileType: "requestDef";
   filePath: string;
   patches: Patch[];
 };
@@ -24,6 +25,9 @@ type LoadedFile = ReadFileResult & {
 export const useLoadedFiles = create<{
   loadedFiles: LoadedFile[];
   loadFile: (filePath: string) => Promise<void>;
+
+  openedFile: LoadedFile | null;
+  openFile: (filePath: string) => void;
 }>((set, get) => ({
   loadedFiles: [],
   loadFile: async (filePath) => {
@@ -38,11 +42,20 @@ export const useLoadedFiles = create<{
       {
         ...file.data,
         filePath,
+        fileType: "requestDef",
         patches: [],
       },
     ];
 
     set({ loadedFiles: newLoadedFiles });
     console.log(get());
+  },
+
+  openedFile: null,
+  openFile: (filePath) => {
+    set({
+      openedFile:
+        get().loadedFiles.find((e) => e.filePath === filePath) || null,
+    });
   },
 }));

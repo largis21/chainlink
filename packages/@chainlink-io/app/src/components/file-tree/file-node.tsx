@@ -13,8 +13,12 @@ export function FileNode(props: {
   const [open, setOpen] = useState(false);
 
   const _loadFile = useLoadedFiles((state) => state.loadFile);
+  const openedFile = useLoadedFiles((state) => state.openedFile);
+  const openFile = useLoadedFiles((state) => state.openFile);
+
   const loadFile = useCallback(async () => {
     await _loadFile(props.node.path);
+    openFile(props.node.path);
   }, []);
 
   const padding = 22;
@@ -49,9 +53,7 @@ export function FileNode(props: {
         <div
           className={cn(
             "py-1 pl-1 hover:bg-accent relative flex gap-2 items-center rounded-md",
-            // currentOpenedFilePath ===
-            // `${props.node.originalNode.parentPath}/${props.node.originalNode.name}` &&
-            // "bg-accent",
+            openedFile?.filePath === props.node.path && "bg-accent",
           )}
           style={{
             marginLeft: padding * props.index + 4,

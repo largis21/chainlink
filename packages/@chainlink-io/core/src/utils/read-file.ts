@@ -1,4 +1,8 @@
-import { ChainlinkConfig, ReadFileResult } from "@chainlink-io/types";
+import {
+  ChainlinkConfig,
+  chainlinkRequestDefinitionSchema,
+  ReadFileResult,
+} from "@chainlink-io/types";
 import fs from "fs/promises";
 import path from "path";
 
@@ -28,6 +32,7 @@ export async function readFile(
   }
 
   const file = await fs.readFile(filePath);
+
   const { exports, text, sourceMap } = await __readTsFile(filePath, {
     config,
     clContext: options?.clContext,
@@ -35,10 +40,15 @@ export async function readFile(
 
   if (!exports) throw new Error();
 
+  const isRequestDef = !!chainlinkRequestDefinitionSchema.safeParse(
+    exports.default,
+  ).success;
+
   return {
     text: file.toString(),
     bundledText: text,
-    exports: exports,
+    exports,
     sourceMap,
+    fileType: isRequestDef ? "requestDef" : undefined,
   };
 }
