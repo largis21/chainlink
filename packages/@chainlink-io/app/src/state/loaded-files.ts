@@ -1,25 +1,38 @@
+import { Node } from "@babel/traverse";
 import { ReadFileResult } from "@chainlink-io/core";
 import { create } from "zustand";
 
 import { readFile } from "@/api/useApi";
 
-type SetPatch = {
+type NodePatch = {
+  /**
+   * The path from exports where we look for the node to patch.
+   *
+   * Let nodes be ["StringLiteral"]
+   * If the path is "default.url" and that node is a Indentifier, we will get that Ident, if that
+   * Ident resolves to a StringLiteral, that will be the node this patch will apply to
+   *
+   * @example "default.queryParams"
+   */
   path: string;
-  value: string;
-};
 
-type InsertPatch = {
-  after: string;
-  path: string;
-  value: string;
-};
+  /**
+   * This will be the node the patch is applied to
+   *
+   * @example ["TemplateLiteral", "StringLiteral"]
+   */
+  nodes: Node["type"][];
 
-type Patch = { set: SetPatch } | { insert: InsertPatch };
+  patches: {
+    path: string;
+    value: string;
+  }[];
+};
 
 export type LoadedFile = ReadFileResult & {
   fileType: "requestDef";
   filePath: string;
-  patches: Patch[];
+  patches: NodePatch[];
 };
 
 export const useLoadedFiles = create<{

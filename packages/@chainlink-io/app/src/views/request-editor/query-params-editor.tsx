@@ -3,6 +3,7 @@ import { useCallback, useState } from "react";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
+import { useLoadedFiles } from "@/state/loaded-files";
 
 type QueryParams = (ChainlinkRequestDefinition["queryParams"][number] & {
   id: string;
@@ -12,6 +13,10 @@ const getTableInputId = (param: QueryParams[number], column: "key" | "value") =>
   `queryParamTableInput-${column}-${param.id}`;
 
 export function QueryParamsEditor() {
+  const test = useLoadedFiles((state) => state.openedFile);
+
+  console.log(test);
+
   const [queryParams, _setQueryParams] = useState<QueryParams>([
     {
       id: "0",
