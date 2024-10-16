@@ -1,25 +1,17 @@
 import { parse } from "@babel/parser";
-import { ChainlinkConfig } from "@chainlink-io/types";
 
-import { createClContext } from "@/cl-context";
-import { readFile } from "@/utils";
+import { generate } from "@/babel-import";
+import { ReadTsFileResult } from "@/utils/read-ts-file";
 
 import { getDefaultExportedObjectExpression } from "./get-default-exported-object-expression";
 import { getPropertyNodePaths } from "./get-property-node-paths";
 
-export async function getRequestDefinitionNodePaths(
-  config: ChainlinkConfig,
-  filePath: string,
-) {
-  const file = await readFile(config, filePath, {
-    clContext: createClContext(config),
-  });
-
-  if (!file?.bundledText) {
+export async function getRequestDefinitionNodePaths(file: ReadTsFileResult) {
+  if (!file?.text) {
     throw new Error("@TODO Create error text");
   }
 
-  const ast = parse(file.bundledText, {
+  const ast = parse(file.text, {
     sourceType: "module",
   });
 
@@ -27,8 +19,21 @@ export async function getRequestDefinitionNodePaths(
 
   const nodePaths = getPropertyNodePaths(objectExpression);
 
+  const stringifiedProperties = Object.keys(
+    nodePaths,
+    // You can type this properly if you want
+  ).reduce<Record<string, string>>((acc, cur) => {
+    if (!(cur in nodePaths)) {
+      return acc;
+    }
+
+    acc[cur] = generate(nodePaths[cur as keyof typeof nodePaths]!.node).code;
+
+    return acc;
+  }, {});
+
   return {
-    requestDefinitionNodePaths: nodePaths,
-    sourceMap: file.sourceMap,
+    nodePaths,
+    stringifiedProperties,
   };
 }

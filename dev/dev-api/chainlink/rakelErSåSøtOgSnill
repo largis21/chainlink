@@ -1,6 +1,0 @@
-import { defineRequest } from "@chainlink-io/chainlink";
-
-export default defineRequest({
-  url: "helloworld",
-  method: "POST",
-});

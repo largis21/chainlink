@@ -4,6 +4,7 @@ export {
   type ClDeclareGlobal,
   type UserChainlinkConfig,
   userChainlinkConfigSchema,
+  type UserChainlinkConfigTGlobal,
 } from "./config";
 export {
   type ReadChainlinkDirResult,

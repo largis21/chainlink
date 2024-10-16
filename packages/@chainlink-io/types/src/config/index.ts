@@ -2,9 +2,12 @@ import { z } from "zod";
 
 import { deepPartialify } from "@/utils/deepPartial";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type UserChainlinkConfigTGlobal = Record<string, any>;
+
 export type ChainlinkConfig<
   TEnvSchema extends z.ZodSchema = z.ZodSchema,
-  TGlobals extends Record<string, string> = Record<string, string>,
+  TGlobals extends UserChainlinkConfigTGlobal = UserChainlinkConfigTGlobal,
 > = {
   /**
    * Request- and Chain definitions will have access to a global context. This will be the name of
@@ -69,11 +72,15 @@ export type ChainlinkConfig<
  */
 export type UserChainlinkConfig<
   TEnvSchema extends z.ZodSchema = z.ZodSchema,
-  TGlobals extends Record<string, string> = Record<string, string>,
+  TGlobals extends UserChainlinkConfigTGlobal = UserChainlinkConfigTGlobal,
 > = {
-  [P in keyof ChainlinkConfig<TEnvSchema, TGlobals>]?: Partial<
-    ChainlinkConfig<TEnvSchema, TGlobals>[P]
-  >;
+    [P in keyof ChainlinkConfig<TEnvSchema, TGlobals>]?: Partial<
+      ChainlinkConfig<TEnvSchema, TGlobals>[P]
+    >;
+  };
+
+type RemoveOptional<T> = {
+  [K in keyof T]-?: T[K];
 };
 
 /**
@@ -82,7 +89,7 @@ export type UserChainlinkConfig<
  * Helper type for using the chainlink global context typesafely
  */
 export type ClDeclareGlobal<T extends UserChainlinkConfig> = {
-  globals: NonNullable<T["globals"]>;
+  globals: RemoveOptional<NonNullable<T["globals"]>>;
   env: z.infer<NonNullable<NonNullable<T["env"]>["schema"]>>;
 };
 
@@ -93,7 +100,7 @@ export const chainlinkConfigSchema = z.object({
     file: z.string(),
     schema: z.any(),
   }),
-  globals: z.record(z.string(), z.string()),
+  globals: z.record(z.string(), z.any()),
   server: z.object({
     port: z.number(),
   }),

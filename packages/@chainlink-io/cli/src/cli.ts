@@ -59,7 +59,7 @@ export function runCli() {
     });
 
   cli
-    .command("test-read-config")
+    .command("read-config")
     .option("-c, --config <path>", "Config file path")
     .action(async (args) => {
       const config = await getConfig(

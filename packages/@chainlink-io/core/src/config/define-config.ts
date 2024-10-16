@@ -1,4 +1,7 @@
-import { UserChainlinkConfig } from "@chainlink-io/types";
+import {
+  UserChainlinkConfig,
+  UserChainlinkConfigTGlobal,
+} from "@chainlink-io/types";
 import { z } from "zod";
 
 /**
@@ -8,7 +11,9 @@ import { z } from "zod";
  */
 export function defineConfig<
   TEnvSchema extends z.ZodSchema,
-  TGlobals extends Record<string, string>,
->(config: UserChainlinkConfig<TEnvSchema, TGlobals>) {
+  TGlobals extends UserChainlinkConfigTGlobal,
+>(
+  config: UserChainlinkConfig<TEnvSchema, TGlobals>,
+): UserChainlinkConfig<TEnvSchema, TGlobals> {
   return config;
 }
