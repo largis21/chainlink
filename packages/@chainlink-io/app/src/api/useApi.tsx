@@ -11,6 +11,7 @@ export async function apiHandler<Z extends ZodSchema>(
   options: RequestInit,
   schema: Z,
 ): Promise<WithBaseApiResult<z.infer<Z>>> {
+  console.log("Api handler called", endpoint);
   return fetch(`${import.meta.env.VITE_BACKEND_URL}${endpoint}`, options).then(
     async (res) => {
       if (res.status !== 200) {

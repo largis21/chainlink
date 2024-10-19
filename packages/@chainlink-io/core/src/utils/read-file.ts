@@ -8,9 +8,14 @@ import path from "path";
 
 import { ChainlinkContext } from "@/cl-context";
 
-import { __readTsFile } from ".";
+import { getRequestDefinitionNodePaths } from "@/request-def/editable-request-def/get-request-definition-node-paths";
+import { __evalTsFile } from "./eval-ts-file";
 
 export type { ReadFileResult } from "@chainlink-io/types";
+
+const propertyNodePaths = [{
+  "exports.default.url": ["TemplateLiteral", "StringLiteral"]
+}]
 
 /**
  * Helper function to get a bunch of data from a typescript file
@@ -18,11 +23,12 @@ export type { ReadFileResult } from "@chainlink-io/types";
  * Only allows reading from inside chainlinkDir, if filePath isn't inside chainlinkDir,
  * the final path will be relative to chainlinkDir
  */
-export async function readFile(
+export async function readFile<TNodePaths extends NodePathSelector>(
   config: ChainlinkConfig,
   _filePath: string,
   options?: {
     clContext?: ChainlinkContext;
+    nodePaths?:
   },
 ): Promise<ReadFileResult> {
   let filePath = _filePath;
@@ -33,22 +39,28 @@ export async function readFile(
 
   const file = await fs.readFile(filePath);
 
-  const { exports, text, sourceMap } = await __readTsFile(filePath, {
+  const evalResult = await __evalTsFile(filePath, {
     config,
-    clContext: options?.clContext,
   });
 
-  if (!exports) throw new Error();
+  if (!evalResult.exports) throw new Error();
 
   const isRequestDef = !!chainlinkRequestDefinitionSchema.safeParse(
-    exports.default,
+    evalResult.exports.default,
   ).success;
 
   return {
     text: file.toString(),
-    bundledText: text,
-    exports,
-    sourceMap,
-    fileType: isRequestDef ? "requestDef" : undefined,
+    evaluated: {
+      bundledText: evalResult.text,
+      exports: evalResult.exports,
+      sourceMap: evalResult.sourceMap,
+    },
+    meta: {
+      fileType: isRequestDef ? "requestDef" : undefined,
+    },
+    propertySources: isRequestDef
+      ? await getRequestDefinitionNodePaths(evalResult)
+      : undefined,
   };
 }

@@ -3,24 +3,30 @@ import { build } from "esbuild";
 import fs from "fs/promises";
 import nodePath from "path";
 
-import { ChainlinkContext } from "@/cl-context";
+import { ChainlinkContext, createClContext } from "@/cl-context";
+import { defaultConfig } from "@/config";
 
-/**
- * @internal
- *
- * This function must not be exposed from core
- */
-export async function __readTsFile(
-  path: string,
-  options?: { config?: ChainlinkConfig; clContext?: ChainlinkContext },
-): Promise<{
+export type EvalTsFileResult = {
   exports: {
     default: unknown;
     [key: string]: unknown;
   } | null;
   text: string;
   sourceMap: string;
-}> {
+};
+
+/**
+ * @internal
+ *
+ * This function must not be exposed from core
+ */
+export async function __evalTsFile(
+  path: string,
+  options?: {
+    config?: ChainlinkConfig;
+    injectClContext?: ChainlinkContext | boolean;
+  },
+): Promise<EvalTsFileResult> {
   // A previous solution was to just generate a string of the result and use dynamic import() to
   // evaluate it. However it could not resolve external dependencies (external: [/node_modules/] results
   // in rollup bundling itself which doesn't work)
@@ -45,6 +51,20 @@ export async function __readTsFile(
     sourceMap: "",
   };
 
+  let clContext: ChainlinkContext | null = null;
+
+  if (
+    (typeof options?.injectClContext === "undefined" ||
+      options?.injectClContext === true) &&
+    options?.config
+  ) {
+    clContext = createClContext(options.config);
+  }
+
+  if (typeof options?.injectClContext === "object") {
+    clContext = options.injectClContext;
+  }
+
   try {
     await build({
       entryPoints: [path],
@@ -58,11 +78,10 @@ export async function __readTsFile(
       logLevel: "silent",
       drop: ["console", "debugger"],
       banner: {
-        js:
-          options?.config && options?.clContext
-            ? // @TODO verify that the clContext is json serializable
-            `globalThis.${options.config.chainlinkContextName} = ${JSON.stringify(options.clContext)};`
-            : "",
+        js: clContext
+          ? // @TODO verify that the clContext is json serializable
+          `globalThis.${options?.config?.chainlinkContextName || defaultConfig.chainlinkContextName} = ${JSON.stringify(clContext)};`
+          : "",
       },
       treeShaking: true,
     });
