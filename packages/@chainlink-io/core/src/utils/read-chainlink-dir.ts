@@ -7,8 +7,6 @@ import fg from "fast-glob";
 import fs from "fs/promises";
 import path from "path";
 
-import { createClContext } from "@/cl-context";
-
 import { readFile } from "./read-file";
 
 export async function readChainlinkDir(
@@ -59,9 +57,7 @@ async function getFileInfo(
     return null;
   }
 
-  const file = await readFile(config, filePath, {
-    clContext: createClContext(config),
-  });
+  const file = await readFile(config, filePath);
 
   if (!file) {
     console.warn(`Could not read file '${publicFilePath}'`);

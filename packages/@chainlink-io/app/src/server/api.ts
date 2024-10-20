@@ -1,4 +1,4 @@
-import { createClContext, readFile } from "@chainlink-io/core";
+import { readFile } from "@chainlink-io/core";
 import { ChainlinkConfig } from "@chainlink-io/types";
 import { Hono } from "hono";
 
@@ -16,7 +16,6 @@ export function getApiRoutes(config: ChainlinkConfig) {
 
   api.get("/readFile", async (c) => {
     const filePath = c.req.query("filePath");
-    const fileType = c.req.query("fileType");
 
     if (!filePath) {
       return c.json(
@@ -33,10 +32,7 @@ export function getApiRoutes(config: ChainlinkConfig) {
     try {
       return c.json({
         success: true,
-        data: await readFile(config, filePath, {
-          clContext: createClContext(config),
-          fileType,
-        }),
+        data: await readFile(config, filePath),
       } satisfies BaseApiResult);
     } catch (e) {
       console.error(e);

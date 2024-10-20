@@ -6,7 +6,7 @@ import fs from "fs/promises";
 import path from "path";
 import { cwd } from "process";
 
-import { __readTsFile, deepMerge } from "@/utils";
+import { __evalTsFile, deepMerge } from "@/utils";
 
 import { defaultConfig } from ".";
 const configLocationPrec = [
@@ -41,7 +41,7 @@ export async function getConfig(configPath?: string): Promise<ChainlinkConfig> {
     return defaultConfig;
   }
 
-  const config = (await __readTsFile(configFilePath)).exports?.default;
+  const config = (await __evalTsFile(configFilePath)).exports?.default;
 
   const parsedConfig = userChainlinkConfigSchema.safeParse(config);
 
