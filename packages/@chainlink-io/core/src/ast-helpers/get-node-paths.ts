@@ -12,8 +12,16 @@ export type NodePathResult<
   };
 
 export function getNodePaths<TSelector extends NodePathSelector>(
-  ast: NodePath,
+  ast: Node,
   selector: TSelector,
 ): NodePathResult<TSelector> {
-  console.log("TODO GET NODE PATHS");
+  for (const path of Object.keys(selector)) {
+    if (!path.startsWith("exports.")) {
+      throw new Error("TODO error");
+    }
+
+    const exportNode = getExportedNode;
+
+    console.log(path);
+  }
 }

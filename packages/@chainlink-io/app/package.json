@@ -26,6 +26,7 @@
     "./src"
   ],
   "dependencies": {
+    "@babel/generator": "^7.25.6",
     "@chainlink-io/core": "workspace:*",
     "@chainlink-io/types": "workspace:*",
     "@hono/node-server": "^1.12.0",

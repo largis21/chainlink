@@ -6,7 +6,7 @@ import {
   ObjectExpression,
 } from "@babel/types";
 
-import { traverse } from "@/babel-import";
+import { traverse } from "@/babel";
 
 import { getNodeOrigin } from "./get-node-origin";
 

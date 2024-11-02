@@ -3,7 +3,7 @@ import { Node, NodePath } from "@babel/traverse";
 import { isIdentifier } from "@babel/types";
 import { describe, expect, it } from "vitest";
 
-import { traverse } from "@/babel-import";
+import { traverse } from "@/babel";
 
 import { getNodeOrigin } from "../get-node-origin";
 

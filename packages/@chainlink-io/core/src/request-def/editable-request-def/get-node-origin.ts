@@ -154,9 +154,5 @@ export function getNodeOrigin<T extends Node["type"][]>(
     );
   }
 
-  if (isExportDefaultDeclaration(nodePath.node)) {
-    return getNodeOrigin(nodePath.get("declaration") as NodePath, type);
-  }
-
   throw new Error(`Unsupported nodetype: '${nodePath.node.type}'`);
 }

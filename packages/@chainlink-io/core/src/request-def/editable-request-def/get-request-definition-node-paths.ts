@@ -1,6 +1,6 @@
 import { parse } from "@babel/parser";
 
-import { generate } from "@/babel-import";
+import { generate } from "@/babel";
 import { ReadTsFileResult } from "@/utils/read-ts-file";
 
 import { getDefaultExportedObjectExpression } from "./get-default-exported-object-expression";

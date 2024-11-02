@@ -4,7 +4,7 @@ import {
   requiredChainlinkRequestDefinitionProperties,
 } from "@chainlink-io/types";
 
-import { generate } from "@/babel-import";
+import { generate } from "@/babel";
 import { createClContext } from "@/cl-context";
 import { deepMerge, isObject, readFile } from "@/utils";
 
