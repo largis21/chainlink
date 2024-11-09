@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const baseApiResultSchema = (successSchema: z.ZodSchema) =>
+export const baseApiResultSchema = <T extends z.ZodSchema>(successSchema: T) =>
   z.union([
     z.object({
       success: z.literal(true),
@@ -14,8 +14,13 @@ export const baseApiResultSchema = (successSchema: z.ZodSchema) =>
 
 const _baseApiResultSchema = baseApiResultSchema(z.any());
 
+export type SuccessBaseApiResult<T> = Omit<
+  Extract<z.infer<typeof _baseApiResultSchema>, { success: true }>,
+  "data"
+> & { data: T };
+
+export type ErrorBaseApiResult = Extract<BaseApiResult, { success: false }>;
+
 export type BaseApiResult = z.infer<typeof _baseApiResultSchema>;
 
-export type WithBaseApiResult<T> =
-  | (Omit<Extract<BaseApiResult, { success: true }>, "data"> & { data: T })
-  | Extract<BaseApiResult, { success: false }>;
+export type WithBaseApiResult<T> = SuccessBaseApiResult<T> | ErrorBaseApiResult;

@@ -1,8 +1,8 @@
 import { Node } from "@babel/traverse";
-import { ReadFileResult } from "@chainlink-io/core";
 import { create } from "zustand";
 
-import { readFile } from "@/api/useApi";
+import { apiLoadFile } from "@/api/useApi";
+import { LoadFileResponse } from "@/server/routes/file/handlers/load-file-response-schema";
 
 type NodePatch = {
   /**
@@ -29,7 +29,7 @@ type NodePatch = {
   }[];
 };
 
-export type LoadedFile = ReadFileResult & {
+export type LoadedFile = LoadFileResponse & {
   fileType: "requestDef";
   filePath: string;
   patches: NodePatch[];
@@ -44,7 +44,7 @@ export const useLoadedFiles = create<{
 }>((set, get) => ({
   loadedFiles: [],
   loadFile: async (filePath) => {
-    const file = await readFile(filePath);
+    const file = await apiLoadFile(filePath);
     if (!file.success) {
       console.error(file.error);
       return;

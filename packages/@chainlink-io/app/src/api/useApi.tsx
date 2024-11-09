@@ -1,6 +1,7 @@
-import { readFileResultSchema } from "@chainlink-io/types";
 import { z, ZodSchema } from "zod";
 
+import { getConfigResponseSchema } from "@/server/routes/config/handlers/get-config-response-schema";
+import { loadFileResponseSchema } from "@/server/routes/file/handlers/load-file-response-schema";
 import {
   baseApiResultSchema,
   WithBaseApiResult,
@@ -35,10 +36,14 @@ export async function apiHandler<Z extends ZodSchema>(
   );
 }
 
-export async function readFile(filePath: string) {
+export async function apiGetConfig() {
+  return await apiHandler("/config", {}, getConfigResponseSchema);
+}
+
+export async function apiLoadFile(filePath: string) {
   return await apiHandler(
-    `/readFile?filePath=${filePath}`,
+    `/file/load?filePath=${filePath}`,
     {},
-    readFileResultSchema,
+    loadFileResponseSchema,
   );
 }
