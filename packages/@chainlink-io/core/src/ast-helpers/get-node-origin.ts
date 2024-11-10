@@ -3,7 +3,6 @@ import {
   Identifier,
   isArrayExpression,
   isCallExpression,
-  isExportDefaultDeclaration,
   isIdentifier,
   isMemberExpression,
   isNumericLiteral,

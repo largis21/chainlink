@@ -131,6 +131,9 @@ importers:
       '@repo/shared':
         specifier: workspace:*
         version: link:../../@repo
+      '@types/babel__generator':
+        specifier: ^7.6.8
+        version: 7.6.8
       '@types/babel__traverse':
         specifier: ^7.20.6
         version: 7.20.6
