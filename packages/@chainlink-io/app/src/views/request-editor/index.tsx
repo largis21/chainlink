@@ -1,6 +1,6 @@
 import { chainlinkRequestDefinitionSchema } from "@chainlink-io/types";
 import { ChevronDownIcon } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import {
   DropdownMenu,
@@ -9,9 +9,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
-import { LoadedFile } from "@/state/loaded-files";
+import { LoadedFile, NodePatch } from "@/state/loaded-files";
 
 import { QueryParamsEditor } from "./query-params-editor";
+import { UrlEditor } from "./url-editor";
 
 const defaultMethods = ["POST", "GET", "PUT", "DELETE"] as const;
 const requestEditorViews = [
@@ -45,6 +46,31 @@ export function RequestEditor(props: { file: LoadedFile }) {
     return parsedDefaultExport.success ? parsedDefaultExport.data : null;
   }, [props.file]);
 
+  const setUrlPatch = useCallback(
+    (newValue: string) => {
+      const urlPatchPath = "default.url";
+
+      const newPatch: NodePatch = {
+        path: urlPatchPath,
+        nodeTypes: ["StringLiteral", "TemplateLiteral"],
+        value: newValue,
+      };
+
+      const existingPatchIndex = props.file.patches.findIndex(
+        (e) => e.path === urlPatchPath,
+      );
+
+      if (existingPatchIndex === -1) {
+        props.file.patches.push(newPatch);
+      } else {
+        props.file.patches[existingPatchIndex] = newPatch;
+      }
+
+      console.log(props.file.patches[0]);
+    },
+    [props.file.patches],
+  );
+
   if (!requestDef) {
     return (
       <div className="w-full h-full flex items-center justify-center">
@@ -71,17 +97,15 @@ export function RequestEditor(props: { file: LoadedFile }) {
         </div>
 
         <div className="w-full h-full relative">
-          {/* <UrlEditor */}
-          {/*   value={currentLoadedReq.stringifiedPropertySources.url || ""} */}
-          {/*   setValue={(newValue) => */}
-          {/*     (currentLoadedReq.localChanges.url = newValue) */}
-          {/*   } */}
-          {/* /> */}
+          <UrlEditor
+            value={props.file.stringifiedPropertySources.url || ""}
+            setValue={setUrlPatch}
+          />
         </div>
 
         <button
           className="px-8 border-l hover:bg-primary-foreground"
-        // onClick={() => saveRequest(currentOpenedFilePath!)}
+          // onClick={() => saveRequest(currentOpenedFilePath!)}
         >
           Send
         </button>

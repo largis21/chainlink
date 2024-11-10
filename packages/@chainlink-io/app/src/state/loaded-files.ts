@@ -4,12 +4,12 @@ import { create } from "zustand";
 import { apiLoadFile } from "@/api/useApi";
 import { LoadFileResponse } from "@/server/routes/file/handlers/load-file-response-schema";
 
-type NodePatch = {
+export type NodePatch = {
   /**
    * The path from exports where we look for the node to patch.
    *
-   * Let nodes be ["StringLiteral"]
-   * If the path is "default.url" and that node is a Indentifier, we will get that Ident, if that
+   * Let nodeTypes be ["StringLiteral"]
+   * If the path is "default.url" and that node is a Indentifier, if that
    * Ident resolves to a StringLiteral, that will be the node this patch will apply to
    *
    * @example "default.queryParams"
@@ -21,12 +21,12 @@ type NodePatch = {
    *
    * @example ["TemplateLiteral", "StringLiteral"]
    */
-  nodes: Node["type"][];
+  nodeTypes: Node["type"][];
 
-  patches: {
-    path: string;
-    value: string;
-  }[];
+  /**
+   * Stringifed new value
+   */
+  value: string;
 };
 
 export type LoadedFile = LoadFileResponse & {

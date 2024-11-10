@@ -1,16 +1,6 @@
-import { ReadFileResult } from "@chainlink-io/core";
-
-import { LoadedFile, useLoadedFiles } from "@/state/loaded-files";
+import { useLoadedFiles } from "@/state/loaded-files";
 
 import { RequestEditor } from "./request-editor";
-
-const fileTypeToPage: Record<
-  NonNullable<ReadFileResult["fileType"]>,
-  (props: { file: LoadedFile }) => JSX.Element
-> = {
-  requestDef: RequestEditor,
-  chainDef: () => <></>,
-};
 
 export function OpenedFile() {
   const openedFile = useLoadedFiles((state) => state.openedFile);
@@ -23,6 +13,5 @@ export function OpenedFile() {
     );
   }
 
-  const PageComponent = fileTypeToPage[openedFile.fileType];
-  return <PageComponent file={openedFile} />;
+  return <RequestEditor file={openedFile} />;
 }
