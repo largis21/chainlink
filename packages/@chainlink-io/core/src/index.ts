@@ -1,4 +1,5 @@
 export { getExport } from "./ast-helpers/get-export";
+export { getExportPathNode } from "./ast-helpers/get-export-path-node";
 export { getNodeOrigin } from "./ast-helpers/get-node-origin";
 export { getObjectExpressionProperty } from "./ast-helpers/get-object-expression-property";
 export { parseBundleToAst } from "./ast-helpers/parse-bundle-to-ast";

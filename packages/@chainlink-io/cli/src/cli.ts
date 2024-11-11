@@ -1,4 +1,10 @@
-import { getConfig, readChainlinkDir } from "@chainlink-io/core";
+import {
+  getConfig,
+  getExportPathNode,
+  parseBundleToAst,
+  readChainlinkDir,
+  readFile,
+} from "@chainlink-io/core";
 import cac from "cac";
 import path from "path";
 import { cwd } from "process";
@@ -24,50 +30,51 @@ export function runCli() {
       cliActionStart(config);
     });
 
-  // cli
-  //   .command("run", "request")
-  //   .option("-c, --config <path>", "Config file path")
-  //   .option("-p, --path <path>", "Request definition path")
-  //   .action(async (args: { path?: string; config?: string }) => {
-  //     if (!args.path) {
-  //       throw new Error("Please provide a path to the request definition");
-  //     }
+  cli
+    .command("test")
+    .option("-c, --config <path>", "Config file path")
+    .option("-p, --path <path>", "Request definition path")
+    .option("-e, --exportPath <path>", "Export path")
+    .action(
+      async (args: { path?: string; config?: string; exportPath?: string }) => {
+        if (!args.path) {
+          throw new Error("Please provide a path to the request definition");
+        }
+
+        const config = await getConfig(
+          args?.config && path.resolve(cwd(), args.config),
+        );
+
+        const file = await readFile(config, path.resolve(cwd(), args.path));
+
+        const ast = parseBundleToAst(file.bundledText);
+
+        const a = getExportPathNode(ast, args.exportPath!);
+        console.log(a.type);
+      },
+    );
   //
+  // cli
+  //   .command("test-read-cl-dir")
+  //   .option("-c, --config <path>", "Config file path")
+  //   .action(async (args) => {
   //     const config = await getConfig(
   //       args?.config && path.resolve(cwd(), args.config),
   //     );
   //
-  //     const requestDefinition = await readRequestDef(
-  //       config,
-  //       path.resolve(cwd(), args.path),
+  //     console.log(await readChainlinkDir(config));
+  //   });
+  //
+  // cli
+  //   .command("read-config")
+  //   .option("-c, --config <path>", "Config file path")
+  //   .action(async (args) => {
+  //     const config = await getConfig(
+  //       args?.config && path.resolve(cwd(), args.config),
   //     );
   //
-  //     const response = await runRequest(requestDefinition);
-  //
-  //     console.log(response.headers);
+  //     console.log(config);
   //   });
-
-  cli
-    .command("test-read-cl-dir")
-    .option("-c, --config <path>", "Config file path")
-    .action(async (args) => {
-      const config = await getConfig(
-        args?.config && path.resolve(cwd(), args.config),
-      );
-
-      console.log(await readChainlinkDir(config));
-    });
-
-  cli
-    .command("read-config")
-    .option("-c, --config <path>", "Config file path")
-    .action(async (args) => {
-      const config = await getConfig(
-        args?.config && path.resolve(cwd(), args.config),
-      );
-
-      console.log(config);
-    });
   //
   // cli
   //   .command("test-read-request-def")

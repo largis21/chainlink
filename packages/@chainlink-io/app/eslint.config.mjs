@@ -11,6 +11,11 @@ export default [
     },
     rules: {
       ...pluginReact.configs.recommended.rules,
+      "react/prop-types": [
+        2,
+        { ignore: ["className", "sideOffset", "checked"] },
+      ],
+      "react-refresh/only-export-components": "off",
     },
     settings: {
       react: {

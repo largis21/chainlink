@@ -19,7 +19,7 @@ export function FileNode(props: {
   const loadFile = useCallback(async () => {
     await _loadFile(props.node.path);
     openFile(props.node.path);
-  }, []);
+  }, [_loadFile, openFile, props.node.path]);
 
   const padding = 22;
 
