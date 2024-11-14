@@ -1,9 +1,14 @@
 import {
+  applyPatches,
+  babel,
   getConfig,
+  getExport,
   getExportPathNode,
+  getNodeOrigin,
   parseBundleToAst,
   readChainlinkDir,
   readFile,
+  RequestPatch,
 } from "@chainlink-io/core";
 import cac from "cac";
 import path from "path";
@@ -34,7 +39,6 @@ export function runCli() {
     .command("test")
     .option("-c, --config <path>", "Config file path")
     .option("-p, --path <path>", "Request definition path")
-    .option("-e, --exportPath <path>", "Export path")
     .action(
       async (args: { path?: string; config?: string; exportPath?: string }) => {
         if (!args.path) {
@@ -45,12 +49,24 @@ export function runCli() {
           args?.config && path.resolve(cwd(), args.config),
         );
 
-        const file = await readFile(config, path.resolve(cwd(), args.path));
+        const filePath = path.resolve(cwd(), args.path);
+        const file = await readFile(config, filePath);
 
         const ast = parseBundleToAst(file.bundledText);
 
-        const a = getExportPathNode(ast, args.exportPath!);
-        console.log(a.type);
+        const defaultExport = getExport(ast, "default");
+
+        const objectExpression = getNodeOrigin(defaultExport, [
+          "ObjectExpression",
+        ]);
+
+        const patch: RequestPatch = {
+          path: "url",
+          nodeTypes: ["StringLiteral", "TemplateLiteral"],
+          value: '"ny verdi"',
+        };
+
+        void applyPatches(file, filePath, objectExpression, [patch]);
       },
     );
   //

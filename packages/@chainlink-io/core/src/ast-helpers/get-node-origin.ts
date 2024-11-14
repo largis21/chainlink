@@ -12,7 +12,6 @@ import {
   StringLiteral,
 } from "@babel/types";
 
-// @TODO add MemberExpression support
 /**
  * This will recursivly traverse the ast until it finds the node you are looking for
  * It requires that the code is staticly analyzable
